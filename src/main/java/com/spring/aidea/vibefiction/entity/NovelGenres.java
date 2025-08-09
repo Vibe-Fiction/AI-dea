@@ -10,8 +10,8 @@ import org.hibernate.annotations.Comment;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-@ToString(exclude = {"novels", "genre"}) // 무한 재귀 방지를 위해 연관관계 필드 제외
-@EqualsAndHashCode(exclude = {"novels", "genre"}) // 무한 재귀 방지를 위해 연관관계 필드 제외
+@ToString(exclude = {"novel", "genre"}) // 무한 재귀 방지를 위해 연관관계 필드 제외
+@EqualsAndHashCode(exclude = {"novel", "genre"}) // 무한 재귀 방지를 위해 연관관계 필드 제외
 @Comment("소설-장르 N:M 연결 테이블")
 public class NovelGenres {
 
@@ -25,7 +25,7 @@ public class NovelGenres {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "novel_id")
     @Comment("소설 ID")
-    private Novels novels;
+    private Novels novel;
 
     // 장르 ID (복합 키의 일부)
     @ManyToOne(fetch = FetchType.LAZY)

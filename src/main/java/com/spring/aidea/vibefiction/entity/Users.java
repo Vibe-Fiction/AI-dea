@@ -17,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-@ToString
+@ToString(exclude = {"novels", "collaborators", "proposals", "chapters", "votes", "favorites", "aiInteractionLogs"})
 @Comment("회원 테이블")
 public class Users {
 
@@ -93,24 +93,31 @@ public class Users {
     // =========================
 
     @OneToMany(mappedBy = "author")
+    @Builder.Default
     private List<Novels> novels = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<Collaborators> collaborators = new ArrayList<>();
 
     @OneToMany(mappedBy = "proposer")
+    @Builder.Default
     private List<Proposals> proposals = new ArrayList<>();
 
     @OneToMany(mappedBy = "author")
+    @Builder.Default
     private List<Chapters> chapters = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<Votes> votes = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<Favorites> favorites = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
+    @Builder.Default
     private List<AiInteractionLogs> aiInteractionLogs = new ArrayList<>();
 
 

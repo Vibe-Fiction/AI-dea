@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-@ToString
+@ToString(exclude = {"chapter", "proposer", "votes", "adoptedChapter"})
 @Comment("이어쓰기 제안 테이블")
 public class Proposals {
 
@@ -57,9 +57,10 @@ public class Proposals {
 
     // --- 연관관계 ---
     @OneToMany(mappedBy = "proposal", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<Votes> votes = new ArrayList<>();
 
-    @OneToOne(mappedBy = "fromProposal", fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "fromProposal")
     private Chapters adoptedChapter;
 
     // --- Enum ---
