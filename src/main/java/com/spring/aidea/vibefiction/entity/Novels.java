@@ -17,7 +17,7 @@ import java.util.HashSet;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-@ToString
+@ToString(exclude = {"author", "novelGenres", "collaborators", "chapters", "favorites"})
 @Comment("소설 테이블")
 public class Novels {
 
@@ -27,9 +27,6 @@ public class Novels {
     @Comment("소설 ID")
     private Long novelId;
 
-    @Column(name = "author_id", nullable = false)
-    @Comment("소설 원작자 ID")
-    private Long authorId;
 
     @Column(name = "title", length = 50, nullable = false)
     @Comment("소설 제목")
@@ -89,16 +86,29 @@ public class Novels {
 
     // TODO: 연관관계 매핑 (Users, NovelGenres, Collaborators, Chapters)
     @OneToMany(mappedBy = "novel", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<NovelGenres> novelGenres = new ArrayList<>();
 
     @OneToMany(mappedBy = "novel", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<Collaborators> collaborators = new ArrayList<>();
 
-    @OneToMany(mappedBy = "novel", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Chapters> chapters = new ArrayList<>();
 
     @OneToMany(mappedBy = "novel", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<Favorites> favorites = new ArrayList<>();
+
+    @OneToMany(mappedBy = "novel", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<Chapters> chapters = new ArrayList<>();
+
+
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "author_id", nullable = false)
+    @Comment("소설 원작자 (Users 참조)")
+    private Users author;
 
     @PrePersist
     protected void onCreate() {

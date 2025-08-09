@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-@ToString
+@ToString(exclude = "novelGenres")
 @Comment("장르 마스터 테이블")
 public class Genres {
 
@@ -30,6 +30,7 @@ public class Genres {
 
     // --- 연관관계 ---
     @OneToMany(mappedBy = "genre", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<NovelGenres> novelGenres = new ArrayList<>();
 
 }

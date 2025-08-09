@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-@ToString
+@ToString(exclude = {"novel", "author", "fromProposal", "proposals"})
 @Comment("소설 회차 테이블")
 public class Chapters {
 
@@ -56,6 +56,7 @@ public class Chapters {
 
     // --- 연관관계 ---
     @OneToMany(mappedBy = "chapter", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<Proposals> proposals = new ArrayList<>();
 
     // --- Enum ---

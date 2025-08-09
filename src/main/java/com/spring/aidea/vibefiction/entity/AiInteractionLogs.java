@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-@ToString
+@ToString(exclude = {"user", "basedOnChapter", "relatedProposal"})
 @Comment("AI 상호작용 기록 테이블")
 public class AiInteractionLogs {
 
@@ -23,22 +23,12 @@ public class AiInteractionLogs {
     @Comment("로그 ID")
     private Long logId;
 
-    @Column(name = "user_id", nullable = false)
-    @Comment("사용자 ID")
-    private Long userId;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)
     @Comment("AI 호출 목적")
     private AiInteractionType type;
 
-    @Column(name = "based_on_chapter_id")
-    @Comment("이어쓰기 제안 시 기반이 된 회차 ID")
-    private Long basedOnChapterId;
-
-    @Column(name = "related_proposal_id")
-    @Comment("최종 등록된 제안의 ID")
-    private Long relatedProposalId;
 
     @Lob
     @Column(name = "prompt")
@@ -68,6 +58,7 @@ public class AiInteractionLogs {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "related_proposal_id")
     private Proposals relatedProposal;
+
 
 
     public enum AiInteractionType {
