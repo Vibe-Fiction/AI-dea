@@ -10,6 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 @SpringBootTest
 public class MainPageTest {
 
@@ -46,6 +48,19 @@ public class MainPageTest {
         //then
         novels.forEach(System.out::println);
     }
+
+    @Test
+    @DisplayName("소설 단건 조회")
+    void findNovel() {
+        //given
+        Long novelId = 1L;
+        //when
+        Novels novel = novelsRepository.findById(novelId).orElse(null);
+        //then
+        assertNotNull(novel, "찾는 소설이 없습니다.");
+        System.out.println(novel);
+    }
+
 
 
 }
