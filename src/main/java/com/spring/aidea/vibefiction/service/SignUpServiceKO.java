@@ -4,14 +4,17 @@ import com.spring.aidea.vibefiction.dto.request.SignUpRequestKO;
 import com.spring.aidea.vibefiction.entity.Users;
 import com.spring.aidea.vibefiction.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * 회원가입 시 중복 검사와 비밀번호 암호화를 위한 클래스입니다.
+ * 회원가입 시 중복 검사와 비밀번호 암호화하여 회원가입하는 클래스입니다.
  * @author 고동현
  */
+@Transactional
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class SignUpServiceKO {
