@@ -1,8 +1,10 @@
 package com.spring.aidea.vibefiction.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 
 @Entity
+@Getter
 @Table(name = "collaborators")
 public class Collaborators {
 
