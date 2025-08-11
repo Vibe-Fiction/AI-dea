@@ -24,11 +24,13 @@
 *   ### [PR 템플릿](.github/PULL_REQUEST_TEMPLATE.md)
     > Pull Request 작성 시 자동 적용되는 템플릿.
 
-*   ### [이슈 템플릿 - 기능 제안](.github/ISSUE_TEMPLATE/feature_request.md)
-    > 기능 제안 이슈를 위한 서식.
-
-*   ### [이슈 템플릿 - 버그 리포트](.github/ISSUE_TEMPLATE/bug_report.md)
-    > 버그 재현 정보와 환경 정보를 체계적으로 수집하기 위한 서식.
+*   ### 이슈 템플릿
+    > 이슈 목적에 맞는 서식을 선택하여 사용합니다.
+    *   [**기능 제안 (Feature Request)**](.github/ISSUE_TEMPLATE/feature_request.md) - 새로운 기능 제안
+    *   [**버그 리포트 (Bug Report)**](.github/ISSUE_TEMPLATE/bug_report.md) - 버그 보고
+    *   [**기능 개선 (Enhancement Request)**](.github/ISSUE_TEMPLATE/enhancement_request.md) - 기존 기능 개선
+    *   [**코드 리팩토링 (Refactoring)**](.github/ISSUE_TEMPLATE/refactor.md) - 코드 품질 개선
+    *   [**문서 작업 (Documentation)**](.github/ISSUE_TEMPLATE/docs.md) - 문서 생성 및 수정
 
 ---
 
