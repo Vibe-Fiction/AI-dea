@@ -1,5 +1,6 @@
 package com.spring.aidea.vibefiction.service;
 
+import com.spring.aidea.vibefiction.dto.response.NovelsResponseDtoSH;
 import com.spring.aidea.vibefiction.entity.Novels;
 import com.spring.aidea.vibefiction.repository.NovelsRepository;
 import lombok.RequiredArgsConstructor;
@@ -9,24 +10,22 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Transactional
+@Service
+@RequiredArgsConstructor
+@Slf4j
 public class MainPageServiceSH {
-    @Transactional
-    @Service
-    @RequiredArgsConstructor
-    @Slf4j
-    public class MainPageService {
 
-        private final NovelsRepository novelsRepository;
+    private final NovelsRepository novelsRepository;
 
-        public List<NovelsResponseDto> findAllNovels() {
+    public List<NovelsResponseDtoSH> findAllNovels() {
 
-            List<Novels> novelList = novelsRepository.findAllWithGenresAndAuthor();
+        List<Novels> novelList = novelsRepository.findAllWithGenresAndAuthor();
 
-            return novelList.stream()
-                    .map(NovelsResponseDto::from)
-                    .toList();
+        return novelList.stream()
+                .map(NovelsResponseDtoSH::from)
+                .toList();
 
-        }
     }
-
 }
+
