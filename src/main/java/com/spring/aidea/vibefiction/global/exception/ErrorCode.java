@@ -22,6 +22,7 @@ public enum ErrorCode {
     BUSINESS_ERROR("BUSINESS_ERROR", "비즈니스 로직 오류가 발생했습니다.", 400),
     VALIDATION_ERROR("VALIDATION_ERROR", "유효성 검사에 실패했습니다.", 400),
     DUPLICATE_RESOURCE("DUPLICATE_RESOURCE", "이미 존재하는 리소스입니다.", 409),
+    NOVEL_NOT_FOUND("NOVEL_NOT_FOUND", "소설을 찾을 수 없습니다.", 404),
 
     // 인증 관련 에러 코드
     USER_NOT_FOUND("USER_NOT_FOUND", "사용자를 찾을 수 없습니다.", 404),

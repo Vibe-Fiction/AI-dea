@@ -9,6 +9,7 @@ import java.util.List;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "novels")
@@ -87,19 +88,21 @@ public class Novels {
     // TODO: 연관관계 매핑 (Users, NovelGenres, Collaborators, Chapters)
     @OneToMany(mappedBy = "novel", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
+    @OrderBy("novel ASC")
     private List<NovelGenres> novelGenres = new ArrayList<>();
 
     @OneToMany(mappedBy = "novel", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
-    private List<Collaborators> collaborators = new ArrayList<>();
+    private Set<Collaborators> collaborators = new HashSet<>();
 
 
     @OneToMany(mappedBy = "novel", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
-    private List<Favorites> favorites = new ArrayList<>();
+    private Set<Favorites> favorites = new HashSet<>();
 
     @OneToMany(mappedBy = "novel", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
+    @OrderBy("chapterNumber ASC")
     private List<Chapters> chapters = new ArrayList<>();
 
 
