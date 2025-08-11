@@ -1,6 +1,7 @@
 package com.spring.aidea.vibefiction.service;
 
 import com.spring.aidea.vibefiction.dto.request.SignUpRequestKO;
+import com.spring.aidea.vibefiction.dto.response.UserResponseKO;
 import com.spring.aidea.vibefiction.entity.Users;
 import com.spring.aidea.vibefiction.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,7 @@ public class SignUpServiceKO {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public void signUp(SignUpRequestKO requestDto) {
+    public UserResponseKO signUp(SignUpRequestKO requestDto) {
 
         // 1. 중복 검사
         if (usersRepository.existsByLoginId(requestDto.getLoginId())) {
@@ -49,7 +50,10 @@ public class SignUpServiceKO {
                 .build();
 
         // 4. 리포지토리를 통해 DB에 저장
-        usersRepository.save(newUser);
+        Users saved = usersRepository.save(newUser);
+        log.info("새로운 사용자 가입{}",saved);
+
+        return UserResponseKO.from(saved);
     }
     }
 
