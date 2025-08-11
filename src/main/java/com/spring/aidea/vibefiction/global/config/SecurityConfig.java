@@ -2,7 +2,9 @@ package com.spring.aidea.vibefiction.global.config;
 
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
@@ -11,8 +13,22 @@ import org.springframework.security.web.SecurityFilterChain;
  * Spring Security 설정 클래스입니다.
  *
  * @author 고동현
+ *
+ * 주석으로 설명이 달린 코드부분에
+ * .requestMatchers("각자URL").permitAll() 을 추가해야 Spring security의 검증을 거치지 않고
+ *  postman 테스트가 가능합니다. 토큰 인증과 연동하기 전의 작업단계에서는 이부분에 작업중인 URL을
+ *  추가해서 JWT 인증을 비활성화 하면 됩니다.
+ *
  */
+@Configuration
+@EnableWebSecurity
 public class SecurityConfig {
+
+    // 여기에 각자 URL들 추가하면 자동적용
+    String[] permitAllURLs = {
+            "/api/novels/**",
+
+    };
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -23,7 +39,18 @@ public class SecurityConfig {
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .formLogin(AbstractHttpConfigurer::disable)
-                .httpBasic(AbstractHttpConfigurer::disable);
+                .httpBasic(AbstractHttpConfigurer::disable)
+
+                //
+                .authorizeHttpRequests(authorize -> authorize
+                        // 로그인 로직완성 후 토큰로직 연결되면 밑의 코드는 지워야함
+                        .requestMatchers(permitAllURLs).permitAll()
+                        // 다른 모든 요청은 인증 필요
+                        .anyRequest().authenticated()
+                );
+
+
+        ;
         return http.build();
     }
 
