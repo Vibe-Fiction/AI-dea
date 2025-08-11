@@ -2,6 +2,7 @@ package com.spring.aidea.vibefiction.controller;
 
 import com.spring.aidea.vibefiction.dto.request.SignUpRequestKO;
 import com.spring.aidea.vibefiction.dto.response.UserResponseKO;
+import com.spring.aidea.vibefiction.global.common.ApiResponse;
 import com.spring.aidea.vibefiction.service.SignUpServiceKO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +32,9 @@ public class AuthControllerKO {
 
         UserResponseKO response = signUpServiceKO.signUp(requestDto);
 
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity
+                .ok()
+                .body(ApiResponse.success("회원가입이 성공적으로 완료되었습니다.",response));
 
     }
 }
