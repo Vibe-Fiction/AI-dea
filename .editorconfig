@@ -1,0 +1,23 @@
+# https://editorconfig.org/
+
+root = true
+# 이 파일을 최상위 EditorConfig 설정 파일로 지정합니다.
+# true로 하면, 상위 디렉토리에서 다른 EditorConfig 설정을 불러오지 않습니다.
+
+[*]
+# 모든 파일(확장자와 관계없이)에 적용할 공통 규칙입니다.
+indent_style = space
+indent_size = 4
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+[*.{yml,yaml}]
+# YAML 파일은 들여쓰기 2칸을 표준으로 사용하므로, 별도 지정합니다.
+indent_size = 2
+
+[*.md]
+# Markdown에서는 줄 끝 공백 2칸이 줄바꿈 의미를 가지므로,
+# 공백 자동 제거를 끕니다.
+trim_trailing_whitespace = false
