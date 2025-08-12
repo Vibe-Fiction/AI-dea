@@ -27,6 +27,8 @@ public class SecurityConfig {
     // 여기에 각자 URL들 추가하면 자동적용
     String[] permitAllURLs = {
             "/api/novels/**",
+            "/api/auth/signup",
+            "/api/auth/login"
 
     };
 
