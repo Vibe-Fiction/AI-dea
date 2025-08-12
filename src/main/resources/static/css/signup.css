@@ -1,0 +1,102 @@
+/* signup.css */
+
+.signup-section {
+    max-width: 800px;
+    margin: 4rem auto;
+    padding: 2rem;
+    background-color: var(--bg-card);
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.signup-title {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    color: var(--text-primary);
+    margin-bottom: 2rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.form-group input[type="text"],
+.form-group input[type="password"],
+.form-group input[type="email"],
+.form-group input[type="date"] {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    color: var(--text-primary);
+    box-sizing: border-box;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+/* 파일 입력 필드 숨기기 */
+.file-upload-wrapper input[type="file"] {
+    display: none;
+}
+
+/* 커스텀 파일 선택 버튼 스타일 */
+.file-upload-wrapper .custom-file-upload {
+    display: inline-block;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    background-color: var(--primary-color);
+    color: #fff;
+    border-radius: 0.5rem;
+    transition: background-color 0.3s;
+}
+
+.file-upload-wrapper .custom-file-upload:hover {
+    background-color: var(--primary-hover);
+}
+
+.file-upload-wrapper .file-name {
+    margin-left: 1rem;
+    color: var(--text-secondary);
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+}
+
+.btn-signup-submit {
+    display: block;
+    width: 100%;
+    padding: 1rem;
+    margin-top: 2rem;
+    background-color: var(--primary-color);
+    color: #fff;
+    font-size: 1.125rem;
+    font-weight: bold;
+    border-radius: 0.5rem;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.btn-signup-submit:hover {
+    background-color: var(--primary-hover);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+    .signup-section {
+        margin: 2rem 1rem;
+        padding: 1.5rem;
+    }
+}

@@ -34,7 +34,8 @@ public class SecurityConfig {
             "/vote",
             "/novel",
             "/proposal",
-            "my-page"
+            "my-page",
+            "signup",
 
     };
 

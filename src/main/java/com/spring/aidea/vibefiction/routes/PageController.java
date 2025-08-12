@@ -29,5 +29,6 @@ public class PageController {
     public String proposal() {return "create-proposal";}
     @GetMapping("/my-page")
     public String myPage() {return "my-page";}
-
+    @GetMapping("/signup")
+    public String signUp() {return "signup";}
 }

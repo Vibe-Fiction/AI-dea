@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vibe Fiction | 회원가입</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/signup.css">
+</head>
+<body>
+
+    <!-- Main Header -->
+    <header class="main-header">
+        <div class="container">
+            <a href="#" class="logo">Vibe Fiction</a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#">소설 탐색</a></li>
+                    <li><a href="#">내 소설</a></li>
+                    <li><a href="#" class="btn-login">로그인</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="container main-content">
+        <section class="signup-section">
+            <h2 class="signup-title">회원가입</h2>
+            <form id="signupForm">
+                <div class="form-group">
+                    <label for="user-id">아이디</label>
+                    <input type="text" id="user-id" name="id" placeholder="아이디를 입력해주세요." required>
+                </div>
+                <div class="form-group">
+                    <label for="password">비밀번호</label>
+                    <input type="password" id="password" name="password" placeholder="비밀번호를 입력해주세요." required>
+                </div>
+                <div class="form-group">
+                    <label for="password-confirm">비밀번호 확인</label>
+                    <input type="password" id="password-confirm" name="password-confirm" placeholder="비밀번호를 다시 입력해주세요." required>
+                </div>
+                <div class="form-group">
+                    <label for="nickname">닉네임</label>
+                    <input type="text" id="nickname" name="nickname" placeholder="닉네임을 입력해주세요." required>
+                </div>
+                <div class="form-group">
+                    <label for="email">이메일</label>
+                    <input type="email" id="email" name="email" placeholder="이메일을 입력해주세요." required>
+                </div>
+                <div class="form-group">
+                    <label for="birthdate">생년월일</label>
+                    <input type="date" id="birthdate" name="birthdate" required>
+                </div>
+                <div class="form-group">
+                    <label for="profile-picture">프로필 사진</label>
+                    <!-- 파일 선택 버튼을 커스텀하기 위한 HTML 구조 -->
+                    <div class="file-upload-wrapper">
+                        <label for="profile-picture" class="custom-file-upload">파일 선택</label>
+                        <span id="file-name" class="file-name">선택된 파일 없음</span>
+                        <input type="file" id="profile-picture" name="profile-picture" onchange="updateFileName(this)">
+                    </div>
+                </div>
+                <button type="submit" class="btn-signup-submit">가입하기</button>
+            </form>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <p>&copy; 2025 Vibe Fiction. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // 파일 이름 업데이트 함수
+        function updateFileName(input) {
+            const fileName = document.getElementById('file-name');
+            if (input.files.length > 0) {
+                fileName.textContent = input.files[0].name;
+            } else {
+                fileName.textContent = '선택된 파일 없음';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const signupForm = document.getElementById('signupForm');
+
+            signupForm.addEventListener('submit', (event) => {
+                event.preventDefault();
+
+                const password = document.getElementById('password').value;
+                const passwordConfirm = document.getElementById('password-confirm').value;
+
+                if (password !== passwordConfirm) {
+                    alert('비밀번호가 일치하지 않습니다.');
+                    return;
+                }
+
+                alert('회원가입이 완료되었습니다!');
+                // 실제 서버 통신 로직을 여기에 추가합니다.
+            });
+        });
+    </script>
+</body>
+</html>
