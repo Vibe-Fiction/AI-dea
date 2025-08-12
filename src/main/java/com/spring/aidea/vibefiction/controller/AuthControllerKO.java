@@ -1,7 +1,7 @@
 package com.spring.aidea.vibefiction.controller;
 
-import com.spring.aidea.vibefiction.dto.request.SignUpRequestKO;
-import com.spring.aidea.vibefiction.dto.response.UserResponseKO;
+import com.spring.aidea.vibefiction.dto.request.user.SignUpRequestKO;
+import com.spring.aidea.vibefiction.dto.response.user.UserResponseKO;
 import com.spring.aidea.vibefiction.global.common.ApiResponse;
 import com.spring.aidea.vibefiction.service.SignUpServiceKO;
 import jakarta.validation.Valid;

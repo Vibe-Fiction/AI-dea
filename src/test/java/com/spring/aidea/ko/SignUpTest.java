@@ -1,18 +1,15 @@
 package com.spring.aidea.ko;
 
-import com.spring.aidea.vibefiction.dto.request.SignUpRequestKO;
+import com.spring.aidea.vibefiction.dto.request.user.SignUpRequestKO;
 import com.spring.aidea.vibefiction.entity.Users;
-import com.spring.aidea.vibefiction.global.jwt.JwtProvider;
 import com.spring.aidea.vibefiction.repository.UsersRepository;
 import com.spring.aidea.vibefiction.service.SignUpServiceKO;
-import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManager;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,7 +26,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 @SpringBootTest
 @Transactional
 public class SignUpTest {
-    
+
     @Autowired
     UsersRepository usersRepository;
 
@@ -73,5 +70,5 @@ public class SignUpTest {
         System.out.println("savedUser = " + savedUser);
     }
 
-    
+
 }

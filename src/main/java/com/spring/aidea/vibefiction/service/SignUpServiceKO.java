@@ -1,7 +1,7 @@
 package com.spring.aidea.vibefiction.service;
 
-import com.spring.aidea.vibefiction.dto.request.SignUpRequestKO;
-import com.spring.aidea.vibefiction.dto.response.UserResponseKO;
+import com.spring.aidea.vibefiction.dto.request.user.SignUpRequestKO;
+import com.spring.aidea.vibefiction.dto.response.user.UserResponseKO;
 import com.spring.aidea.vibefiction.entity.Users;
 import com.spring.aidea.vibefiction.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;

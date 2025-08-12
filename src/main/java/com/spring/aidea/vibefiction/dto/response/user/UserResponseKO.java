@@ -1,8 +1,7 @@
-package com.spring.aidea.vibefiction.dto.response;
+package com.spring.aidea.vibefiction.dto.response.user;
 
 import com.spring.aidea.vibefiction.entity.Users;
 import lombok.*;
-import org.apache.catalina.User;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
