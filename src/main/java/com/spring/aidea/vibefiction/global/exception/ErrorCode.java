@@ -29,6 +29,7 @@ public enum ErrorCode {
     DUPLICATE_USERNAME("DUPLICATE_USERNAME", "이미 사용 중인 사용자명입니다.", 409),
     DUPLICATE_EMAIL("DUPLICATE_EMAIL", "이미 사용 중인 이메일입니다.", 409),
     INVALID_PASSWORD("INVALID_PASSWORD", "비밀번호가 올바르지 않습니다.", 401),
+    INVALID_DATE_FORMAT("INVALID_DATE_FORMAT", "날짜 형식이 올바르지 않습니다. yyyy-MM-dd 형식으로 입력해주세요.", 400),
 
     // 파일 관련 에러 코드
     FILE_SIZE_EXCEEDED("FILE_SIZE_EXCEEDED", "파일 크기가 제한을 초과했습니다.", 400),
