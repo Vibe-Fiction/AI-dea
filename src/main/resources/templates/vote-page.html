@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/vote-page.css">
     <!--  로그인 모달 css 링크  -->
-    <link rel="stylesheet" th:href="@{/css/modal-style.css}">
+    <link rel="stylesheet" th:href="@{/css/login-modal.css}">
 
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,21 +19,10 @@
 <body>
 
     <!--  로그인 모달  -->
-    <div th:insert="~{fragments/modal :: loginModal}"></div>
+    <div th:insert="~{fragments/loginModal :: loginModal}"></div>
 
     <!-- 메인 헤더 -->
-    <header class="main-header">
-        <div class="container">
-            <a href="#" class="logo">Vibe Fiction</a>
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="#">소설 탐색</a></li>
-                    <li><a href="#">내 소설</a></li>
-                    <li><a href="#" class="btn-login">로그인</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+    <div th:replace="~{fragments/mainHeader :: mainHeader}"></div>
 
     <!-- 메인 콘텐츠 영역 -->
     <main class="container main-content">
@@ -162,9 +151,7 @@
 
     </main>
 
-    <!-- 푸터 -->
-    <footer class="main-footer">
-        <p>&copy; 2025 Vibe Fiction. All rights reserved.</p>
-    </footer>
+    <!-- 메인 푸터 -->
+    <div th:replace="~{fragments/mainFooter :: mainFooter}"></div>
 </body>
 </html>

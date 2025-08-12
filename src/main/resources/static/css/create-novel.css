@@ -3,6 +3,7 @@
 .create-novel-container {
     /* max-width 제한을 제거하여 화면을 가득 채웁니다. */
     width: 100%;
+
     margin: 0 auto;
     padding-left: 1rem;
     padding-right: 1rem;
@@ -54,6 +55,14 @@
     font-size: 1rem;
     color: var(--text-primary);
     transition: border-color 0.3s, box-shadow 0.3s;
+    /* 이 부분을 추가하여 패딩과 테두리가 너비에 포함되도록 합니다. */
+    box-sizing: border-box;
+}
+
+/* 파일 입력 필드가 부모 요소 너비를 꽉 채우도록 수정 */
+.form-group input[type="file"] {
+    width: 100%;
+    box-sizing: border-box; /* 이 부분이 이미 있었지만, 다른 input에도 적용하면 좋습니다. */
 }
 
 .form-group input:focus,

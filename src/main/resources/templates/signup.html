@@ -4,28 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vibe Fiction | 회원가입</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/signup.css">
 </head>
 <body>
 
-    <!-- Main Header -->
-    <header class="main-header">
-        <div class="container">
-            <a href="#" class="logo">Vibe Fiction</a>
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="#">소설 탐색</a></li>
-                    <li><a href="#">내 소설</a></li>
-                    <li><a href="#" class="btn-login">로그인</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+    <!-- 메인 헤더 -->
+    <div th:replace="~{fragments/mainHeader :: mainHeader}"></div>
 
     <!-- Main Content Area -->
-    <main class="container main-content">
+    <main>
         <section class="signup-section">
             <h2 class="signup-title">회원가입</h2>
             <form id="signupForm">
@@ -67,12 +55,8 @@
         </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="main-footer">
-        <div class="container">
-            <p>&copy; 2025 Vibe Fiction. All rights reserved.</p>
-        </div>
-    </footer>
+    <!-- 메인 푸터 -->
+    <div th:replace="~{fragments/mainFooter :: mainFooter}"></div>
 
     <script>
         // 파일 이름 업데이트 함수

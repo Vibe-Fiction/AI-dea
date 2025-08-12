@@ -1,32 +1,44 @@
 /* create-chapter.css */
 
+.main-content {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    width: 100%; /* 메인 콘텐츠의 너비를 100%로 설정 */
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
 .novel-info-card {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding-bottom: 2rem;
+    padding-bottom: 3rem; /* 여백 증가 */
     border-bottom: 1px solid var(--border-color);
-    margin-bottom: 2rem;
+    margin-bottom: 3rem; /* 여백 증가 */
 }
 
+/* 소설 표지 크기 확대 */
 .novel-cover {
-    width: 150px;
-    height: 200px;
+    width: 200px; /* 기존 150px에서 200px로 확대 */
+    height: 275px; /* 기존 200px에서 275px로 확대 */
     object-fit: cover;
     border-radius: 0.5rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     margin-bottom: 1rem;
 }
 
+/* 소설 제목 폰트 크기 확대 */
 .novel-title-text {
-    font-size: 1.5rem;
+    font-size: 2rem; /* 기존 1.5rem에서 2rem로 확대 */
     font-weight: bold;
     color: var(--text-primary);
 }
 
 .chapter-form-section {
-    max-width: 960px;
+    max-width: 960px; /* 너비 재조정 */
     margin: 0 auto;
     padding: 2rem;
     background-color: var(--bg-card);
@@ -42,16 +54,19 @@
     text-align: center;
 }
 
+/* 폼 그룹 레이아웃을 위한 flexbox 추가 */
 .form-group {
     margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
 }
 
 .form-group label {
     display: block;
-    font-size: 1rem;
-    font-weight: 500;
+    font-size: 1.2rem;
+    font-weight: 600;
     color: var(--text-primary);
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
 }
 
 .form-group input[type="text"],
@@ -66,6 +81,7 @@
     font-size: 1rem;
     color: var(--text-primary);
     transition: border-color 0.3s, box-shadow 0.3s;
+    box-sizing: border-box; /* 추가: 패딩과 보더가 너비에 포함되도록 */
 }
 
 .form-group input:focus,
@@ -90,6 +106,7 @@
 .btn-group {
     display: flex;
     gap: 0.5rem;
+    margin-bottom: 1rem;
 }
 
 .btn-ai-help,
@@ -122,7 +139,7 @@
 
 .btn-submit {
     display: block;
-    width: 100%;
+    width: 33.33%; /* 너비를 1/3로 줄였습니다 */
     padding: 1rem;
     background-color: var(--primary-color);
     color: #fff;
@@ -132,6 +149,7 @@
     border: none;
     cursor: pointer;
     transition: background-color 0.3s, box-shadow 0.3s;
+    margin: 0 auto; /* 버튼을 중앙에 배치합니다 */
 }
 
 .btn-submit:hover {

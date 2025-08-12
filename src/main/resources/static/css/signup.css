@@ -1,7 +1,8 @@
 /* signup.css */
 
 .signup-section {
-    max-width: 800px;
+    /* 기존 1200px에서 1.5배 확장하여 1800px로 변경 */
+    width: 50%;
     margin: 4rem auto;
     padding: 2rem;
     background-color: var(--bg-card);

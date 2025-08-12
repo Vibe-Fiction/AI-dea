@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vibe Fiction | 새 소설 쓰기</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
     <!-- 외부 스타일시트 링크 -->
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/create-novel.css">
@@ -14,21 +12,10 @@
 <body>
 
     <!-- 메인 헤더 -->
-    <header class="main-header">
-        <div class="container">
-            <a href="#" class="logo">Vibe Fiction</a>
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="#">소설 탐색</a></li>
-                    <li><a href="#">내 소설</a></li>
-                    <li><a href="#" class="btn-login">로그인</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+    <div th:replace="~{fragments/mainHeader :: mainHeader}"></div>
 
     <!-- 메인 콘텐츠 영역 -->
-    <main class="create-novel-container">
+    <main class="container create-novel-container">
         <section class="create-novel-section">
             <h2>새 소설 쓰기</h2>
             <form id="createNovelForm">
@@ -81,12 +68,8 @@
         </section>
     </main>
 
-    <!-- 푸터 -->
-    <footer class="main-footer">
-        <div class="container">
-            <p>&copy; 2025 Vibe Fiction. All rights reserved.</p>
-        </div>
-    </footer>
+    <!-- 메인 푸터 -->
+    <div th:replace="~{fragments/mainFooter :: mainFooter}"></div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
