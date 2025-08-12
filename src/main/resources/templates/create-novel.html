@@ -4,19 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vibe Fiction | 새 소설 쓰기</title>
-    <!-- Tailwind CSS (대신) -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 외부 스타일시트 링크 -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
-
-        body {
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f9fafb;
-            color: #1f2937;
-        }
-
+        /* HTML 파일 내부에만 적용되는 스타일 */
         .create-novel-container {
             max-width: 960px;
             margin: 0 auto;
@@ -29,7 +23,7 @@
         .create-novel-section {
             width: 100%;
             padding: 2rem;
-            background-color: #ffffff;
+            background-color: var(--bg-card);
             border-radius: 1rem;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
         }
@@ -37,7 +31,7 @@
         .create-novel-section h2 {
             font-size: 2rem;
             font-weight: bold;
-            color: #1f2937;
+            color: var(--text-primary);
             margin-bottom: 2rem;
             text-align: center;
         }
@@ -50,7 +44,7 @@
             display: block;
             font-size: 1rem;
             font-weight: 500;
-            color: #1f2937;
+            color: var(--text-primary);
             margin-bottom: 0.5rem;
         }
 
@@ -61,10 +55,10 @@
         .form-group textarea {
             width: 100%;
             padding: 0.75rem 1rem;
-            border: 1px solid #e5e7eb;
+            border: 1px solid var(--border-color);
             border-radius: 0.5rem;
             font-size: 1rem;
-            color: #1f2937;
+            color: var(--text-primary);
             transition: border-color 0.3s, box-shadow 0.3s;
         }
 
@@ -72,7 +66,7 @@
         .form-group select:focus,
         .form-group textarea:focus {
             outline: none;
-            border-color: #4f46e5;
+            border-color: var(--primary-color);
             box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
         }
 
@@ -91,14 +85,14 @@
             gap: 0.5rem;
             margin-top: 0.5rem;
             padding: 0.5rem;
-            border: 1px solid #e5e7eb;
+            border: 1px solid var(--border-color);
             border-radius: 0.5rem;
         }
 
         .genre-tag {
             display: flex;
             align-items: center;
-            background-color: #4f46e5;
+            background-color: var(--primary-color);
             color: #fff;
             padding: 0.25rem 0.75rem;
             border-radius: 9999px;
@@ -120,7 +114,7 @@
             display: block;
             width: 100%;
             padding: 1rem;
-            background-color: #4f46e5;
+            background-color: var(--primary-color);
             color: #fff;
             font-size: 1.125rem;
             font-weight: bold;
@@ -131,7 +125,7 @@
         }
 
         .btn-submit:hover {
-            background-color: #4338ca;
+            background-color: var(--primary-hover);
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
 
@@ -146,14 +140,14 @@
 <body>
 
     <!-- Main Header -->
-    <header class="bg-white shadow-sm sticky top-0 z-50">
-        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <a href="#" class="text-2xl font-bold text-indigo-600">Vibe Fiction</a>
-            <nav>
-                <ul class="flex space-x-6">
-                    <li><a href="#" class="text-gray-600 hover:text-indigo-600 font-medium transition duration-300">소설 탐색</a></li>
-                    <li><a href="#" class="text-gray-600 hover:text-indigo-600 font-medium transition duration-300">내 소설</a></li>
-                    <li><a href="#" class="bg-indigo-600 text-white px-4 py-2 rounded-full hover:bg-indigo-700 transition duration-300">로그인</a></li>
+    <header class="main-header">
+        <div class="container">
+            <a href="#" class="logo">Vibe Fiction</a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#">소설 탐색</a></li>
+                    <li><a href="#">내 소설</a></li>
+                    <li><a href="#" class="btn-login">로그인</a></li>
                 </ul>
             </nav>
         </div>
@@ -209,8 +203,8 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-8 mt-12">
-        <div class="container mx-auto px-4 text-center">
+    <footer class="main-footer">
+        <div class="container">
             <p>&copy; 2025 Vibe Fiction. All rights reserved.</p>
         </div>
     </footer>
