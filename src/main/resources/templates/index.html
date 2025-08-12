@@ -19,9 +19,11 @@
 <body>
     <!--  로그인 모달  -->
     <div th:insert="~{fragments/loginModal :: loginModal}"></div>
-
+    <!--  로그인 모달 스크립트  -->
+    <div th:replace="~{mainHeader :: loginModalScript}"></div>
     <!-- 메인 헤더 -->
     <div th:replace="~{fragments/mainHeader :: mainHeader}"></div>
+
 
     <!-- 메인 콘텐츠 영역 -->
     <main class="container main-content">
@@ -111,53 +113,6 @@
 
     <!-- 메인 푸터 -->
     <div th:replace="~{fragments/mainFooter :: mainFooter}"></div>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // 모달 요소를 가져옵니다.
-        const loginModal = document.getElementById("loginModal");
 
-        // 로그인 버튼 요소를 가져옵니다.
-        // index.html의 <li><a href="#" class="btn-login">로그인</a></li> 요소입니다.
-        const openLoginModalBtn = document.querySelector(".btn-login");
-
-        // 모달 내의 닫기 버튼과 회원가입 버튼을 가져옵니다.
-        const closeLoginModalBtn = loginModal.querySelector(".modal-close-btn");
-        const btnSignup = loginModal.querySelector(".btn-signup");
-
-        // 로그인 버튼 클릭 이벤트 리스너: 모달 열기
-        openLoginModalBtn.addEventListener("click", function(event) {
-            // <a> 태그의 기본 동작(페이지 상단으로 이동)을 막습니다.
-            event.preventDefault();
-            // 모달에 'open' 클래스를 추가하여 보이게 합니다.
-            loginModal.classList.add("open");
-        });
-
-        // 닫기 버튼 클릭 이벤트 리스너: 모달 닫기
-        closeLoginModalBtn.addEventListener("click", function() {
-            // 모달에서 'open' 클래스를 제거하여 숨깁니다.
-            loginModal.classList.remove("open");
-        });
-
-        // 모달 외부 영역 클릭 이벤트 리스너: 모달 닫기
-        loginModal.addEventListener("click", function(event) {
-            // 클릭된 요소가 모달 자체인 경우에만 닫습니다.
-            // 이렇게 하면 모달 내용(modal-content)을 클릭해도 닫히지 않습니다.
-            if (event.target === loginModal) {
-                loginModal.classList.remove("open");
-            }
-        });
-
-        // 회원가입 버튼 클릭 이벤트 (선택적)
-        // 이 부분은 필요에 따라 회원가입 페이지로 이동하는 로직을 추가할 수 있습니다.
-        btnSignup.addEventListener("click", function() {
-            // 현재 모달을 닫고,
-            loginModal.classList.remove("open");
-            // 회원가입 페이지로 이동합니다. (예시)
-            // window.location.href = "/signup";
-        });
-    });
-
-
-</script>
 </body>
 </html>

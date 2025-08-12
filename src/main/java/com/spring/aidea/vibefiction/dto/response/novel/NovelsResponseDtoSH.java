@@ -1,10 +1,9 @@
-package com.spring.aidea.vibefiction.dto.response;
+package com.spring.aidea.vibefiction.dto.response.novel;
 import com.spring.aidea.vibefiction.entity.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @ToString

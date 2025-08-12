@@ -20,7 +20,8 @@
 
     <!--  로그인 모달  -->
     <div th:insert="~{fragments/loginModal :: loginModal}"></div>
-
+    <!--  로그인 모달 스크립트  -->
+    <div th:replace="~{fragments/mainHeader :: loginModalScript}"></div>
     <!-- 메인 헤더 -->
     <div th:replace="~{fragments/mainHeader :: mainHeader}"></div>
 

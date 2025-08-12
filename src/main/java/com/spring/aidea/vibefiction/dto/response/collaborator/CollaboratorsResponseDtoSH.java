@@ -1,4 +1,4 @@
-package com.spring.aidea.vibefiction.dto.response;
+package com.spring.aidea.vibefiction.dto.response.collaborator;
 
 
 import com.spring.aidea.vibefiction.entity.Collaborators;
