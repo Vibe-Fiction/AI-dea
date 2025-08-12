@@ -1,8 +1,11 @@
 package com.spring.aidea.vibefiction.controller;
 
+import com.spring.aidea.vibefiction.dto.request.user.LoginRequestKO;
 import com.spring.aidea.vibefiction.dto.request.user.SignUpRequestKO;
+import com.spring.aidea.vibefiction.dto.response.user.AuthResponseKO;
 import com.spring.aidea.vibefiction.dto.response.user.UserResponseKO;
 import com.spring.aidea.vibefiction.global.common.ApiResponse;
+import com.spring.aidea.vibefiction.service.LoginServiceKO;
 import com.spring.aidea.vibefiction.service.SignUpServiceKO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthControllerKO {
 
     private final SignUpServiceKO signUpServiceKO;
+    private final LoginServiceKO loginServiceKO;
 
 
     /**
@@ -37,4 +41,21 @@ public class AuthControllerKO {
                 .body(ApiResponse.success("회원가입이 성공적으로 완료되었습니다.",response));
 
     }
+
+    /**
+     *  로그인 API
+     *  POST: /api/auth/login
+     */
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody @Valid LoginRequestKO requestDto) {
+        log.info("로그인요청 {}",requestDto.getLoginIdOrEmail());
+
+        AuthResponseKO response = loginServiceKO.authenticate(requestDto);
+
+
+        return ResponseEntity.ok().body(
+                ApiResponse.success("로그인이 완료되었습니다.",response)
+        );
+    }
+
 }
