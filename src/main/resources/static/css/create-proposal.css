@@ -1,28 +1,40 @@
-/* create-novel.css */
+/* create-chapter.css */
 
-.create-novel-container {
-    /* max-width 제한을 제거하여 화면을 가득 채웁니다. */
-    width: 100%;
-    margin: 0 auto;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    padding-top: 2rem;
+.novel-info-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
     padding-bottom: 2rem;
-    display: flex; /* flexbox를 추가하여 내부 요소를 중앙에 정렬합니다. */
-    justify-content: center;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 2rem;
 }
 
-.create-novel-section {
-    /* 화면 너비의 70%를 차지하도록 수정하고, 최대 너비를 960px로 유지합니다. */
-    width: 70%;
+.novel-cover {
+    width: 150px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
+}
+
+.novel-title-text {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--text-primary);
+}
+
+.chapter-form-section {
     max-width: 960px;
+    margin: 0 auto;
     padding: 2rem;
     background-color: var(--bg-card);
     border-radius: 1rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
 
-.create-novel-section h2 {
+.chapter-form-section h2 {
     font-size: 2rem;
     font-weight: bold;
     color: var(--text-primary);
@@ -68,40 +80,44 @@
     resize: vertical;
 }
 
-.genre-input-wrapper {
-    position: relative;
-    width: 100%;
-}
-
-.selected-genres-list {
+.chapter-content-header {
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-top: 0.5rem;
-    padding: 0.5rem;
-    border: 1px solid var(--border-color);
-    border-radius: 0.5rem;
-}
-
-.genre-tag {
-    display: flex;
+    justify-content: space-between;
     align-items: center;
-    background-color: var(--primary-color);
-    color: #fff;
-    padding: 0.25rem 0.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.btn-group {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.btn-ai-help,
+.btn-prev-content {
+    padding: 0.5rem 1rem;
+    border: none;
     border-radius: 9999px;
-    font-size: 0.875rem;
-    gap: 0.25rem;
-}
-
-.genre-tag .remove-tag-btn {
+    font-weight: 500;
     cursor: pointer;
-    font-size: 0.75rem;
-    opacity: 0.8;
+    transition: background-color 0.3s;
 }
 
-.genre-tag .remove-tag-btn:hover {
-    opacity: 1;
+.btn-ai-help {
+    background-color: #f87171;
+    color: #fff;
+}
+
+.btn-ai-help:hover {
+    background-color: #ef4444;
+}
+
+.btn-prev-content {
+    background-color:var(--primary-color);
+    color: #ffff;
+}
+
+.btn-prev-content:hover {
+    background-color: var(--primary-hover);
 }
 
 .btn-submit {
@@ -123,33 +139,9 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* 추가된 스타일 */
-.novel-content-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 0.5rem;
-}
-
-.btn-ai-help {
-    padding: 0.5rem 1rem;
-    background-color: #f87171;
-    color: #fff;
-    border: none;
-    border-radius: 9999px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.btn-ai-help:hover {
-    background-color: #ef4444;
-}
-
 @media (max-width: 768px) {
-    .create-novel-section {
+    .chapter-form-section {
         padding: 1rem;
         max-width: 100%;
-        width: 100%; /* 모바일에서는 화면 너비를 꽉 채우도록 설정 */
     }
 }

@@ -25,5 +25,9 @@ public class PageController {
     }
     @GetMapping("/novel")
     public String novel() {return "create-novel";}
+    @GetMapping("/proposal")
+    public String proposal() {return "create-proposal";}
+    @GetMapping("/my-page")
+    public String myPage() {return "my-page";}
 
 }

@@ -32,7 +32,9 @@ public class SecurityConfig {
             "/js/**",
             "/chapters",
             "/vote",
-            "/novel"
+            "/novel",
+            "/proposal",
+            "my-page"
 
     };
 

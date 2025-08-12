@@ -7,139 +7,13 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- 외부 스타일시트 링크 -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/create-novel.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <style>
-        /* HTML 파일 내부에만 적용되는 스타일 */
-        .create-novel-container {
-            max-width: 960px;
-            margin: 0 auto;
-            padding-left: 1rem;
-            padding-right: 1rem;
-            padding-top: 2rem;
-            padding-bottom: 2rem;
-        }
-
-        .create-novel-section {
-            width: 100%;
-            padding: 2rem;
-            background-color: var(--bg-card);
-            border-radius: 1rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-        }
-
-        .create-novel-section h2 {
-            font-size: 2rem;
-            font-weight: bold;
-            color: var(--text-primary);
-            margin-bottom: 2rem;
-            text-align: center;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 1rem;
-            font-weight: 500;
-            color: var(--text-primary);
-            margin-bottom: 0.5rem;
-        }
-
-        .form-group input[type="text"],
-        .form-group input[type="file"],
-        .form-group input[type="password"],
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            border: 1px solid var(--border-color);
-            border-radius: 0.5rem;
-            font-size: 1rem;
-            color: var(--text-primary);
-            transition: border-color 0.3s, box-shadow 0.3s;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
-        }
-
-        .form-group textarea {
-            resize: vertical;
-        }
-
-        .genre-input-wrapper {
-            position: relative;
-            width: 100%;
-        }
-
-        .selected-genres-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-top: 0.5rem;
-            padding: 0.5rem;
-            border: 1px solid var(--border-color);
-            border-radius: 0.5rem;
-        }
-
-        .genre-tag {
-            display: flex;
-            align-items: center;
-            background-color: var(--primary-color);
-            color: #fff;
-            padding: 0.25rem 0.75rem;
-            border-radius: 9999px;
-            font-size: 0.875rem;
-            gap: 0.25rem;
-        }
-
-        .genre-tag .remove-tag-btn {
-            cursor: pointer;
-            font-size: 0.75rem;
-            opacity: 0.8;
-        }
-
-        .genre-tag .remove-tag-btn:hover {
-            opacity: 1;
-        }
-
-        .btn-submit {
-            display: block;
-            width: 100%;
-            padding: 1rem;
-            background-color: var(--primary-color);
-            color: #fff;
-            font-size: 1.125rem;
-            font-weight: bold;
-            border-radius: 0.5rem;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.3s, box-shadow 0.3s;
-        }
-
-        .btn-submit:hover {
-            background-color: var(--primary-hover);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        @media (max-width: 768px) {
-            .create-novel-section {
-                padding: 1rem;
-                max-width: 100%;
-            }
-        }
-    </style>
 </head>
 <body>
 
-    <!-- Main Header -->
+    <!-- 메인 헤더 -->
     <header class="main-header">
         <div class="container">
             <a href="#" class="logo">Vibe Fiction</a>
@@ -153,7 +27,7 @@
         </div>
     </header>
 
-    <!-- Main Content Area -->
+    <!-- 메인 콘텐츠 영역 -->
     <main class="create-novel-container">
         <section class="create-novel-section">
             <h2>새 소설 쓰기</h2>
@@ -192,7 +66,12 @@
 
                 <!-- 소설 내용 (1화) -->
                 <div class="form-group">
-                    <label for="novel-content">소설 내용 (1화)</label>
+                    <div class="novel-content-header">
+                        <label for="novel-content">소설 내용 (1화)</label>
+                        <button type="button" class="btn-ai-help">
+                            <i class="fas fa-magic"></i> AI 와 함께쓰기
+                        </button>
+                    </div>
                     <textarea id="novel-content" name="content" rows="15" placeholder="디폴트로 1화당 글자수는 5000자 까지 가능합니다." required></textarea>
                 </div>
 
@@ -202,7 +81,7 @@
         </section>
     </main>
 
-    <!-- Footer -->
+    <!-- 푸터 -->
     <footer class="main-footer">
         <div class="container">
             <p>&copy; 2025 Vibe Fiction. All rights reserved.</p>

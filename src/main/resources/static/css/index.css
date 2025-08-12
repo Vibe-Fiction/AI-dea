@@ -1,0 +1,181 @@
+/* index.css */
+
+/* 소설 목록 헤더 및 검색/필터 영역 */
+.novel-list-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    background-color: var(--bg-card);
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.novel-list-header h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.filter-sort {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.filter-sort select,
+.filter-sort input {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 9999px;
+    font-size: 0.875rem;
+}
+
+.filter-sort button {
+    padding: 0.5rem 1.5rem;
+    background-color: var(--primary-color);
+    color: #fff;
+    border-radius: 9999px;
+    font-weight: 500;
+    transition: background-color 0.3s;
+}
+
+.filter-sort button:hover {
+    background-color: var(--primary-hover);
+}
+
+/* 소설 그리드 */
+.novel-grid {
+    display: grid;
+    /* auto-fill 대신 고정된 열 개수로 설정하여 레이아웃이 깨지지 않게 수정 */
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+}
+
+/* 소설 카드 */
+.novel-card {
+    background-color: var(--bg-card);
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+}
+
+.novel-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.novel-cover {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+}
+
+.card-content {
+    padding: 1rem;
+}
+
+.novel-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 0.25rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.novel-author {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+.novel-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.novel-meta .meta-item {
+    display: flex;
+    align-items: center;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.novel-meta .meta-item i {
+    margin-right: 0.25rem;
+}
+
+.novel-meta .fa-heart {
+    color: #ef4444;
+}
+
+.novel-meta .fa-pen-nib {
+    color: var(--primary-color);
+}
+
+/* 페이지네이션 */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 3rem;
+}
+
+.btn-page {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 9999px;
+    background-color: var(--bg-card);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-page:hover {
+    background-color: var(--border-color);
+}
+
+.pagination .page-num {
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    background-color: var(--bg-card);
+    color: var(--text-secondary);
+}
+
+.pagination .page-num.active {
+    background-color: var(--primary-color);
+    color: #fff;
+    border: 1px solid var(--primary-color);
+}
+
+@media (max-width: 768px) {
+    .novel-list-header {
+        flex-direction: column;
+        text-align: center;
+    }
+    .novel-list-header h2 {
+        font-size: 1.5rem;
+    }
+    .filter-sort {
+        justify-content: center;
+        gap: 0.5rem;
+    }
+    .filter-sort input {
+        width: 100%;
+        margin-top: 0.5rem;
+    }
+    /* 소설 그리드를 모바일에서 1열로 변경 */
+    .novel-grid {
+        grid-template-columns: 1fr;
+    }
+}

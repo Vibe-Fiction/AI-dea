@@ -1,0 +1,167 @@
+/* my-page.css */
+
+/* 유저 프로필 섹션 */
+.user-profile-section {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    text-align: center;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.profile-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: var(--bg-card);
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.profile-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 1rem;
+}
+
+.profile-info {
+    text-align: center;
+}
+
+.user-nickname {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.user-stats {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+}
+
+.stat-item i {
+    color: var(--primary-color);
+    margin-right: 0.5rem;
+}
+
+/* 소설 네비게이션 섹션 (버튼 그룹) */
+.novel-navigation-section {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.btn-group {
+    display: inline-flex;
+    border-radius: 9999px;
+    background-color: var(--bg-card);
+    padding: 0.25rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.btn-nav {
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    border: none;
+    background: transparent;
+}
+
+.btn-nav.active {
+    background-color: var(--primary-color);
+    color: #fff;
+    box-shadow: 0 2px 5px rgba(79, 70, 229, 0.3);
+}
+
+/* 소설 라이브러리 섹션 */
+.novel-library-section {
+    margin-bottom: 2rem;
+}
+
+.novel-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+}
+
+.novel-card {
+    background-color: var(--bg-card);
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+}
+
+.novel-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.novel-cover {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+}
+
+.card-content {
+    padding: 1rem;
+    text-align: center;
+}
+
+.novel-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 모바일 반응형 */
+@media (max-width: 768px) {
+    .profile-card {
+        padding: 1rem;
+    }
+    .user-nickname {
+        font-size: 1rem;
+    }
+    .user-stats {
+        flex-direction: column;
+        gap: 0.25rem;
+        font-size: 0.75rem;
+    }
+    .novel-grid {
+        grid-template-columns: 1fr;
+    }
+    .btn-group {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        box-shadow: none;
+        background: transparent;
+    }
+    .btn-nav {
+        border-radius: 0;
+    }
+    .btn-nav.active {
+        border-bottom: 2px solid var(--primary-color);
+        background-color: transparent;
+        color: var(--primary-color);
+    }
+}
