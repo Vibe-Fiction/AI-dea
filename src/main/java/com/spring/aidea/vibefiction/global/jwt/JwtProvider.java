@@ -45,6 +45,24 @@ public class JwtProvider {
                 .compact();
     }
 
+    /**
+     * generateToken 메서드 오버로딩
+     * [TJ] 새로운 기능을 위한 메서드입니다.
+     * userId를 claim에 포함하여, DB 조회 없이 인증할 수 있는 효율적인 토큰을 생성합니다.
+     */
+    public String generateToken(String username, Long userId) {
+        Date now = new Date();
+        Date expiryDate = new Date(now.getTime() + jwtProperties.getExpiration());
+        return Jwts.builder()
+                .subject(username)
+                .claim("userId", userId) // ✅ PK를 안전하게 운반
+                .issuedAt(now)
+                .expiration(expiryDate)
+                .issuer("Toy Project By ")
+                .signWith(getSigningKey())
+                .compact();
+    }
+
 
     /**
      * JWT 토큰 발급에 필요한 서명 만들기
