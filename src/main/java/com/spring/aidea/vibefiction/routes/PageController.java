@@ -14,14 +14,16 @@ public class PageController {
         return "index";
     }
     // 챕터페이지로 이동
-    @GetMapping("/api/chapters")
+    @GetMapping("/chapters")
     public String chapters() {
         return "chapters-page";
     }
     // 투표페이지로 이동
-    @GetMapping("/api/vote")
+    @GetMapping("/vote")
     public String vote() {
         return "vote-page";
     }
+    @GetMapping("/novel")
+    public String novel() {return "create-novel";}
 
 }

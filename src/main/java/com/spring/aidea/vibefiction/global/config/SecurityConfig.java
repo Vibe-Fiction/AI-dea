@@ -30,8 +30,9 @@ public class SecurityConfig {
             "/",
             "/css/**",
             "/js/**",
-            "/api/chapters/**",
-            "/api/vote",
+            "/chapters",
+            "/vote",
+            "/novel"
 
     };
 

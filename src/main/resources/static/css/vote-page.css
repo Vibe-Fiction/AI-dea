@@ -1,0 +1,177 @@
+/* vote-page.css */
+
+.container {
+    max-width: 960px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+.vote-page-header {
+    margin-bottom: 2rem;
+    background-color: var(--bg-card);
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    text-align: center;
+}
+
+.vote-page-header h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.countdown-timer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    color: var(--text-secondary);
+}
+
+.timer-label {
+    font-size: 0.875rem;
+    margin-bottom: 0.25rem;
+}
+
+.timer-display {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.create-proposal {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.btn-continue-writing {
+    background-color: #10b981;
+    color: #fff;
+    padding: 0.75rem 2rem;
+    border-radius: 9999px;
+    font-size: 1rem;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(16, 185, 129, 0.3);
+    transition: background-color 0.3s;
+}
+
+.btn-continue-writing:hover {
+    background-color: #059669;
+}
+
+.proposal-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+.proposal-card {
+    background-color: var(--bg-card);
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 150px;
+}
+
+.proposal-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.proposal-card .card-content {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
+}
+
+.proposal-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 0.25rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+}
+
+.rank-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.proposal-actions-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.vote-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+.vote-info i {
+    margin-right: 0.25rem;
+    color: var(--primary-color);
+}
+
+.rank-large {
+    font-weight: bold;
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    line-height: 1;
+    text-align: center;
+}
+
+.empty-rank {
+    font-size: 1.5rem;
+    color: transparent;
+    line-height: 1;
+}
+
+.btn-vote {
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-vote:hover {
+    background-color: var(--primary-hover);
+}
+
+@media (max-width: 768px) {
+    .vote-page-header {
+        text-align: center;
+    }
+    .vote-page-header h2 {
+        font-size: 1.5rem;
+    }
+    .proposal-grid {
+        grid-template-columns: 1fr;
+    }
+}
