@@ -23,12 +23,16 @@ public class PageController {
     public String vote() {
         return "vote-page";
     }
+    // 소설페이지로 이동
     @GetMapping("/novel")
     public String novel() {return "create-novel";}
+    // 이어쓰기 페이지로 이동
     @GetMapping("/proposal")
     public String proposal() {return "create-proposal";}
+    // 마이페이지로 이동
     @GetMapping("/my-page")
     public String myPage() {return "my-page";}
+    // 회원가입 페이지로 이동
     @GetMapping("/signup")
     public String signUp() {return "signup";}
 }
