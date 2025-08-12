@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 public class LoginRequestKO {
 
     @NotBlank(message = "사용자명 또는 이메일은 필수입니다.")
-    private String userIdOrEmail;
+    private String loginIdOrEmail;
 
     @NotBlank(message = "비밀번호는 필수입니다.")
     private String password;
