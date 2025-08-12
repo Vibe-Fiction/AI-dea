@@ -37,4 +37,18 @@ public class ApiResponse<T> {
                 .data(data)
                 .build();
     }
+
+    /**
+     * 실패 응답을 생성하는 팩토리 메서드
+     * @param message 실패 메시지
+     * @return 실패 응답 객체
+     */
+    public static <T> ApiResponse<T> failure(String message) {
+        return ApiResponse.<T>builder()
+            .success(false)
+            .message(message)
+            .timestamp(LocalDateTime.now())
+            .data(null) // 실패 시에는 데이터가 없습니다.
+            .build();
+    }
 }
