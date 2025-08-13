@@ -28,7 +28,7 @@ public class SecurityConfig {
     String[] apiURLs = {
         "/api/novels/**",
         "/api/auth/signup",
-        "api/auth/login",
+        "/api/auth/login",
 
     };
     // 검증 제외 할 정적소스 (html,css,image,js) URL
