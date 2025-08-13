@@ -125,6 +125,8 @@ body {
         gap: 1rem; /* 모바일 뷰에서도 간격 추가 */
     }
 }
+
+/* =========================       로그인 검증여부에 따른 헤더버튼             ================================*/
 .auth-buttons {
     display: flex;
     gap: 1.5rem; /* 버튼 간 간격 추가 */
@@ -134,4 +136,145 @@ body {
     display: none;
     gap: 1.5rem; /* 버튼 간 간격 추가 */
     align-items: center; /* 수직 정렬 */
+}
+/*==============================         로그인이 필요합니다 모달            =================================*/
+
+/*
+ .login-required-container의 display 속성을 none, flex 로 바꿔서 사용.
+*/
+
+
+
+/* 로그인 필요 모달 컨테이너 */
+.login-required-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 200; /* voting-modal보다 높게 설정 */
+}
+
+/* 모달 배경 오버레이 */
+.login-required-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* 모달 팝업 본체 */
+.login-required-popup {
+    position: relative;
+    background-color: var(--bg-card); /* style.css의 변수 사용 */
+    border-radius: 1rem;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 400px;
+    padding: 2rem;
+    z-index: 201;
+}
+
+/* 모달 닫기 버튼 */
+.login-required-close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    font-size: 2rem;
+    background: none;
+    border: none;
+    color: var(--text-secondary); /* style.css의 변수 사용 */
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.3s;
+}
+
+.login-required-close-btn:hover {
+    color: var(--text-primary); /* style.css의 변수 사용 */
+}
+
+/* 모달 내용 */
+.login-required-content {
+    text-align: center;
+}
+
+/* 로그인 필요 메시지 */
+.login-required-message {
+    font-size: 1.125rem;
+    line-height: 1.6;
+    color: var(--text-primary); /* style.css의 변수 사용 */
+    margin-bottom: 2rem;
+}
+
+/* 액션 버튼 영역 */
+.login-required-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+/* 로그인 버튼  */
+.btn-login-submit {
+    padding: 0.75rem 1.5rem; /* 모달에서 더 큰 패딩 */
+    font-size: 1rem;
+    min-width: 100px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s;
+}
+
+.btn-login-submit:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* 회원가입 버튼 */
+.btn-signup {
+    background-color: transparent;
+    color: var(--primary-color); /* style.css의 변수 사용 */
+    border: 2px solid var(--primary-color);
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    transition: all 0.3s;
+    min-width: 100px;
+}
+
+.btn-signup:hover {
+    background-color: var(--primary-color); /* style.css의 변수 사용 */
+    color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 반응형 디자인 (style.css의 미디어 쿼리와 일치) */
+@media (max-width: 768px) {
+    .login-required-popup {
+        width: 95%;
+        max-width: 350px;
+        padding: 1.5rem;
+    }
+
+    .login-required-message {
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .login-required-actions {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .login-required-actions .btn-login-submit,
+    .login-required-actions .btn-signup {
+        width: 100%;
+        padding: 0.875rem 1rem;
+    }
 }
