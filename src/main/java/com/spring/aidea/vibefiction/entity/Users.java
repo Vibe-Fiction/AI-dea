@@ -57,7 +57,8 @@ public class Users {
     // 프로필 이미지 URL, VARCHAR(255) NULL
     @Column(name = "profile_image_url", length = 255)
     @Comment("프로필 사진 이미지 경로")
-    private String profileImageUrl;
+    @Builder.Default
+    private String profileImageUrl = "/img/default-profile.webp"; // 기본 프로필 이미지
 
     // 사용자 권한, ENUM('USER', 'ADMIN') NOT NULL DEFAULT 'USER'
     @Enumerated(EnumType.STRING)
