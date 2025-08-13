@@ -218,17 +218,22 @@ body {
     justify-content: center;
 }
 
-/* 로그인 버튼  */
-.btn-login-submit {
+/* 로그인하러가기 버튼  */
+.req-login-btn {
+    background-color: var(--primary-color);
+    color: #fff !important;
+    border-radius: 9999px;
     padding: 0.75rem 1.5rem; /* 모달에서 더 큰 패딩 */
     font-size: 1rem;
-    min-width: 100px;
+    min-width: 145px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: all 0.3s;
+    text-decoration: none;
 }
 
-.btn-login-submit:hover {
+.req-login-btn:hover {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    background-color: var(--primary-hover);
 }
 
 /* 회원가입 버튼 */
