@@ -1,8 +1,10 @@
 package com.spring.aidea.vibefiction.service;
 
-import com.spring.aidea.vibefiction.dto.request.SignUpRequestKO;
-import com.spring.aidea.vibefiction.dto.response.UserResponseKO;
+import com.spring.aidea.vibefiction.dto.request.user.SignUpRequestKO;
+import com.spring.aidea.vibefiction.dto.response.user.UserResponseKO;
 import com.spring.aidea.vibefiction.entity.Users;
+import com.spring.aidea.vibefiction.global.exception.BusinessException;
+import com.spring.aidea.vibefiction.global.exception.ErrorCode;
 import com.spring.aidea.vibefiction.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,13 +30,13 @@ public class SignUpServiceKO {
 
         // 1. 중복 검사
         if (usersRepository.existsByLoginId(requestDto.getLoginId())) {
-            throw new IllegalArgumentException("이미 사용 중인 아이디입니다.");
+            throw new BusinessException(ErrorCode.DUPLICATE_USERNAME);
         }
         if (usersRepository.existsByEmail(requestDto.getEmail())) {
-            throw new IllegalArgumentException("이미 가입된 이메일입니다.");
+            throw new BusinessException(ErrorCode.DUPLICATE_EMAIL);
         }
         if (usersRepository.existsByNickname(requestDto.getNickname())) {
-            throw new IllegalArgumentException("이미 사용 중인 닉네임입니다.");
+            throw new BusinessException(ErrorCode.DUPLICATE_USERNAME);
         }
 
         // 2. 비밀번호 암호화

@@ -26,22 +26,23 @@ public class SecurityConfig {
 
     // 검증 제외 할 api URL
     String[] apiURLs = {
-            "/api/novels/**",
-
+        "/api/novels/**",
+        "/api/auth/signup",
+        "/api/auth/login",
 
     };
     // 검증 제외 할 정적소스 (html,css,image,js) URL
     String[] wedPagesURLs = {
-            "/",
-            "/css/**",
-            "/js/**",
-            "/chapters",
-            "/vote",
-            "/novel",
-            "/proposal",
-            "my-page",
-            "signup",
-            "/images/**"
+        "/",
+        "/css/**",
+        "/js/**",
+        "/chapters",
+        "/vote",
+        "/novel",
+        "/proposal",
+        "my-page",
+        "signup",
+        "/images/**"
 
     };
 
@@ -52,21 +53,21 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
-                .csrf(AbstractHttpConfigurer::disable)
-                .cors(cors -> cors.configure(http))
-                .sessionManagement(session ->
-                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .formLogin(AbstractHttpConfigurer::disable)
-                .httpBasic(AbstractHttpConfigurer::disable)
+            .csrf(AbstractHttpConfigurer::disable)
+            .cors(cors -> cors.configure(http))
+            .sessionManagement(session ->
+                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .formLogin(AbstractHttpConfigurer::disable)
+            .httpBasic(AbstractHttpConfigurer::disable)
 
-                //
-                .authorizeHttpRequests(authorize -> authorize
-                        // 로그인 로직완성 후 토큰로직 연결되면 밑의 코드는 지워야함
-                        .requestMatchers(apiURLs).permitAll()
-                        .requestMatchers(wedPagesURLs).permitAll()
-                        // 다른 모든 요청은 인증 필요
-                        .anyRequest().authenticated()
-                );
+            //
+            .authorizeHttpRequests(authorize -> authorize
+                // 로그인 로직완성 후 토큰로직 연결되면 밑의 코드는 지워야함
+                .requestMatchers(apiURLs).permitAll()
+                .requestMatchers(wedPagesURLs).permitAll()
+                // 다른 모든 요청은 인증 필요
+                .anyRequest().authenticated()
+            );
 
 
         ;
