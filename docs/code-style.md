@@ -133,6 +133,9 @@ Java 및 Spring 기반 개발에서는 동일한 서비스/DTO/예외명 등이 
  * @param novelTitle 생성할 소설의 제목
  * @return 생성된 소설의 고유 ID (Long)
  * @throws IllegalArgumentException userId나 novelTitle이 유효하지 않을 경우
+ *
+ * @author 왕택준
+ * @since 2025.08
  */
 public Long createNovel(Long userId, String novelTitle) {
     // ...
