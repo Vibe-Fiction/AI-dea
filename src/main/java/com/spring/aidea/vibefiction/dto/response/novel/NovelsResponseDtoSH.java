@@ -1,7 +1,5 @@
-package com.spring.aidea.vibefiction.dto.response;
-import com.spring.aidea.vibefiction.entity.Genres;
-import com.spring.aidea.vibefiction.entity.NovelGenres;
-import com.spring.aidea.vibefiction.entity.Novels;
+package com.spring.aidea.vibefiction.dto.response.novel;
+import com.spring.aidea.vibefiction.entity.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -25,7 +23,6 @@ public class NovelsResponseDtoSH {
     Long viewCount; // 조회수
     List<String> novelGenres; // 소설 분류
     LocalDateTime laseUpdatedAt; // 최종 수정일시
-    // 좋아요 추가해야함
 
     public static NovelsResponseDtoSH from(Novels novels) {
 
@@ -44,6 +41,7 @@ public class NovelsResponseDtoSH {
                         .map(Genres::getName)
                         .toList()
                 )
+
                 .laseUpdatedAt(novels.getLastUpdatedAt())
 
                 .build();

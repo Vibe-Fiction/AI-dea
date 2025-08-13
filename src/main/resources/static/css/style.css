@@ -1,0 +1,124 @@
+/* style.css */
+
+
+/*
+
+        style.css 는 우리 페이지의 시그니쳐 색, 폰트, 헤더디자인, 푸터디자인에만 관여합니다.
+         여러분이 맡으신 페이지의 css를 수정하실 때는 여러분의 페이지에 해당하는 css만 수정하면 됩니다.
+
+*/
+
+
+
+
+/* 전역 스타일 */
+:root {
+    --primary-color: #4f46e5;
+    --primary-hover: #4338ca;
+    --bg-light: #f9fafb;
+    --bg-card: #ffffff;
+    --text-primary: #1f2937;
+    --text-secondary: #6b7280;
+    --border-color: #e5e7eb;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-light);
+    color: var(--text-primary);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+/* 헤더 */
+.main-header {
+    background-color: var(--bg-card);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+.main-header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.main-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 1.5rem;
+}
+
+.main-nav a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.main-nav a:hover {
+    color: var(--primary-color);
+}
+
+.btn-login {
+    background-color: var(--primary-color);
+    color: #fff !important;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    transition: background-color 0.3s;
+}
+
+.btn-login:hover {
+    background-color: var(--primary-hover);
+}
+
+/* 메인 콘텐츠 */
+.main-content {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    flex-grow: 1;
+
+}
+
+/* 푸터 */
+.main-footer {
+    background-color: #1f2937;
+    color: #fff;
+    padding: 2rem 0;
+    text-align: center;
+    margin-top: 3rem;
+}
+
+@media (max-width: 768px) {
+    .main-header .container {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    .main-nav ul {
+        justify-content: center;
+    }
+}

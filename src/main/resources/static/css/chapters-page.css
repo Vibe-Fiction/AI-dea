@@ -1,0 +1,197 @@
+/* chapters-page.css */
+
+/* 소설 상세 헤더 */
+.novel-detail-header {
+    display: flex;
+    gap: 2rem;
+    padding: 2rem;
+    background-color: var(--bg-card);
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.novel-cover-wrapper {
+    flex-shrink: 0;
+    width: 250px;
+}
+
+.novel-detail-cover {
+    width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.novel-info-area {
+    flex-grow: 1;
+}
+
+.novel-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+
+.novel-meta-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+}
+
+.synopsis {
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.hashtag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.hashtag {
+    background-color: var(--bg-light);
+    border: 1px solid var(--border-color);
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.action-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    font-size: 1rem;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-like {
+    background-color: #f87171;
+    color: #fff;
+    box-shadow: 0 4px 6px rgba(248, 113, 113, 0.3);
+}
+
+.btn-like:hover {
+    background-color: #ef4444;
+}
+
+.btn-share {
+    background-color: #e5e7eb;
+    color: var(--text-secondary);
+}
+
+.btn-share:hover {
+    background-color: #d1d5db;
+}
+
+/* 소설 회차 리스트 */
+.chapter-list-section {
+    margin-top: 3rem;
+}
+
+.chapter-list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.chapter-list-header h3 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+.sort-options span {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+}
+
+.sort-options .sort-active {
+    font-weight: bold;
+    color: var(--text-primary);
+}
+
+.chapter-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.chapter-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    transition: background-color 0.2s;
+}
+
+.chapter-item:last-child {
+    border-bottom: none;
+}
+
+.chapter-item:hover {
+    background-color: #f3f4f6;
+}
+
+.chapter-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.chapter-num {
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.chapter-title {
+    font-weight: 500;
+}
+
+.chapter-author {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.btn-continue-writing-wrapper {
+    padding: 1rem 0;
+    text-align: center;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.btn-continue-writing {
+    background-color: #10b981;
+    color: #fff;
+    padding: 0.75rem 2rem;
+    border-radius: 9999px;
+    font-size: 1rem;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(16, 185, 129, 0.3);
+    transition: background-color 0.3s;
+}
+
+.btn-continue-writing:hover {
+    background-color: #059669;
+}

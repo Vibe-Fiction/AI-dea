@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vibe Fiction | 모두와 함께 쓰는 소설</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/index.css">
+
+    <!--  로그인 모달 css 링크  -->
+    <link rel="stylesheet" th:href="@{/css/login-modal.css}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- 아이콘을 위한 Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!--  로그인 모달  -->
+    <div th:insert="~{fragments/loginModal :: loginModal}"></div>
+    <!--  로그인 모달 스크립트  -->
+    <div th:replace="~{fragments/mainHeader :: loginModalScript}"></div>
+    <!-- 메인 헤더 -->
+    <div th:replace="~{fragments/mainHeader :: mainHeader}"></div>
+
+
+    <!-- 메인 콘텐츠 영역 -->
+    <main class="container main-content">
+
+        <!-- 소설 목록 헤더 및 검색/필터 영역 -->
+        <section class="novel-list-header">
+            <h2>인기 소설</h2>
+            <div class="filter-sort">
+                <select name="genre">
+                    <option value="">장르 선택</option>
+                    <option value="fantasy">판타지</option>
+                    <option value="romance">로맨스</option>
+                    <option value="thriller">스릴러</option>
+                </select>
+                <input type="text" placeholder="소설 제목 검색...">
+                <button class="btn-search">검색</button>
+            </div>
+        </section>
+
+        <!-- 소설 카드 그리드 (JS로 동적 생성될 부분) -->
+        <section class="novel-grid">
+
+            <!-- 소설 카드 예시 1 -->
+            <article class="novel-card">
+                <img src="https://placehold.co/400x550/e2e8f0/64748b?text=소설+표지" alt="소설 표지" class="novel-cover">
+                <div class="card-content">
+                    <h3 class="novel-title">신비한 숲의 모험</h3>
+                    <p class="novel-author">원작자: 사용자A</p>
+                    <div class="novel-meta">
+                        <div class="meta-item"><i class="fas fa-heart"></i><span> 123</span></div>
+                        <div class="meta-item"><i class="fas fa-pen-nib"></i><span> 45</span></div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 소설 카드 예시 2 -->
+            <article class="novel-card">
+                <img src="https://placehold.co/400x550/e2e8f0/64748b?text=소설+표지" alt="소설 표지" class="novel-cover">
+                <div class="card-content">
+                    <h3 class="novel-title">시간 여행자의 일기</h3>
+                    <p class="novel-author">원작자: 사용자B</p>
+                    <div class="novel-meta">
+                        <div class="meta-item"><i class="fas fa-heart"></i><span> 88</span></div>
+                        <div class="meta-item"><i class="fas fa-pen-nib"></i><span> 12</span></div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 소설 카드 예시 3 -->
+            <article class="novel-card">
+                <img src="https://placehold.co/400x550/e2e8f0/64748b?text=소설+표지" alt="소설 표지" class="novel-cover">
+                <div class="card-content">
+                    <h3 class="novel-title">황궁의 비밀</h3>
+                    <p class="novel-author">원작자: 사용자C</p>
+                    <div class="novel-meta">
+                        <div class="meta-item"><i class="fas fa-heart"></i><span> 250</span></div>
+                        <div class="meta-item"><i class="fas fa-pen-nib"></i><span> 67</span></div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 소설 카드 예시 4 -->
+            <article class="novel-card">
+                <img src="https://placehold.co/400x550/e2e8f0/64748b?text=소설+표지" alt="소설 표지" class="novel-cover">
+                <div class="card-content">
+                    <h3 class="novel-title">미래 도시의 그림자</h3>
+                    <p class="novel-author">원작자: 사용자D</p>
+                    <div class="novel-meta">
+                        <div class="meta-item"><i class="fas fa-heart"></i><span> 99</span></div>
+                        <div class="meta-item"><i class="fas fa-pen-nib"></i><span> 32</span></div>
+                    </div>
+                </div>
+            </article>
+
+        </section>
+
+        <!-- 페이지네이션 -->
+        <div class="pagination">
+            <button class="btn-page">이전</button>
+            <span class="page-num active">1</span>
+            <button class="btn-page">2</button>
+            <button class="btn-page">3</button>
+            <button class="btn-page">다음</button>
+        </div>
+
+    </main>
+
+    <!-- 메인 푸터 -->
+    <div th:replace="~{fragments/mainFooter :: mainFooter}"></div>
+
+</body>
+</html>
