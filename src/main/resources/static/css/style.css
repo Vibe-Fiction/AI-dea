@@ -9,8 +9,6 @@
 */
 
 
-
-
 /* 전역 스타일 */
 :root {
     --primary-color: #4f46e5;
@@ -84,15 +82,17 @@ body {
     color: var(--primary-color);
 }
 
-.btn-login {
+.btn-login, .btn-logout, .btn-mypage {
     background-color: var(--primary-color);
     color: #fff !important;
     padding: 0.5rem 1rem;
     border-radius: 9999px;
     transition: background-color 0.3s;
+    border: none; /* 버튼에 기본 border 제거 */
+    cursor: pointer; /* 마우스 오버 시 커서 변경 */
 }
 
-.btn-login:hover {
+.btn-login:hover, .btn-logout:hover, .btn-mypage:hover {
     background-color: var(--primary-hover);
 }
 
