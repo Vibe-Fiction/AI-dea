@@ -26,9 +26,10 @@ public class SecurityConfig {
 
     // 검증 제외 할 api URL
     String[] apiURLs = {
-        "/api/novels/**",
-        "/api/auth/signup",
-        "/api/auth/login",
+            "/api/novels/**",
+            "/api/genres",
+            "/api/chapters/{chapterId}/proposals" ,
+            "/api/auth/**",
 
     };
     // 검증 제외 할 정적소스 (html,css,image,js) URL

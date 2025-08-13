@@ -39,9 +39,17 @@ public class ApiResponse<T> {
     }
 
     /**
-     * 실패 응답을 생성하는 팩토리 메서드
-     * @param message 실패 메시지
-     * @return 실패 응답 객체
+     * API 요청이 실패했을 때, 표준 형식의 실패 응답을 생성하는 정적 팩토리 메서드입니다.
+     *
+     * <b>[사용 목적]</b>
+     * 이 메서드를 통해 애플리케이션의 모든 API 실패 응답이 일관된 구조({@code success}, {@code message}, {@code data}, {@code timestamp})를
+     * 갖도록 보장합니다. 이는 클라이언트 측에서의 에러 핸들링 로직을 표준화하고 단순화하는 데 도움을 줍니다.
+     *
+     * @param <T>     응답 데이터의 제네릭 타입. 실패 응답의 경우, data 필드는 항상 {@code null}이 됩니다.
+     * @param message 클라이언트에게 전달하거나 로깅할 실패 원인에 대한 명확한 설명.
+     * @return {@code success} 필드가 {@code false}로 설정된 새로운 {@link ApiResponse} 인스턴스.
+     * @author 왕택준
+     * @since 2025.08
      */
     public static <T> ApiResponse<T> failure(String message) {
         return ApiResponse.<T>builder()
