@@ -3,7 +3,6 @@ package com.spring.aidea.vibefiction.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Comment;
-import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -66,13 +65,57 @@ public class Proposals {
     // --- Enum ---
     public enum Status { VOTING, ADOPTED, REJECTED, DELETED }
 
+    /**
+     * 새로운 '이어쓰기 제안(Proposal)' 엔티티를 생성하고 초기화하는 정적 팩토리 메서드입니다.
+     *
+     * 이 메서드는 새로운 제안을 생성하는 데 필요한 초기 설정과 비즈니스 규칙을 캡슐화합니다.
+     * 특히, 제안이 AI를 통해 생성되었는지 여부(aiGenerated)를 판단하고,
+     * 제안의 상태를 '투표 진행 중(VOTING)'으로 초기화합니다. (TODO: 상태 변경 로직 추가)
+     *
+     * @param chapter  이 제안이 속하는 {@link Chapters} 엔티티.
+     * @param proposer 이 제안을 작성한 사용자({@link Users}) 엔티티.
+     * @param title    제안의 제목.
+     * @param content  제안의 본문 내용.
+     * @param aiLog    이 제안이 AI를 통해 생성되었을 경우, 관련 {@link AiInteractionLogs} 엔티티.
+     *                 AI를 사용하지 않은 경우 {@code null}이 됩니다.
+     * @return 필요한 모든 정보가 설정된 새로운 {@link Proposals} 인스턴스.
+     *         (주의: 이 메서드는 객체를 생성만 할 뿐, 영속화(persist)하지는 않습니다.)
+     * @author 왕택준
+     * @since 2025.08
+     */
+    public static Proposals create(Chapters chapter, Users proposer, String title, String content, AiInteractionLogs aiLog) {
+        // [비즈니스 규칙] AI 사용 여부에 따라 aiGenerated 플래그 설정
+        boolean aiGenerated = (aiLog != null);
+
+        // [TODO(#88): 제안 생성 시 상태를 'VOTING'으로 초기화하도록 변경]
+        return Proposals.builder()
+            .chapter(chapter)
+            .proposer(proposer)
+            .title(title)
+            .content(content)
+            .aiGenerated(aiGenerated)
+            .build();
+    }
+
+    /**
+     * [JPA 생명주기 콜백]
+     * 엔티티가 영속화되기 직전에 호출되어 기본값을 설정합니다.
+     * 기존 onCreate() 메서드를 확장하여 다른 팀원과의 호환성을 유지합니다.
+     */
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
-        if (this.status == null) this.status = Status.VOTING;
-        if (this.voteCount == null) this.voteCount = 0;
-        if (this.aiGenerated == null) this.aiGenerated = false;
-    }
+        // "작성일 기준 3일 뒤 마감" 정책을 반영합니다.
+        this.voteDeadline = this.createdAt.plusDays(3);
 
-    // TODO: 연관관계 매핑 (Novels, Chapters, Users, Votes)
+        if (this.status == null) {
+            this.status = Status.VOTING;
+        }
+        if (this.voteCount == null) {
+            this.voteCount = 0;
+        }
+        if (this.aiGenerated == null) {
+            this.aiGenerated = false;
+        }
+    }
 }

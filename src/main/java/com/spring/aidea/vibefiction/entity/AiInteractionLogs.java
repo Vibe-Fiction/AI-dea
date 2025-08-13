@@ -66,6 +66,23 @@ public class AiInteractionLogs {
         PROPOSAL_GENERATION
     }
 
+    /**
+     * 현재 AI 상호작용 로그를, 이를 기반으로 생성된 '이어쓰기 제안(Proposal)'과 연결합니다.
+     * <p>
+     * <b>[비즈니스 로직]</b> 사용자가 AI의 추천 내용을 채택하여 실제 제안으로 등록하는 경우,
+     * 어떤 AI 로그에서 해당 제안이 비롯되었는지 출처를 추적할 수 있도록 양방향 연관관계를 설정하는 역할을 합니다.
+     * <p>
+     * 이 메서드는 주로 연관관계 편의 메서드(Convenience Method)로 사용되며,
+     * 트랜잭션 내에서 호출되어야 영속성 컨텍스트에 변경 사항이 반영(dirty checking)됩니다.
+     *
+     * @param proposal 이 AI 상호작용 로그와 연결할 {@link Proposals} 엔티티.
+     *                 이 값은 {@code null}이 아니어야 합니다.
+     * @author 왕택준
+     * @since 2025.08
+     */
+    public void setRelatedProposal(Proposals proposal) {
+        this.relatedProposal = proposal;
+    }
 
     @PrePersist
     protected void onCreate() {
