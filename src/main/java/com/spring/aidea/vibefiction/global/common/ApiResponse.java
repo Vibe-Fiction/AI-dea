@@ -56,7 +56,8 @@ public class ApiResponse<T> {
             .success(false)
             .message(message)
             .timestamp(LocalDateTime.now())
-            .data(null) // 실패 시에는 데이터가 없습니다.
+            .data(null)
             .build();
     }
+
 }
