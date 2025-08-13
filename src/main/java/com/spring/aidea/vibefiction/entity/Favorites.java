@@ -2,9 +2,12 @@ package com.spring.aidea.vibefiction.entity;
 
 
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
+
+@Getter
 @Entity
 @Table(name = "favorites",
         uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "novel_id", "category"}))

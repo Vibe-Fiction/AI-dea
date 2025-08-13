@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<body>
+    <header class="main-header" th:fragment="mainHeader">
+        <div class="container">
+            <a href="#" class="logo">Vibe Fiction</a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#">소설 탐색</a></li>
+                    <li><a href="#">내 소설</a></li>
+                    <li><a href="#" class="btn-login">로그인</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <script th:fragment="loginModalScript">
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginBtn = document.querySelector('.btn-login');
+            const modalOverlay = document.querySelector('.modal-overlay');
+            const closeBtn = document.querySelector('.modal-close-btn');
+
+            // 로그인 버튼 클릭 시 모달 열기
+            loginBtn.addEventListener('click', (event) => {
+                event.preventDefault(); // 페이지 이동 방지
+                modalOverlay.classList.add('open');
+            });
+
+            // 닫기 버튼 클릭 시 모달 닫기
+            closeBtn.addEventListener('click', () => {
+                modalOverlay.classList.remove('open');
+            });
+
+            // 모달 외부 클릭 시 모달 닫기
+            modalOverlay.addEventListener('click', (event) => {
+                // 이벤트가 모달 오버레이 자체에서 발생했는지 확인 (모달 콘텐츠 클릭 제외)
+                if (event.target === modalOverlay) {
+                    modalOverlay.classList.remove('open');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

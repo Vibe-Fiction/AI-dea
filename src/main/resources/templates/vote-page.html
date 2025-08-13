@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vibe Fiction | 투표 페이지</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/vote-page.css">
+    <!--  로그인 모달 css 링크  -->
+    <link rel="stylesheet" th:href="@{/css/login-modal.css}">
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- 아이콘을 위한 Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <!--  로그인 모달  -->
+    <div th:insert="~{fragments/loginModal :: loginModal}"></div>
+    <!--  로그인 모달 스크립트  -->
+    <div th:replace="~{fragments/mainHeader :: loginModalScript}"></div>
+    <!-- 메인 헤더 -->
+    <div th:replace="~{fragments/mainHeader :: mainHeader}"></div>
+
+    <!-- 메인 콘텐츠 영역 -->
+    <main class="container main-content">
+
+        <!-- 투표 페이지 헤더 및 이어쓰기 버튼 -->
+        <section class="vote-page-header">
+            <h2>다음화의 내용을 만들어주세요!</h2>
+            <!-- 마감 시간 타이머 추가 -->
+            <div class="countdown-timer">
+                <span class="timer-label">마감까지 남은 시간</span>
+                <span class="timer-display" id="countdown-display">00:00:00</span>
+            </div>
+            <div class="create-proposal">
+                <button class="btn-continue-writing">이어쓰기</button>
+            </div>
+        </section>
+
+        <!-- 제안 카드 그리드 -->
+        <section class="proposal-grid">
+
+            <!-- 등수가 있는 제안 카드 예시 (1위~5위) -->
+            <!-- 1위 -->
+            <article class="proposal-card">
+                <div class="card-content">
+                    <h3 class="proposal-title">챕터 제목: 새로운 국면</h3>
+                    <div class="rank-container">
+                        <span class="rank-large">1위</span>
+                    </div>
+                    <div class="proposal-actions-row">
+                        <div class="vote-info">
+                            <i class="fas fa-vote-yea"></i>
+                            <span>152</span>
+                        </div>
+                        <button class="btn-vote">투표하기</button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 2위 -->
+            <article class="proposal-card">
+                <div class="card-content">
+                    <h3 class="proposal-title">챕터 제목: 운명의 재회</h3>
+                    <div class="rank-container">
+                        <span class="rank-large">2위</span>
+                    </div>
+                    <div class="proposal-actions-row">
+                        <div class="vote-info">
+                            <i class="fas fa-vote-yea"></i>
+                            <span>110</span>
+                        </div>
+                        <button class="btn-vote">투표하기</button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 3위 -->
+            <article class="proposal-card">
+                <div class="card-content">
+                    <h3 class="proposal-title">챕터 제목: 예상치 못한 반전</h3>
+                    <div class="rank-container">
+                        <span class="rank-large">3위</span>
+                    </div>
+                    <div class="proposal-actions-row">
+                        <div class="vote-info">
+                            <i class="fas fa-vote-yea"></i>
+                            <span>87</span>
+                        </div>
+                        <button class="btn-vote">투표하기</button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 등수가 없는 제안 카드 예시 (5위 이후) -->
+            <article class="proposal-card">
+                <div class="card-content">
+                    <h3 class="proposal-title">챕터 제목: 과거의 그림자</h3>
+                    <div class="rank-container">
+                        <!-- 등수가 없는 경우 빈문자열로 레이아웃 유지 -->
+                        <span class="rank-large empty-rank"></span>
+                    </div>
+                    <div class="proposal-actions-row">
+                        <div class="vote-info">
+                            <i class="fas fa-vote-yea"></i>
+                            <span>75</span>
+                        </div>
+                        <button class="btn-vote">투표하기</button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 등수가 없는 제안 카드 예시 2 -->
+            <article class="proposal-card">
+                <div class="card-content">
+                    <h3 class="proposal-title">챕터 제목: 새로운 국면2</h3>
+                    <div class="rank-container">
+                        <span class="rank-large empty-rank"></span>
+                    </div>
+                    <div class="proposal-actions-row">
+                        <div class="vote-info">
+                            <i class="fas fa-vote-yea"></i>
+                            <span>152</span>
+                        </div>
+                        <button class="btn-vote">투표하기</button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 등수가 없는 제안 카드 예시 3 -->
+            <article class="proposal-card">
+                <div class="card-content">
+                    <h3 class="proposal-title">챕터 제목: 운명의 재회2</h3>
+                    <div class="rank-container">
+                        <span class="rank-large empty-rank"></span>
+                    </div>
+                    <div class="proposal-actions-row">
+                        <div class="vote-info">
+                            <i class="fas fa-vote-yea"></i>
+                            <span>110</span>
+                        </div>
+                        <button class="btn-vote">투표하기</button>
+                    </div>
+                </div>
+            </article>
+
+        </section>
+
+    </main>
+
+    <!-- 메인 푸터 -->
+    <div th:replace="~{fragments/mainFooter :: mainFooter}"></div>
+</body>
+</html>
