@@ -41,15 +41,6 @@
                     <label for="birthdate">생년월일</label>
                     <input type="date" id="birthdate" name="birthdate" required>
                 </div>
-                <div class="form-group">
-                    <label for="profile-picture">프로필 사진</label>
-                    <!-- 파일 선택 버튼을 커스텀하기 위한 HTML 구조 -->
-                    <div class="file-upload-wrapper">
-                        <label for="profile-picture" class="custom-file-upload">파일 선택</label>
-                        <span id="file-name" class="file-name">선택된 파일 없음</span>
-                        <input type="file" id="profile-picture" name="profile-picture" onchange="updateFileName(this)">
-                    </div>
-                </div>
                 <button type="submit" class="btn-signup-submit">가입하기</button>
             </form>
         </section>

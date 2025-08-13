@@ -26,9 +26,6 @@ public class NovelsResponseDtoSH {
 
     public static NovelsResponseDtoSH from(Novels novels) {
 
-
-
-
         return NovelsResponseDtoSH.builder()
                 .novelId(novels.getNovelId())
                 .title(novels.getTitle())

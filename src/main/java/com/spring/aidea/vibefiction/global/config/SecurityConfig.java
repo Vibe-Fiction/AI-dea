@@ -24,9 +24,14 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    // 여기에 각자 URL들 추가하면 자동적용
-    String[] permitAllURLs = {
+    // 검증 제외 할 api URL
+    String[] apiURLs = {
             "/api/novels/**",
+
+
+    };
+    // 검증 제외 할 정적소스 (html,css,image,js) URL
+    String[] wedPagesURLs = {
             "/",
             "/css/**",
             "/js/**",
@@ -36,8 +41,12 @@ public class SecurityConfig {
             "/proposal",
             "my-page",
             "signup",
+            "/images/**"
 
     };
+
+
+
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -53,7 +62,8 @@ public class SecurityConfig {
                 //
                 .authorizeHttpRequests(authorize -> authorize
                         // 로그인 로직완성 후 토큰로직 연결되면 밑의 코드는 지워야함
-                        .requestMatchers(permitAllURLs).permitAll()
+                        .requestMatchers(apiURLs).permitAll()
+                        .requestMatchers(wedPagesURLs).permitAll()
                         // 다른 모든 요청은 인증 필요
                         .anyRequest().authenticated()
                 );
