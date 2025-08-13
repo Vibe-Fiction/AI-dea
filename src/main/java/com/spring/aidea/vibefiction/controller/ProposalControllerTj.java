@@ -16,28 +16,33 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * 이어쓰기 제안(Proposals) 관련 CRUD 컨트롤러.
+ * 소설의 특정 회차에 대한 '이어쓰기 제안(Proposal)' 관련 API 요청을 처리하는 컨트롤러입니다.
  *
- * - 특정 회차에 제안 생성 (JWT 필요)
- * - 특정 회차의 제안 목록 조회 (공개 가정: 인증 불필요)
+ * 이 컨트롤러는 독자들이 소설의 다음 이야기에 대해 자신의 아이디어를 제안하는 핵심 기능을 담당합니다.
+ * 제안 생성은 JWT 인증을 필요로 하지만, 제안 목록 조회는 누구나 가능하도록 공개되어 있습니다.
+ *
+ * @author 왕택준
+ * @since 2025.08
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/tj/chapters/{chapterId}/proposals")
+@RequestMapping("/api/chapters/{chapterId}/proposals")
 public class ProposalControllerTj {
 
     private final ProposalServiceTj proposalServiceTj;
     private final JwtHelperTj jwtHelperTj;
 
     /**
-     * 특정 회차에 새로운 이어쓰기 제안을 생성합니다.
+     * 인증된 사용자가 특정 회차에 대한 새로운 이어쓰기 내용을 제안하고 등록합니다.
      *
-     * @param authHeader Authorization 헤더 (Bearer {JWT})
-     * @param chapterId  제안을 생성할 회차 ID
-     * @param req        제안 생성 요청 DTO (제목, 내용, 선택적 aiLogId)
-     * @return           생성된 제안 정보
-     * @status 201       생성 성공
-     * @status 401       인증 실패
+     * 이 메서드는 JWT 토큰으로 사용자를 식별하며, 제안 내용은 해당 회차에 종속됩니다.
+     * AI 추천을 통해 작성된 제안일 경우, 관련 AI 상호작용 로그 ID(aiLogId)를 포함할 수 있습니다.
+     *
+     * @param authHeader HTTP 요청 헤더의 'Authorization' 값. 'Bearer {token}' 형식의 JWT가 포함되어야 합니다.
+     * @param chapterId  새로운 제안을 등록할 대상 회차의 고유 ID.
+     * @param req        생성할 제안의 제목(title), 내용(content), 그리고 선택적으로 AI 로그 ID(aiLogId)를 포함하는 DTO.
+     * @return 성공 시 201 (Created) 상태 코드와 함께 생성된 제안 정보를 담은 {@link ApiResponse} 객체를 반환합니다.
+     *         인증 실패 시 401 (Unauthorized) 상태 코드를 반환합니다.
      */
     @PostMapping
     public ResponseEntity<ApiResponse<ProposalCreateResponseTj>> create(
@@ -45,27 +50,38 @@ public class ProposalControllerTj {
             @PathVariable Long chapterId,
             @Valid @RequestBody ProposalCreateRequestTj req) {
 
+        // [TJ] JWT 토큰에서 제안자(proposer)의 ID를 추출
         Long proposerId = jwtHelperTj.extractUserId(authHeader);
+
+        // [비즈니스 규칙] 유효하지 않은 토큰으로 제안자 ID를 추출할 수 없는 경우, 비인가 사용자로 처리
         if (proposerId == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(ApiResponse.failure("인증 실패"));
+                    .body(ApiResponse.failure("인증에 실패했습니다."));
         }
 
+        // [비즈니스 로직] 인증된 제안자 ID와 요청 데이터를 서비스 레이어로 전달하여 제안 생성 처리
         ProposalCreateResponseTj result = proposalServiceTj.create(chapterId, proposerId, req);
+
+        // [비즈니스 규칙] 제안 리소스가 성공적으로 생성되었음을 알리는 201 Created 상태 코드로 응답
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ApiResponse.success("새로운 제안이 등록되었습니다.", result));
     }
 
     /**
-     * 특정 회차의 모든 제안 목록을 조회합니다. (공개 가정)
+     * 특정 회차에 등록된 모든 이어쓰기 제안의 요약 목록을 조회합니다.
      *
-     * @param chapterId 제안을 조회할 회차 ID
-     * @return          제안 요약 목록
-     * @status 200      조회 성공
+     * 이 엔드포인트는 공개 API로, 별도의 인증 절차 없이 누구나 호출할 수 있습니다.
+     * 제안 목록은 독자들의 투표나 작가의 선택을 위해 화면에 노출되는 것을 목적으로 합니다.
+     *
+     * @param chapterId 제안 목록을 조회할 대상 회차의 고유 ID.
+     * @return 성공 시 200 (OK) 상태 코드와 함께 해당 회차의 제안 요약 정보 목록을 담은 {@link ApiResponse}를 반환합니다.
      */
     @GetMapping
     public ResponseEntity<ApiResponse<List<ProposalSummaryResponseTj>>> list(@PathVariable Long chapterId) {
+        // [비즈니스 로직] 해당 회차 ID에 종속된 모든 제안 목록을 서비스 레이어에서 조회
         List<ProposalSummaryResponseTj> result = proposalServiceTj.list(chapterId);
+
+        // [비즈니스 로직] 조회된 제안 목록을 성공 응답(200 OK)에 담아 클라이언트에 반환
         return ResponseEntity.ok(ApiResponse.success("제안 목록 조회 성공", result));
     }
 }
