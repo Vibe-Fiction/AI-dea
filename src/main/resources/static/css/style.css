@@ -9,6 +9,8 @@
 */
 
 
+
+
 /* 전역 스타일 */
 :root {
     --primary-color: #4f46e5;
@@ -46,14 +48,14 @@ body {
     position: sticky;
     top: 0;
     z-index: 50;
+   height: 4rem;
 }
 
 .main-header .container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
+    height: inherit;
 }
 
 .logo {
@@ -65,10 +67,10 @@ body {
 
 .main-nav ul {
     list-style: none;
-    margin: 0;
     padding: 0;
     display: flex;
     gap: 1.5rem;
+    align-items: center;
 }
 
 .main-nav a {
@@ -81,18 +83,18 @@ body {
 .main-nav a:hover {
     color: var(--primary-color);
 }
-
-.btn-login, .btn-logout, .btn-mypage {
+.main-nav ul li {
+    align-items: center;
+}
+.btn-login {
     background-color: var(--primary-color);
     color: #fff !important;
     padding: 0.5rem 1rem;
     border-radius: 9999px;
     transition: background-color 0.3s;
-    border: none; /* 버튼에 기본 border 제거 */
-    cursor: pointer; /* 마우스 오버 시 커서 변경 */
 }
 
-.btn-login:hover, .btn-logout:hover, .btn-mypage:hover {
+.btn-login:hover {
     background-color: var(--primary-hover);
 }
 
@@ -120,5 +122,16 @@ body {
     }
     .main-nav ul {
         justify-content: center;
+        gap: 1rem; /* 모바일 뷰에서도 간격 추가 */
     }
+}
+.auth-buttons {
+    display: flex;
+    gap: 1.5rem; /* 버튼 간 간격 추가 */
+    align-items: center; /* 수직 정렬 */
+}
+.user-buttons {
+    display: none;
+    gap: 1.5rem; /* 버튼 간 간격 추가 */
+    align-items: center; /* 수직 정렬 */
 }
