@@ -40,4 +40,7 @@ jwt:
 # Gemini API Key는 application-template.yml 또는 환경변수에서 로드
 gemini:
   api:
+    # API 호출을 위한 URL. RestTemplate이 {apiKey} 부분을 실제 키로 치환합니다.
+    url: "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={apiKey}"
+    # API 키는 application-template.yml 또는 환경 변수에서 가져옵니다.
     key: ${GEMINI_API_KEY:}
