@@ -25,6 +25,7 @@ public class UserResponseKO {
     private String profileImageUrl;
     private LocalDate birthday;
     private LocalDateTime createdAt;
+    private String role;
 
 
     /**
@@ -39,6 +40,7 @@ public class UserResponseKO {
                 .profileImageUrl(users.getProfileImageUrl())
                 .birthday(users.getBirthDate())
                 .createdAt(users.getCreatedAt())
+                .role(users.getRole().name())
                 .build();
     }
 
