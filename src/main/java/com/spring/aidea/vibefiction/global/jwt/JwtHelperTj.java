@@ -1,3 +1,4 @@
+/*
 package com.spring.aidea.vibefiction.global.jwt;
 
 import com.spring.aidea.vibefiction.entity.Users;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 
+*/
 /**
  * JWT(Json Web Token)에서 사용자 정보를 안전하게 추출하는 로직을 중앙에서 관리하는 헬퍼 클래스입니다.
  *
@@ -23,17 +25,23 @@ import java.nio.charset.StandardCharsets;
  *
  * @author 왕택준
  * @since 2025.08
- */
+ *//*
+
 @Component
 @RequiredArgsConstructor
 public class JwtHelperTj {
 
-    /** JWT 생성 및 검증에 필요한 설정값(secret key, 만료 시간 등)을 담고 있는 프로퍼티 클래스입니다. */
+    */
+/** JWT 생성 및 검증에 필요한 설정값(secret key, 만료 시간 등)을 담고 있는 프로퍼티 클래스입니다. *//*
+
     private final JwtProperties jwtProperties;
-    /** 'userId' 클레임이 없는 구형 토큰과의 하위 호환성을 위해, 'loginId'로 사용자를 조회할 때 사용됩니다. */
+    */
+/** 'userId' 클레임이 없는 구형 토큰과의 하위 호환성을 위해, 'loginId'로 사용자를 조회할 때 사용됩니다. *//*
+
     private final UsersRepository usersRepository;
 
-    /**
+    */
+/**
      * HTTP 'Authorization' 헤더 값에서 JWT를 추출하고 파싱하여, 최종적으로 사용자의 고유 ID(PK)를 반환합니다.
      * <p>
      * <b>[처리 로직 및 하위 호환성]</b>
@@ -47,7 +55,8 @@ public class JwtHelperTj {
      *
      * @param authHeader "Bearer {token}" 형식의 전체 Authorization 헤더 값.
      * @return 추출된 사용자의 고유 ID({@code Long}). 토큰이 유효하지 않거나 사용자를 식별할 수 없는 모든 경우 {@code null}을 반환합니다.
-     */
+     *//*
+
     public Long extractUserId(String authHeader) {
         // [1. 토큰 파싱] 헤더에서 토큰을 추출하고 유효성을 검증하여 클레임(정보)을 가져옵니다.
         Claims claims = getClaimsFromToken(authHeader);
@@ -76,12 +85,14 @@ public class JwtHelperTj {
         return null;
     }
 
-    /**
+    */
+/**
      * Authorization 헤더 문자열에서 순수 토큰을 추출하고, 서명 검증을 거쳐 내부 정보(Claims)를 반환하는 private 헬퍼 메서드입니다.
      *
      * @param authHeader "Bearer {token}" 형식의 헤더 값.
      * @return 파싱된 클레임 객체. 토큰이 유효하지 않은 모든 경우(만료, 서명 불일치, 형식 오류 등)에는 {@code null}을 반환합니다.
-     */
+     *//*
+
     private Claims getClaimsFromToken(String authHeader) {
         String token = extractTokenFromHeader(authHeader);
         if (token == null) {
@@ -101,9 +112,11 @@ public class JwtHelperTj {
         }
     }
 
-    /**
+    */
+/**
      * "Bearer " 접두사를 제거하고 순수한 토큰 문자열만 추출합니다.
-     */
+     *//*
+
     private String extractTokenFromHeader(String authHeader) {
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             return authHeader.substring(7);
@@ -111,10 +124,13 @@ public class JwtHelperTj {
         return null;
     }
 
-    /**
+    */
+/**
      * application.yml에 설정된 secret 값으로 서명 검증에 사용할 {@link SecretKey}를 생성합니다.
-     */
+     *//*
+
     private SecretKey getSigningKey() {
         return Keys.hmacShaKeyFor(jwtProperties.getSecret().getBytes(StandardCharsets.UTF_8));
     }
 }
+*/

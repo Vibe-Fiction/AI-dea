@@ -1,3 +1,4 @@
+/*
 package com.spring.aidea.vibefiction.service;
 
 import com.spring.aidea.vibefiction.dto.request.auth.LoginRequestTj;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+*/
 /**
  * 사용자 인증(로그인)과 관련된 비즈니스 로직을 처리하는 서비스 클래스입니다.
  * <p>
@@ -21,21 +23,29 @@ import org.springframework.stereotype.Service;
  *
  * @author 왕택준
  * @since 2025.08
- */
+ *//*
+
 @Service
 @RequiredArgsConstructor
 public class AuthServiceTj {
 
-    /** 사용자 정보를 데이터베이스에서 조회하기 위한 저장소입니다. */
+    */
+/** 사용자 정보를 데이터베이스에서 조회하기 위한 저장소입니다. *//*
+
     private final UsersRepository usersRepository;
 
-    /** 단방향 해시 함수(예: bcrypt)를 사용하여 비밀번호를 안전하게 암호화하고 검증하는 컴포넌트입니다. */
+    */
+/** 단방향 해시 함수(예: bcrypt)를 사용하여 비밀번호를 안전하게 암호화하고 검증하는 컴포넌트입니다. *//*
+
     private final PasswordEncoder passwordEncoder;
 
-    /** 인증 성공 후, 사용자의 정보를 담은 JWT를 생성하고 관리하는 컴포넌트입니다. */
+    */
+/** 인증 성공 후, 사용자의 정보를 담은 JWT를 생성하고 관리하는 컴포넌트입니다. *//*
+
     private final JwtProvider jwtProvider;
 
-    /**
+    */
+/**
      * 사용자의 아이디와 비밀번호를 검증하여 로그인을 처리하고, 성공 시 JWT를 발급합니다.
      * <p>
      * <b>[인증 절차]</b>
@@ -50,7 +60,8 @@ public class AuthServiceTj {
      * @throws IllegalArgumentException 아이디가 존재하지 않거나 비밀번호가 일치하지 않을 경우 발생합니다.
      *                                  (참고: 실제 서비스에서는 보안을 위해 "아이디 또는 비밀번호가 잘못되었습니다." 와 같이
      *                                  모호한 메시지를 사용하는 것이 권장됩니다.)
-     */
+     *//*
+
     public LoginResponseTj login(LoginRequestTj req) {
         // [1. 사용자 조회] 요청된 loginId를 기반으로 데이터베이스에서 사용자 정보를 찾습니다.
         // 사용자가 없으면, orElseThrow를 통해 즉시 예외를 발생시켜 이후 로직을 중단합니다.
@@ -70,3 +81,4 @@ public class AuthServiceTj {
         return new LoginResponseTj(token, "로그인에 성공했습니다.");
     }
 }
+*/

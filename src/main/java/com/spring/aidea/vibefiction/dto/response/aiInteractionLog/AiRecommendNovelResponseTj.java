@@ -25,7 +25,7 @@ public class AiRecommendNovelResponseTj {
      * <b>[비즈니스 규칙]</b> 사용자가 이 AI 추천 내용을 실제 '소설(Novel)'로 등록할 경우,
      * 어떤 AI 요청으로부터 생성되었는지를 추적하기 위한 핵심 키(key)가 됩니다.
      *
-     * @see com.spring.aidea.vibefiction.entity.AiInteractionLog
+     * @see com.spring.aidea.vibefiction.entity.AiInteractionLogs
      */
     private Long logId;
 

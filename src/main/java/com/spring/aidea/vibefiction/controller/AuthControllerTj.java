@@ -1,3 +1,4 @@
+/*
 package com.spring.aidea.vibefiction.controller;
 
 import com.spring.aidea.vibefiction.dto.request.auth.LoginRequestTj;
@@ -8,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+*/
 /**
  * 사용자 인증 관련 API 요청을 처리하는 컨트롤러입니다.
  *
@@ -17,7 +19,8 @@ import org.springframework.web.bind.annotation.*;
  *
  * @author 왕택준
  * @since 2025.08
- */
+ *//*
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/auth")
@@ -25,7 +28,8 @@ public class AuthControllerTj {
 
     private final AuthServiceTj authServiceTj;
 
-    /**
+    */
+/**
      * 사용자의 아이디와 비밀번호를 받아 로그인을 처리하고, 인증 토큰을 발급합니다.
      *
      * 이 메서드는 클라이언트로부터 받은 로그인 정보를 {@link AuthServiceTj}로 전달하여 인증을 위임합니다.
@@ -36,7 +40,8 @@ public class AuthControllerTj {
      * @return 성공 시 200 (OK) 상태 코드와 함께 토큰 및 사용자 정보가 담긴 {@link ApiResponse} 객체를 반환합니다.
      *         (참고: 인증 실패(예: 비밀번호 불일치)의 경우, 서비스 레이어의 예외 처리 핸들러에 의해
      *         401 (Unauthorized)과 같은 적절한 HTTP 상태 코드가 반환될 수 있습니다.)
-     */
+     *//*
+
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<LoginResponseTj>> login(@RequestBody LoginRequestTj req) {
         // [TJ] 로그인 요청 데이터를 서비스 레이어로 전달하여 인증 및 토큰 발급 처리
@@ -46,3 +51,4 @@ public class AuthControllerTj {
         return ResponseEntity.ok(ApiResponse.success("로그인 성공", responseData));
     }
 }
+*/

@@ -1,8 +1,10 @@
+/*
 package com.spring.aidea.vibefiction.dto.response.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+*/
 /**
  * 사용자 로그인 인증에 성공했을 때 클라이언트에게 반환되는 데이터 전송 객체(DTO)입니다.
  *
@@ -19,24 +21,30 @@ import lombok.Getter;
  *
  * @author 왕택준
  * @since 2025.08
- */
+ *//*
+
 @Getter
 @AllArgsConstructor
 public class LoginResponseTj {
 
-    /**
+    */
+/**
      * 인증 성공 후 발급된 JWT(Json Web Token) 기반의 액세스 토큰입니다.
      * <p>
      * <b>[핵심 데이터]</b> 이 토큰은 사용자의 신원을 증명하고, 보호된 API 엔드포인트에 대한
      * 접근 권한을 부여하는 데 사용됩니다.
-     */
+     *//*
+
     private final String accessToken;
 
-    /**
+    */
+/**
      * 로그인 성공과 관련된 안내 메시지입니다.
      * <p>
      * <b>[사용 예시]</b> "로그인에 성공하였습니다." 와 같은 메시지를 담아
      * 클라이언트의 UI에 피드백을 제공하는 용도로 사용할 수 있습니다.
-     */
+     *//*
+
     private final String message;
 }
+*/

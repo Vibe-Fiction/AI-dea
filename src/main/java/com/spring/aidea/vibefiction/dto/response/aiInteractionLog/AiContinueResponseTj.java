@@ -26,7 +26,7 @@ public class AiContinueResponseTj {
      * 어떤 AI 요청으로부터 생성되었는지를 추적하기 위한 핵심 키(key)가 됩니다.
      *
      * @see com.spring.aidea.vibefiction.dto.request.proposal.ProposalCreateRequestTj
-     * @see com.spring.aidea.vibefiction.entity.AiInteractionLog
+     * @see com.spring.aidea.vibefiction.entity.AiInteractionLogs
      */
     private Long logId;
 
