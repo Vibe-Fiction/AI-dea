@@ -25,6 +25,43 @@
     <!-- 메인 헤더 -->
     <div th:replace="~{fragments/mainHeader :: mainHeader}"></div>
 
+
+
+    <!-- ===== 투표 모달 ===== -->
+    <div class="voting-modal-container">
+        <div class="voting-modal-overlay"></div>
+        <div class="voting-modal">
+            <button class="voting-modal-close-btn">&times;</button>
+            <div class="voting-modal-content">
+                <!-- 소설 제목 -->
+                <h2 class="voting-modal-novel-title"></h2>
+
+                <div class="voting-modal-chapter-info">
+                    <div class="voting-chapter-details">
+                        <!-- 챕터 제목 -->
+                        <span class="voting-chapter-title"></span>
+                        <!-- 참여자 이름 -->
+                        <span class="voting-author-name"></span>
+                        <!-- 득표수 -->
+                        <span class="voting-score"></span>
+                    </div>
+                    <!-- 투표하기 버튼 -->
+                    <button class="btn btn-vote">투표하기</button>
+                </div>
+
+                <!-- 소설 내용 (스크롤 가능) -->
+                <div class="voting-modal-story-content">
+                    <!-- 내용이 동적으로 채워질 곳 -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ================== -->
+
+
+
+
+
     <!-- 메인 콘텐츠 영역 -->
     <main class="container main-content">
 
@@ -43,10 +80,9 @@
 
         <!-- 제안 카드 그리드 -->
         <section class="proposal-grid">
-
             <!-- 등수가 있는 제안 카드 예시 (1위~5위) -->
             <!-- 1위 -->
-            <article class="proposal-card">
+            <article class="proposal-card" data-proposal-id="1">
                 <div class="card-content">
                     <h3 class="proposal-title">챕터 제목: 새로운 국면</h3>
                     <div class="rank-container">
@@ -55,7 +91,7 @@
                     <div class="proposal-actions-row">
                         <div class="vote-info">
                             <i class="fas fa-vote-yea"></i>
-                            <span>152</span>
+                            <span class="vote-count">152</span>
                         </div>
                         <button class="btn-vote">투표하기</button>
                     </div>
@@ -63,7 +99,7 @@
             </article>
 
             <!-- 2위 -->
-            <article class="proposal-card">
+            <article class="proposal-card" data-proposal-id="2">
                 <div class="card-content">
                     <h3 class="proposal-title">챕터 제목: 운명의 재회</h3>
                     <div class="rank-container">
@@ -72,7 +108,7 @@
                     <div class="proposal-actions-row">
                         <div class="vote-info">
                             <i class="fas fa-vote-yea"></i>
-                            <span>110</span>
+                            <span class="vote-count">110</span>
                         </div>
                         <button class="btn-vote">투표하기</button>
                     </div>
@@ -80,7 +116,7 @@
             </article>
 
             <!-- 3위 -->
-            <article class="proposal-card">
+            <article class="proposal-card" data-proposal-id="3">
                 <div class="card-content">
                     <h3 class="proposal-title">챕터 제목: 예상치 못한 반전</h3>
                     <div class="rank-container">
@@ -89,7 +125,7 @@
                     <div class="proposal-actions-row">
                         <div class="vote-info">
                             <i class="fas fa-vote-yea"></i>
-                            <span>87</span>
+                            <span class="vote-count">87</span>
                         </div>
                         <button class="btn-vote">투표하기</button>
                     </div>
@@ -97,7 +133,7 @@
             </article>
 
             <!-- 등수가 없는 제안 카드 예시 (5위 이후) -->
-            <article class="proposal-card">
+            <article class="proposal-card" data-proposal-id="4">
                 <div class="card-content">
                     <h3 class="proposal-title">챕터 제목: 과거의 그림자</h3>
                     <div class="rank-container">
@@ -107,7 +143,7 @@
                     <div class="proposal-actions-row">
                         <div class="vote-info">
                             <i class="fas fa-vote-yea"></i>
-                            <span>75</span>
+                            <span class="vote-count">75</span>
                         </div>
                         <button class="btn-vote">투표하기</button>
                     </div>
@@ -115,7 +151,7 @@
             </article>
 
             <!-- 등수가 없는 제안 카드 예시 2 -->
-            <article class="proposal-card">
+            <article class="proposal-card" data-proposal-id="5">
                 <div class="card-content">
                     <h3 class="proposal-title">챕터 제목: 새로운 국면2</h3>
                     <div class="rank-container">
@@ -124,7 +160,7 @@
                     <div class="proposal-actions-row">
                         <div class="vote-info">
                             <i class="fas fa-vote-yea"></i>
-                            <span>152</span>
+                            <span class="vote-count">60</span>
                         </div>
                         <button class="btn-vote">투표하기</button>
                     </div>
@@ -132,7 +168,7 @@
             </article>
 
             <!-- 등수가 없는 제안 카드 예시 3 -->
-            <article class="proposal-card">
+            <article class="proposal-card" data-proposal-id="6">
                 <div class="card-content">
                     <h3 class="proposal-title">챕터 제목: 운명의 재회2</h3>
                     <div class="rank-container">
@@ -141,7 +177,7 @@
                     <div class="proposal-actions-row">
                         <div class="vote-info">
                             <i class="fas fa-vote-yea"></i>
-                            <span>110</span>
+                            <span class="vote-count">55</span>
                         </div>
                         <button class="btn-vote">투표하기</button>
                     </div>
@@ -154,5 +190,182 @@
 
     <!-- 메인 푸터 -->
     <div th:replace="~{fragments/mainFooter :: mainFooter}"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 더미 데이터 정의
+            const proposals = {
+                '1': {
+                    novelTitle: '재벌집 막내아들',
+                    chapterTitle: '새로운 국면',
+                    author: '사용자A',
+                    score: 152,
+                    content: `<p>"새로운 시작이라..." 윤현우는 눈을 감았다. 머슴처럼 13년을 바친 순양그룹의 배신. 그는 이미 죽었어야 할 운명이었다. 하지만 그는 다시 눈을 떴고, 놀랍게도 순양그룹 회장의 막내손주, 진도준이 되어 있었다. 창밖으로 보이는 풍경은 낯설면서도 익숙했다. 과거의 기억과 현재의 현실이 뒤엉켜 혼란스러웠다. 하지만 이내 그의 눈빛이 날카롭게 빛났다. '진도준... 이 이름으로, 나는 순양을 내 손에 넣을 것이다.' 그의 새로운 삶은 복수를 향한 서막이었다.</p>
+                                <p>그는 거울을 보며 생각에 잠겼다. 앳된 얼굴, 하지만 그 안에는 13년의 세월을 버텨온 강인함과 냉철함이 숨어 있었다. 순양가에 다시 들어왔지만, 이번에는 가장 약한 막내아들이 아닌, 모든 것을 뒤흔들 최후의 승자가 될 것이다.</p>
+                                <p>"도련님, 식사 준비됐습니다." 방문 밖에서 들려오는 목소리에 그는 현실로 돌아왔다. 이 모든 것이 꿈이 아니었다. 진도준이라는 이름으로 시작된 두 번째 삶. 그는 천천히 일어섰다.</p>
+                                <p>순양가 사람들은 그를 그저 어린애로만 봤다. 하지만 그들은 몰랐다. 그 어린애의 눈에 담긴 불꽃이 얼마나 뜨거운지를. 과거의 모든 것을 되갚아줄 시간이 다가오고 있었다.</p>
+                                <p>'기다려라, 순양. 그리고 진양철 회장님...'</p>`
+                },
+                '2': {
+                    novelTitle: '재벌집 막내아들',
+                    chapterTitle: '운명의 재회',
+                    author: '사용자B',
+                    score: 110,
+                    content: `<p>오래된 비밀은 순양그룹의 깊은 곳에 숨겨져 있었다. 13년 전, 윤현우가 그룹을 위해 비밀리에 처리했던 프로젝트는 사실 그의 모든 것을 빼앗기 위한 거대한 음모의 시작이었다. 그는 회장의 서재에서 우연히 발견한 오래된 일기장에서 그 진실을 마주하게 된다.</p>
+                                <p>일기장에는 진양철 회장이 그룹의 후계 구도를 위해 얼마나 잔인하고 철저한 계획을 세웠는지, 그리고 윤현우를 어떻게 희생양으로 삼았는지가 상세하게 기록되어 있었다. 그는 충격과 분노에 휩싸였다. 이 모든 것이 회장님의 뜻이었다니...</p>
+                                <p>그는 조용히 일기장을 덮고 미소를 지었다. 이제 그는 단순한 복수가 아닌, 순양그룹의 가장 깊은 곳에 숨겨진 비밀을 모두에게 드러낼 계획을 세우기 시작했다.</p>`
+                },
+                '3': {
+                    novelTitle: '재벌집 막내아들',
+                    chapterTitle: '예상치 못한 반전',
+                    author: '사용자C',
+                    score: 87,
+                    content: `<p>운명의 갈림길은 윤현우에게 두 가지 선택지를 제시했다. 순양그룹의 배신에 좌절하며 죽음을 맞이할 것인가, 아니면 새로운 삶을 통해 복수를 꿈꿀 것인가. 그는 절망 속에서 마지막 희망을 붙잡았다.</p>
+                                <p>그는 진도준이 되기로 결심했다. 단순히 살아남기 위해서가 아니라, 순양을 무너뜨리기 위해, 그리고 자신을 배신한 사람들에게 똑같이 되갚아주기 위해서였다. 그의 눈빛은 흔들림이 없었다. </p>
+                                <p>이 결정은 그의 인생뿐만 아니라, 순양그룹 전체의 운명을 바꾸게 될 거대한 시작이었다. 그는 과거의 모든 것을 뒤로하고, 새로운 운명을 향한 첫걸음을 내디뎠다.</p>`
+                },
+                '4': {
+                    novelTitle: '재벌집 막내아들',
+                    chapterTitle: '과거의 그림자',
+                    author: '사용자D',
+                    score: 75,
+                    content: `<p>과거의 그림자는 윤현우의 새로운 삶에 짙게 드리워져 있었다. 그는 진도준으로서 완벽한 삶을 살고 있었지만, 순양그룹의 복잡한 가족 관계와 권력 다툼 속에서 과거의 흔적들이 그를 옥죄어 왔다. 낡은 사진 한 장, 오래된 편지 한 통... 사소한 단서들이 그를 과거의 시간으로 이끌었다.</p>
+                                <p>그는 과거의 진실을 파헤치기 위해 조심스럽게 움직이기 시작했다. 그러나 진실은 그가 예상했던 것보다 훨씬 더 복잡하고 위험한 것이었다. 순양그룹의 창업주인 진양철 회장의 숨겨진 비밀, 그리고 그 비밀을 지키기 위해 희생된 수많은 사람들. 윤현우는 자신이 그들의 복수를 위한 도구였음을 깨닫게 된다. </p>
+                                <p>과거의 그림자는 그를 쫓아다니며 그의 새로운 삶을 위협했다. 그는 복수와 진실 사이에서 갈등하기 시작했다. 과연 그는 과거의 그림자에서 벗어나 새로운 운명을 개척할 수 있을까?</p>`
+                },
+                '5': {
+                    novelTitle: '재벌집 막내아들',
+                    chapterTitle: '새로운 국면2',
+                    author: '사용자E',
+                    score: 60,
+                    content: `<p>새로운 국면의 시작은 예상치 못한 곳에서 찾아왔다. 진도준은 순양그룹 내부의 비밀 조직 '미래전략실'의 존재를 알게 된다. 이 조직은 진양철 회장의 지시로 그룹의 모든 불법적인 행위를 처리하고, 후계 구도에 방해가 되는 사람들을 제거하는 역할을 하고 있었다. 윤현우를 죽음으로 몰아넣은 것도 바로 이 조직의 소행이었다는 것을 알게 된 그는 분노를 금치 못한다.</p>
+                                <p>그는 이 조직을 무너뜨리기 위해 내부 정보를 수집하기 시작했다. 미래전략실의 핵심 인물들을 하나씩 찾아내 그들의 약점을 파고들었다. 진도준은 단순히 순양그룹을 차지하는 것을 넘어, 그룹의 뿌리 깊은 비리를 청산하고 새로운 순양을 만들겠다는 원대한 계획을 세운다.</p>`
+                },
+                '6': {
+                    novelTitle: '재벌집 막내아들',
+                    chapterTitle: '운명의 재회2',
+                    author: '사용자F',
+                    score: 55,
+                    content: `<p>운명의 재회는 뜻밖의 장소에서 이루어졌다. 윤현우의 옛 연인, 서민영이 검사가 되어 순양그룹의 비리를 파헤치기 시작한 것이다. 서민영은 진도준의 정체를 알지 못한 채 그를 의심의 눈초리로 바라본다. 그녀는 순양그룹의 모든 것을 조사하며 윤현우가 겪었던 불행의 진실에 조금씩 다가서고 있었다.</p>
+                                <p>진도준은 서민영을 보며 복잡한 감정에 휩싸인다. 그녀를 돕고 싶지만, 자신의 정체가 드러날까 두려웠다. 그러나 그는 결국 그녀의 정의로운 모습에 감동받아 비밀리에 그녀를 돕기로 결심한다. 그는 익명의 제보자로 활동하며 서민영에게 순양그룹의 결정적인 증거들을 전달한다.</p>`
+                }
+            };
+
+            // 모달 관련 요소 가져오기
+            const votingModalContainer = document.querySelector('.voting-modal-container');
+            const votingModalCloseBtn = votingModalContainer.querySelector('.voting-modal-close-btn');
+            const votingModalOverlay = votingModalContainer.querySelector('.voting-modal-overlay');
+
+            // 제안 카드와 투표 버튼 가져오기
+            const proposalCards = document.querySelectorAll('.proposal-card');
+            const voteButtonsInCards = document.querySelectorAll('.proposal-card .btn-vote');
+            const voteButtonInModal = votingModalContainer.querySelector('.btn-vote');
+            const continueWritingBtn = document.querySelector('.btn-continue-writing');
+
+            // 모달을 열고 내용을 채우는 함수
+            const openVotingModal = (proposalData) => {
+                // 모달 내부에 정보를 채워 넣습니다.
+                votingModalContainer.querySelector('.voting-modal-novel-title').textContent = proposalData.novelTitle;
+                votingModalContainer.querySelector('.voting-chapter-title').textContent = proposalData.chapterTitle;
+                votingModalContainer.querySelector('.voting-author-name').textContent = `by ${proposalData.author}`;
+                votingModalContainer.querySelector('.voting-score').textContent = `${proposalData.score}표`;
+                votingModalContainer.querySelector('.voting-modal-story-content').innerHTML = proposalData.content;
+
+                // 모달을 화면에 표시하고, 배경 스크롤을 방지합니다.
+                votingModalContainer.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            };
+
+            // 모달을 닫는 함수
+            const closeModal = () => {
+                // 모달을 숨기고, 배경 스크롤을 다시 허용합니다.
+                votingModalContainer.style.display = 'none';
+                document.body.style.overflow = '';
+            };
+
+            // 각 제안 카드에 클릭 이벤트 추가
+            proposalCards.forEach(card => {
+                card.addEventListener('click', (event) => {
+                    // 이벤트 버블링 방지
+                    if (event.target.classList.contains('btn-vote')) {
+                        return; // 투표 버튼 클릭 시에는 카드 클릭 이벤트 무시
+                    }
+
+                    const proposalId = card.dataset.proposalId;
+                    const proposalData = proposals[proposalId];
+                    if (proposalData) {
+                        openVotingModal(proposalData);
+                    }
+                });
+            });
+
+            // 각 제안 카드의 '투표하기' 버튼에 클릭 이벤트 추가
+            voteButtonsInCards.forEach(button => {
+                button.addEventListener('click', (event) => {
+                    // 투표하기 버튼 클릭 시 모달 열기
+                    const card = button.closest('.proposal-card');
+                    const proposalId = card.dataset.proposalId;
+                    const proposalData = proposals[proposalId];
+                    if (proposalData) {
+                        openVotingModal(proposalData);
+                    }
+                });
+            });
+
+            // 모달 내 투표하기 버튼 이벤트 추가 (더미용)
+            voteButtonInModal.addEventListener('click', () => {
+                alert('투표가 완료되었습니다! (더미 로직)');
+                closeModal();
+            });
+
+            // '이어쓰기' 버튼 클릭 이벤트 추가 (첫 번째 제안 카드 데이터로 모달 열기)
+            continueWritingBtn.addEventListener('click', () => {
+                const firstProposalData = proposals['1'];
+                if (firstProposalData) {
+                    openVotingModal(firstProposalData);
+                }
+            });
+
+            // 모달 닫기 버튼과 오버레이 클릭 시 모달 닫기
+            votingModalCloseBtn.addEventListener('click', closeModal);
+            votingModalOverlay.addEventListener('click', closeModal);
+        });
+
+        // 카운트다운 타이머 함수
+        function startCountdown(endDate) {
+            const countdownDisplay = document.getElementById('countdown-display');
+
+            const updateTimer = () => {
+                const now = new Date();
+                const distance = endDate.getTime() - now.getTime();
+
+                if (distance < 0) {
+                    clearInterval(timerInterval);
+                    countdownDisplay.textContent = "00:00:00";
+                    return;
+                }
+
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                countdownDisplay.textContent =
+                    `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            };
+
+            updateTimer();
+            const timerInterval = setInterval(updateTimer, 1000);
+        }
+
+        window.onload = () => {
+            // 예시로 현재 시간으로부터 24시간 뒤를 마감 시간으로 설정
+            const deadline = new Date();
+            deadline.setHours(deadline.getHours() + 24);
+            startCountdown(deadline);
+        };
+    </script>
+
+
+
 </body>
 </html>
