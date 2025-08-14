@@ -40,3 +40,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+# 민감정보 파일은 제외
+src/main/resources/application-template.yml
