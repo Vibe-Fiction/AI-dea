@@ -1,4 +1,7 @@
 spring:
+  config:
+    import: optional:classpath:application-template.yml
+
   datasource:
     url: jdbc:mariadb://localhost:3306/ai-dea
     username: root
@@ -17,6 +20,7 @@ spring:
 
 server:
   port: 9009
+
 logging:
   level:
     com.spring.aidea: DEBUG
@@ -26,7 +30,6 @@ logging:
     # SQL ???? ??? ??
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
 
-
 # jwt setting
 jwt:
   # secret key (실제 운영에서는 환경변수로 관리)
@@ -34,16 +37,7 @@ jwt:
   # 만료시간 (ms) - 24 hour
   expiration: 86400000
 
-# ===================================================================
-# Google Gemini AI API 공통 설정
-# ===================================================================
-# 이 설정들은 모든 환경(local, dev, prod)에서 공통으로 사용될 수 있는
-# 비민감성 정보를 정의합니다.
-# 민감 정보(API 키, 프로젝트 ID)는 application-local.yml 파일에서 덮어쓰기됩니다.
-# -------------------------------------------------------------------
+# Gemini API Key는 application-template.yml 또는 환경변수에서 로드
 gemini:
   api:
-    # API를 호출할 Google Cloud의 지역(Region)입니다.
-    location: "asia-northeast3"
-    # 사용할 Gemini AI 모델의 이름입니다.
-    model-name: "gemini-2.0-flash"
+    key: ${GEMINI_API_KEY:}
