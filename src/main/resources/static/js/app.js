@@ -2,7 +2,7 @@
 
 // 각 모듈에서 초기화 함수들을 가져옵니다.
 import { initAuth } from './auth.js';
-import { initRouter } from './router.js';
+import { initRouter } from './config/router.js';
 import { updateHeaderUI, initLoginModal } from './ui.js';
 
 /**
