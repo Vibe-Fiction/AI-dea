@@ -6,6 +6,7 @@ import { updateHeaderUI, closeLoginModal } from './ui.js';
 
 // --- 유효성 검사 정규식 (백엔드와 일치) ---
 const REGEX = {
+    LOGIN_ID: /^[a-zA-Z0-9_]{3,15}$/,
     PASSWORD: /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/,
     NICKNAME: /^[a-zA-Z0-9가-힣]{2,10}$/,
 };
@@ -60,10 +61,19 @@ const handleUsernameCheck = debounce(async (e) => {
     const input = e.target;
     const feedbackEl = document.getElementById('loginId-feedback');
     const loginId = input.value.trim();
+
     if (loginId.length === 0) {
         feedbackEl.textContent = '';
         return;
     }
+
+    // 1. 클라이언트에서 먼저 형식을 검사합니다.
+    if (!REGEX.LOGIN_ID.test(loginId)) {
+        showFeedback(feedbackEl, '3~15자의 영문, 숫자, 언더스코어만 사용 가능합니다.', false);
+        return; // 형식이 틀리면 서버에 중복 검사 요청을 보내지 않습니다.
+    }
+
+    // 2. 형식이 맞을 경우에만 서버에 중복 검사를 요청합니다.
     try {
         const response = await api.checkUsername(loginId);
         showFeedback(feedbackEl, response.message, !response.data);
