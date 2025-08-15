@@ -101,3 +101,58 @@
         padding: 1.5rem;
     }
 }
+.feedback-message {
+    display: block; /* 줄바꿈을 위해 block으로 설정 */
+    margin-top: 0.5rem; /* 입력창과의 간격 */
+    font-size: 0.875rem; /* 14px */
+    font-weight: 500;
+    height: 1rem; /* 메시지가 없을 때도 공간을 차지하게 하여 레이아웃 떨림 방지 */
+}
+
+.feedback-message.success {
+    color: #10b981; /* 초록색 (성공) */
+}
+
+.feedback-message.error {
+    color: #ef4444; /* 빨간색 (에러) */
+}
+.password-rules {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0 0 0.25rem;
+    font-size: 0.875rem;
+}
+.password-rules.active {
+    max-height: 100px; /* 나타날 때의 최대 높이 (내용에 맞게 조절) */
+    margin-top: 0.5rem; /* 나타날 때 위쪽 여백 */
+}
+.password-rules li {
+    display: none; /* 평소에는 보이지 않음 */
+    margin-bottom: 0.25rem;
+    color: #ef4444; /* 빨간색 (경고/실패) */
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+/* 규칙 충족 시 스타일 */
+.password-rules li.success {
+    color: #10b981; /* 초록색 */
+    font-weight: 500;
+}
+
+/* 규칙 충족 시 아이콘 추가 (가상 요소 사용) */
+.password-rules li.success::before {
+    content: '✓ '; /* 체크 표시 */
+    font-weight: bold;
+    margin-right: 0.25rem;
+}
+.password-rules li.fail {
+    display: list-item; /* 'fail' 상태일 때만 목록 항목으로 표시 */
+}
+
+/* 'fail' 상태일 때 아이콘 추가 */
+.password-rules li.fail::before {
+    content: '✗ '; /* X 표시 */
+    font-weight: bold;
+    margin-right: 0.25rem;
+}
