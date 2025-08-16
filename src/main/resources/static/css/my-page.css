@@ -21,8 +21,8 @@
 }
 
 .profile-image {
-    width: 100px;
-    height: 100px;
+    width: 200px;
+    height: 200px;
     border-radius: 50%;
     object-fit: cover;
     margin-bottom: 1rem;
@@ -33,9 +33,9 @@
 }
 
 .user-nickname {
-    font-size: 1.25rem;
+    font-size: 1.5rem;
     font-weight: bold;
-    margin-bottom: 0.5rem;
+    margin-bottom: 2rem;
 }
 
 .user-stats {
@@ -49,11 +49,17 @@
 .stat-item {
     display: flex;
     align-items: center;
+    height: 30px;
 }
 
 .stat-item i {
     color: var(--primary-color);
     margin-right: 0.5rem;
+}
+
+.userstat{
+    font-size: 1.2rem;
+    font-weight: 500;
 }
 
 /* 소설 네비게이션 섹션 (버튼 그룹) */

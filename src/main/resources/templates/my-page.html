@@ -40,7 +40,6 @@
         <section class="novel-navigation-section">
             <div class="btn-group">
                 <button class="btn-nav active" data-type="my-novels">내 소설</button>
-                <button class="btn-nav" data-type="liked-novels">찜한 소설</button>
                 <button class="btn-nav" data-type="participated-novels">참여한 소설</button>
             </div>
         </section>
@@ -48,7 +47,15 @@
         <!-- 소설 라이브러리 섹션 -->
         <section class="novel-library-section">
             <div id="novel-grid" class="novel-grid">
-                <!-- 소설 카드들이 여기에 동적으로 삽입됩니다. -->
+                <!-- 소설 카드들이 여기에 동적으로 삽입됩니다. 예시 -->
+                <!-- const article = document.createElement('article');
+                article.className = 'novel-card';
+                article.innerHTML = `
+                <img src="${novel.cover}" alt="소설 표지" class="novel-cover">
+                <div class="card-content">
+                    <h3 class="novel-title">${novel.title}</h3>
+                </div>
+                `;-->
             </div>
         </section>
 
@@ -57,69 +64,6 @@
 
     <!-- 메인 푸터 -->
     <div th:replace="~{fragments/mainFooter :: mainFooter}"></div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const novelGrid = document.getElementById('novel-grid');
-            const navButtons = document.querySelectorAll('.btn-nav');
-
-            // 소설 데이터 예시 (실제로는 서버에서 가져와야 합니다.)
-            const dummyData = {
-                'my-novels': [
-                    { title: '신비한 숲의 모험', cover: 'https://placehold.co/400x550/e2e8f0/64748b?text=소설+표지1' },
-                    { title: '시간 여행자의 일기', cover: 'https://placehold.co/400x550/e2e8f0/64748b?text=소설+표지2' },
-                ],
-                'liked-novels': [
-                    { title: '황궁의 비밀', cover: 'https://placehold.co/400x550/e2e8f0/64748b?text=소설+표지3' },
-                    { title: '미래 도시의 그림자', cover: 'https://placehold.co/400x550/e2e8f0/64748b?text=소설+표지4' },
-                    { title: '신비한 숲의 모험', cover: 'https://placehold.co/400x550/e2e8f0/64748b?text=소설+표지1' },
-                ],
-                'participated-novels': [
-                    { title: '황궁의 비밀', cover: 'https://placehold.co/400x550/e2e8f0/64748b?text=소설+표지3' },
-                    { title: '미래 도시의 그림자', cover: 'https://placehold.co/400x550/e2e8f0/64748b?text=소설+표지4' },
-                    { title: '새로운 이야기의 시작', cover: 'https://placehold.co/400x550/e2e8f0/64748b?text=소설+표지5' },
-                    { title: '잊혀진 왕국', cover: 'https://placehold.co/400x550/e2e8f0/64748b?text=소설+표지6' },
-                ]
-            };
-
-            // 소설 카드 생성 함수
-            function createNovelCard(novel) {
-                const article = document.createElement('article');
-                article.className = 'novel-card';
-                article.innerHTML = `
-                    <img src="${novel.cover}" alt="소설 표지" class="novel-cover">
-                    <div class="card-content">
-                        <h3 class="novel-title">${novel.title}</h3>
-                    </div>
-                `;
-                return article;
-            }
-
-            // 소설 그리드 렌더링 함수
-            function renderNovels(type) {
-                novelGrid.innerHTML = ''; // 기존 내용 삭제
-                const novels = dummyData[type] || [];
-                novels.forEach(novel => {
-                    novelGrid.appendChild(createNovelCard(novel));
-                });
-            }
-
-            // 버튼 클릭 이벤트 핸들러
-            navButtons.forEach(button => {
-                button.addEventListener('click', (event) => {
-                    // 모든 버튼의 active 클래스 제거
-                    navButtons.forEach(btn => btn.classList.remove('active'));
-                    // 클릭된 버튼에 active 클래스 추가
-                    event.target.classList.add('active');
-
-                    const type = event.target.dataset.type;
-                    renderNovels(type);
-                });
-            });
-
-            // 페이지 로드 시 '내 소설' 탭을 기본으로 렌더링
-            renderNovels('my-novels');
-        });
-    </script>
+    <script type="module" src="/js/app.js"></script>
 </body>
 </html>

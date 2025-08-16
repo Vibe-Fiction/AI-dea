@@ -39,6 +39,8 @@ public class SecurityConfig {
         "/api/auth/signup",
         "/api/auth/login",
         "/api/auth/**",
+        "/api/my-page/**",
+
 
     };
     // 검증 제외 할 정적소스 (html,css,image,js) URL
@@ -47,12 +49,21 @@ public class SecurityConfig {
         "/css/**",
         "/js/**",
         "/chapters",
+        "/chapters/**",
         "/vote",
+        "/vote/**",
         "/novel",
+        "/novel/**",
         "/proposal",
-        "my-page",
-        "signup",
-        "/images/**"
+        "/proposal/**",
+        "/my-page",
+        "/my-page/**",
+        "/signup",
+        "/signup/**",
+        "/images/**",
+        "/config/**",
+        "/pages/**",
+        "/utils/**"
 
 
     };

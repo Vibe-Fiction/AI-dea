@@ -20,6 +20,10 @@ import java.util.List;
 @Slf4j
 public class MainPageServiceSH {
 
+
+    /**
+     *  novelsRepository : 데이터베이스에서 novels 정보를 조회하기 위한 저장소입니다.
+     */
     private final NovelsRepository novelsRepository;
 
     public List<NovelsResponseDtoSH> findAllNovels(Pageable pageable) {
