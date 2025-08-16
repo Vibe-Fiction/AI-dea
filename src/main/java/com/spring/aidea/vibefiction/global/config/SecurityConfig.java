@@ -36,7 +36,6 @@ public class SecurityConfig {
             "/api/genres",
             "/api/chapters/{chapterId}/proposals" ,
             "/api/auth/**",
-        "/api/novels/**",
         "/api/auth/signup",
         "/api/auth/login",
         "/api/auth/**",
@@ -53,7 +52,7 @@ public class SecurityConfig {
         "/proposal",
         "my-page",
         "signup",
-        "/img/**"
+        "/images/**"
 
 
     };

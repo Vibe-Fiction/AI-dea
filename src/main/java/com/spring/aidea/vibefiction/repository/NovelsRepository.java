@@ -1,6 +1,7 @@
 package com.spring.aidea.vibefiction.repository;
 
 import com.spring.aidea.vibefiction.entity.Novels;
+import com.spring.aidea.vibefiction.repository.custom.NovelsRepositoryCustom;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -10,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-public interface NovelsRepository extends JpaRepository<Novels, Long> {
+public interface NovelsRepository extends JpaRepository<Novels, Long> , NovelsRepositoryCustom {
 
 
     /**
