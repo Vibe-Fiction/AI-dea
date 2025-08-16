@@ -57,9 +57,35 @@
     margin-right: 0.5rem;
 }
 
-.userstat{
+.userstat {
     font-size: 1.2rem;
     font-weight: 500;
+}
+
+/* 정보 수정하기 버튼 */
+.edit-profile-btn {
+    margin-top: 2rem;
+    padding: 10px 16px;
+    background-color: #6366f1;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: background-color 0.3s ease;
+    min-width: 120px;
+}
+
+.edit-profile-btn:hover {
+    background-color: #4f46e5;
+}
+
+.edit-profile-btn i {
+    font-size: 12px;
 }
 
 /* 소설 네비게이션 섹션 (버튼 그룹) */
@@ -139,22 +165,235 @@
     text-overflow: ellipsis;
 }
 
+/* 모달 관련 스타일 */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    animation: fadeIn 0.3s ease;
+}
+
+.modal.show {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background-color: white;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    animation: slideIn 0.3s ease;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #6b7280;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.2s ease;
+}
+
+.modal-close:hover {
+    background-color: #f3f4f6;
+    color: #374151;
+}
+
+.modal-body {
+    padding: 24px;
+}
+
+/* 폼 관련 스타일 */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: #374151;
+    font-size: 14px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    box-sizing: border-box;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* 파일 업로드 관련 스타일 */
+.form-group input[type="file"] {
+    padding: 8px 12px;
+    border: 2px dashed #d1d5db;
+    border-radius: 8px;
+    background-color: #f9fafb;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.form-group input[type="file"]:hover {
+    border-color: #6366f1;
+    background-color: #f0f0ff;
+}
+
+.form-group input[type="file"]:focus {
+    outline: none;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.file-info {
+    margin-top: 6px;
+}
+
+.file-info small {
+    color: #6b7280;
+    font-size: 12px;
+}
+
+/* 현재 이미지 미리보기 */
+.current-image-preview {
+    text-align: center;
+    margin-bottom: 15px;
+    padding: 15px;
+    background-color: #f9fafb;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+}
+
+.current-image-preview p {
+    margin: 5px 0 0 0;
+    color: #6b7280;
+}
+
+/* 폼 액션 버튼들 */
+.form-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.btn-cancel {
+    padding: 10px 20px;
+    border: 1px solid #d1d5db;
+    background-color: white;
+    color: #374151;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.btn-cancel:hover {
+    background-color: #f9fafb;
+    border-color: #9ca3af;
+}
+
+.btn-save {
+    padding: 10px 20px;
+    background-color: #6366f1;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+}
+
+.btn-save:hover {
+    background-color: #4f46e5;
+}
+
+.btn-save:disabled {
+    background-color: #9ca3af;
+    cursor: not-allowed;
+}
+
+/* 애니메이션 */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
 /* 모바일 반응형 */
 @media (max-width: 768px) {
     .profile-card {
         padding: 1rem;
     }
+
     .user-nickname {
         font-size: 1rem;
     }
+
     .user-stats {
         flex-direction: column;
         gap: 0.25rem;
         font-size: 0.75rem;
     }
+
     .novel-grid {
         grid-template-columns: 1fr;
     }
+
     .btn-group {
         display: flex;
         flex-direction: column;
@@ -162,12 +401,46 @@
         box-shadow: none;
         background: transparent;
     }
+
     .btn-nav {
         border-radius: 0;
     }
+
     .btn-nav.active {
         border-bottom: 2px solid var(--primary-color);
         background-color: transparent;
         color: var(--primary-color);
     }
+
+    .modal-content {
+        width: 95%;
+        margin: 20px;
+    }
+
+    .modal-header {
+        padding: 16px 20px;
+    }
+
+    .modal-body {
+        padding: 20px;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .btn-cancel,
+    .btn-save {
+        width: 100%;
+        padding: 12px;
+    }
+}
+
+#current-profile-preview{
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+
 }
