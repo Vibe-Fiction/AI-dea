@@ -15,5 +15,10 @@ export const PAGE_CONFIG = {
     '/my-page/:userid': {
         module: 'my-page',
         requiresAuth: false,
+    },
+    '/chapters': {
+        module: 'chapters-page',
+        requiresAuth: false,
     }
+
 };

@@ -35,7 +35,6 @@ import java.util.List;
 public class ChapterControllerTj {
 
     private final ChapterServiceTj chapterServiceTj;
-    private final ChapterServiceSH chapterServiceSH;
     private final UsersRepository usersRepository;
 
     /**
@@ -65,31 +64,6 @@ public class ChapterControllerTj {
             .body(ApiResponse.success("새로운 회차가 등록되었습니다.", result));
     }
 
-    /**
-     *
-     * 챕터페이지 렌더링을 위한 데이터를 반환합니다.
-     *
-     *
-     * @param novelId
-     * @return -
-     * 예시  {
-     *         "chapterId": 3,
-     *         "novelId": 3,
-     *         "chapterNumber": 1,
-     *         "title": "입학 통지서",
-     *         "content": "내 이름이 적힌 붉은 봉랍의 편지. 그것은 마법학교 에테르의 입학 통지서였다.",
-     *         "author": "이야기꾼조씨" - 1회차인 경우에는 원작자의 이름이 들어갑니다.
-     *     }
-     */
-    @GetMapping
-    public ResponseEntity<?> findChaptersByNovelID(@PathVariable Long novelId) {
-
-
-        List<ChapterResponseSH> chapters = chapterServiceSH.findChaptersByNovelID(novelId);
-        if (chapters.isEmpty()) throw new BusinessException(ErrorCode.CHAPTER_NOT_FOUND);
-
-        return ResponseEntity.ok().body(chapters);
-    }
 
 
 

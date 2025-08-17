@@ -40,6 +40,7 @@ public class SecurityConfig {
         "/api/auth/login",
         "/api/auth/**",
         "/api/my-page/**",
+        "/api/chapters/**",
 
 
     };
