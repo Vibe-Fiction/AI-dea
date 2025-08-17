@@ -54,8 +54,16 @@ const MyPage = () => {
         const userStats = document.querySelector('.user-stats');
 
         if (profileImage) {
-            // 프로필 이미지 설정 (없으면 2.JPEG 사용)
-            const imageUrl = user.profileImageUrl || '/images/2.JPEG';
+            // 프로필 이미지 설정 (로컬 파일 경로 또는 기본 이미지 사용)
+            let imageUrl = user.profileImageUrl;
+
+            // 로컬 파일 경로인 경우 file:// 프로토콜 추가
+            if (imageUrl && !imageUrl.startsWith('http') && !imageUrl.startsWith('/')) {
+                imageUrl = `file://${imageUrl}`;
+            } else if (!imageUrl) {
+                imageUrl = '/images/2.JPEG';
+            }
+
             profileImage.src = imageUrl;
             profileImage.alt = `${user.nickname} 프로필 사진`;
 
@@ -187,18 +195,28 @@ const MyPage = () => {
         // 텍스트 입력 필드들만 값 설정
         const nicknameInput = document.getElementById('edit-nickname');
         const emailInput = document.getElementById('edit-email');
+        const currentPasswordInput = document.getElementById('edit-current-password');
         const passwordInput = document.getElementById('edit-password');
         const passwordConfirmInput = document.getElementById('edit-password-confirm');
 
         if (nicknameInput) nicknameInput.value = userData.nickname || '';
         if (emailInput) emailInput.value = userData.email || '';
+        if (currentPasswordInput) currentPasswordInput.value = '';
         if (passwordInput) passwordInput.value = '';
         if (passwordConfirmInput) passwordConfirmInput.value = '';
 
         // 현재 프로필 이미지 미리보기 설정
         const currentProfilePreview = document.getElementById('current-profile-preview');
         if (currentProfilePreview) {
-            const currentImageUrl = userData.profileImageUrl || '/images/2.JPEG';
+            let currentImageUrl = userData.profileImageUrl;
+
+            // 로컬 파일 경로인 경우 file:// 프로토콜 추가
+            if (currentImageUrl && !currentImageUrl.startsWith('http') && !currentImageUrl.startsWith('/')) {
+                currentImageUrl = `file://${currentImageUrl}`;
+            } else if (!currentImageUrl) {
+                currentImageUrl = '/images/2.JPEG';
+            }
+
             currentProfilePreview.src = currentImageUrl;
             currentProfilePreview.onerror = function() {
                 this.src = '/images/2.JPEG';
@@ -212,9 +230,6 @@ const MyPage = () => {
             }
         }
 
-        // 파일 입력 필드는 값 설정하지 않음 (보안상 불가능)
-        // document.getElementById('edit-profile-image')는 건드리지 않음
-
         modal.classList.add('show');
         document.body.style.overflow = 'hidden';
         console.log('모달 열림');
@@ -226,54 +241,91 @@ const MyPage = () => {
         document.body.style.overflow = '';
     };
 
-    const handleProfileUpdate = async (formData) => {
+    const handleProfileUpdate = async (changedFields) => {
         try {
             // 저장 버튼 비활성화
             const saveBtn = document.querySelector('.btn-save');
             saveBtn.disabled = true;
             saveBtn.textContent = '저장 중...';
 
-            // FormData 객체 생성 (파일 업로드를 위해)
-            const updateData = new FormData();
-
-            // 텍스트 데이터 추가
-            updateData.append('nickname', formData.nickname);
-            updateData.append('email', formData.email);
-
-            // 비밀번호가 입력된 경우에만 추가
-            if (formData.password) {
-                updateData.append('password', formData.password);
-            }
-
-            // 파일이 선택된 경우에만 추가
-            if (formData.profileImage) {
-                updateData.append('profileImage', formData.profileImage);
-            }
-
-            // 현재 사용자 ID 가져오기
+            // 사용자 ID 가져오기
             const userId = getUserIdFromUrl();
 
-            // POST API 호출 (multipart/form-data)
+            // FormData 객체 생성 (변경된 필드만 포함)
+            const updateData = new FormData();
+
+            // 변경된 텍스트 데이터만 추가
+            if (changedFields.nickname) {
+                updateData.append('nickname', changedFields.nickname);
+            }
+            if (changedFields.email) {
+                updateData.append('email', changedFields.email);
+            }
+            if (changedFields.password) {
+                updateData.append('password', changedFields.password);
+                // 현재 비밀번호도 함께 전송 (필수)
+                updateData.append('currentPassword', changedFields.currentPassword);
+            }
+
+            // 파일이 변경된 경우에만 추가
+            if (changedFields.profileImage) {
+                updateData.append('profileImage', changedFields.profileImage);
+            }
+
+            // POST API 호출 - userid를 쿼리 파라미터로 전송
             const response = await fetch(`/api/my-page?userid=${userId}`, {
                 method: 'POST',
-                body: updateData // FormData는 Content-Type 헤더를 자동 설정
+                body: updateData
             });
 
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                // 디버깅: 응답 내용 확인
+                console.log('응답 상태:', response.status);
+
+                const responseText = await response.text();
+                console.log('응답 원본:', responseText);
+
+                let errorData;
+                try {
+                    errorData = JSON.parse(responseText);
+                    console.log('파싱된 에러 데이터:', errorData);
+                } catch (e) {
+                    console.error('JSON 파싱 실패:', e);
+                    if (response.status === 401) {
+                        alert('현재 비밀번호가 올바르지 않습니다.');
+                        document.getElementById('edit-current-password').focus();
+                        document.getElementById('edit-current-password').select();
+                    } else {
+                        alert('서버 오류가 발생했습니다.');
+                    }
+                    return;
+                }
+
+                // 서버에서 보낸 에러 메시지 처리
+                if (response.status === 401) {
+                    // 비밀번호 관련 에러 처리
+                    if (errorData.message && errorData.message.includes('현재 비밀번호')) {
+                        alert('현재 비밀번호가 올바르지 않습니다.');
+                        document.getElementById('edit-current-password').focus();
+                        document.getElementById('edit-current-password').select();
+                    } else if (errorData.detail) {
+                        alert(errorData.detail);
+                    } else if (errorData.message) {
+                        alert(errorData.message);
+                    } else {
+                        alert('입력된 정보를 확인해주세요.');
+                    }
+                    return;
+                } else {
+                    alert('업데이트에 실패했습니다.');
+                    return;
+                }
             }
 
-            const result = await response.json();
-            console.log('프로필 업데이트 성공:', result);
+            console.log('프로필 업데이트 성공');
 
-            // 로컬 데이터 업데이트 (비밀번호 제외)
-            userData.nickname = formData.nickname;
-            userData.email = formData.email;
-
-            // 서버에서 반환된 새 이미지 경로가 있으면 업데이트
-            if (result.profileImageUrl) {
-                userData.profileImageUrl = result.profileImageUrl;
-            }
+            // 업데이트된 사용자 정보 다시 가져오기
+            userData = await fetchUserData(userId);
 
             // 화면 업데이트
             renderProfile(userData);
@@ -281,12 +333,23 @@ const MyPage = () => {
             // 모달 닫기
             closeEditModal();
 
-            // 성공 메시지
-            alert('프로필이 성공적으로 업데이트되었습니다!');
+            // 성공 메시지 (변경된 필드 표시)
+            const changedFieldNames = Object.keys(changedFields)
+                .filter(key => key !== 'currentPassword') // 현재 비밀번호는 표시하지 않음
+                .map(field => {
+                    switch(field) {
+                        case 'nickname': return '닉네임';
+                        case 'email': return '이메일';
+                        case 'password': return '비밀번호';
+                        case 'profileImage': return '프로필 이미지';
+                        default: return field;
+                    }
+                });
+            alert(`${changedFieldNames.join(', ')}이(가) 성공적으로 업데이트되었습니다!`);
 
         } catch (error) {
             console.error('프로필 업데이트 실패:', error);
-            alert('프로필 업데이트에 실패했습니다. 다시 시도해주세요.');
+            alert('네트워크 오류가 발생했습니다. 인터넷 연결을 확인해주세요.');
         } finally {
             // 저장 버튼 복원
             const saveBtn = document.querySelector('.btn-save');
@@ -363,7 +426,7 @@ const MyPage = () => {
                             // 미리보기 텍스트 변경
                             const previewText = previewImg.parentElement.querySelector('p small');
                             if (previewText) {
-                                previewText.textContent = '프로필 이미지 미리보기';
+                                previewText.textContent = '바뀔 프로필 이미지 미리보기';
                             }
                         };
                         reader.readAsDataURL(file);
@@ -389,49 +452,100 @@ const MyPage = () => {
 
                 const profileImageFile = document.getElementById('edit-profile-image').files[0];
 
-                const formData = {
+                // 현재 입력된 값들
+                const currentValues = {
                     nickname: document.getElementById('edit-nickname').value.trim(),
                     email: document.getElementById('edit-email').value.trim(),
+                    currentPassword: document.getElementById('edit-current-password').value,
                     password: document.getElementById('edit-password').value,
                     passwordConfirm: document.getElementById('edit-password-confirm').value,
-                    profileImage: profileImageFile // 파일 객체
+                    profileImage: profileImageFile
                 };
 
-                // 간소화된 유효성 검사
+                // 변경된 필드만 찾아내기
+                const changedFields = {};
 
-                // 이메일이 입력된 경우에만 형식 검사
-                if (formData.email && formData.email.length > 0) {
+                // 닉네임 변경 확인
+                if (currentValues.nickname !== userData.nickname) {
+                    changedFields.nickname = currentValues.nickname;
+                }
+
+                // 이메일 변경 확인
+                if (currentValues.email !== userData.email) {
+                    changedFields.email = currentValues.email;
+                }
+
+                // 비밀번호는 입력되었으면 변경된 것으로 간주
+                if (currentValues.password) {
+                    changedFields.password = currentValues.password;
+                    changedFields.currentPassword = currentValues.currentPassword;
+                }
+
+                // 프로필 이미지는 파일이 선택되었으면 변경된 것으로 간주
+                if (currentValues.profileImage) {
+                    changedFields.profileImage = currentValues.profileImage;
+                }
+
+                // 변경된 내용이 없으면 저장하지 않음
+                if (Object.keys(changedFields).length === 0) {
+                    alert('변경된 내용이 없습니다.');
+                    return;
+                }
+
+                console.log('변경된 필드들:', Object.keys(changedFields));
+
+                // 클라이언트 측 유효성 검사
+
+                // 이메일이 변경된 경우에만 형식 검사
+                if (changedFields.email) {
                     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                    if (!emailRegex.test(formData.email)) {
+                    if (!emailRegex.test(changedFields.email)) {
                         alert('올바른 이메일 형식을 입력해주세요.');
                         return;
                     }
                 }
 
                 // 비밀번호가 입력된 경우에만 확인
-                if (formData.password || formData.passwordConfirm) {
-                    if (formData.password !== formData.passwordConfirm) {
+                if (changedFields.password) {
+                    // 현재 비밀번호 입력 확인
+                    if (!currentValues.currentPassword) {
+                        alert('비밀번호 변경을 위해 현재 비밀번호를 입력해주세요.');
+                        document.getElementById('edit-current-password').focus();
+                        return;
+                    }
+
+                    // 새 비밀번호와 확인 비밀번호 일치 확인
+                    if (currentValues.password !== currentValues.passwordConfirm) {
                         alert('새 비밀번호와 확인 비밀번호가 일치하지 않습니다.');
+                        document.getElementById('edit-password-confirm').focus();
+                        document.getElementById('edit-password-confirm').select();
+                        return;
+                    }
+
+                    // 비밀번호 길이 확인
+                    if (currentValues.password.length < 6) {
+                        alert('비밀번호는 6자 이상이어야 합니다.');
+                        document.getElementById('edit-password').focus();
                         return;
                     }
                 }
 
                 // 파일 크기 검사 (5MB 제한)
-                if (formData.profileImage && formData.profileImage.size > 5 * 1024 * 1024) {
+                if (changedFields.profileImage && changedFields.profileImage.size > 5 * 1024 * 1024) {
                     alert('파일 크기는 5MB 이하여야 합니다.');
                     return;
                 }
 
                 // 파일 형식 검사
-                if (formData.profileImage) {
+                if (changedFields.profileImage) {
                     const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
-                    if (!allowedTypes.includes(formData.profileImage.type)) {
+                    if (!allowedTypes.includes(changedFields.profileImage.type)) {
                         alert('JPG, PNG, GIF, WEBP 파일만 업로드 가능합니다.');
                         return;
                     }
                 }
 
-                handleProfileUpdate(formData);
+                handleProfileUpdate(changedFields);
             }
         });
     };

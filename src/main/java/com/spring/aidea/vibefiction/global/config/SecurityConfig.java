@@ -63,7 +63,9 @@ public class SecurityConfig {
         "/images/**",
         "/config/**",
         "/pages/**",
-        "/utils/**"
+        "/utils/**",
+        "/uploads/**",
+
 
 
     };

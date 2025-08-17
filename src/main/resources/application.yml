@@ -41,3 +41,11 @@ jwt:
 gemini:
   api:
     key: ${GEMINI_API_KEY:}
+
+
+
+# 파일 업로드 루트 경로 설정
+file:
+  upload:
+    location: ${user.home}/aidea/uploads/
+    # userhome은 C:/Users/user
