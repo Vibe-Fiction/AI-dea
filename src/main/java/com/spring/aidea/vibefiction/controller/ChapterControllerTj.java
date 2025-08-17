@@ -2,11 +2,13 @@ package com.spring.aidea.vibefiction.controller;
 
 import com.spring.aidea.vibefiction.dto.request.chapter.ChapterCreateRequestTj;
 import com.spring.aidea.vibefiction.dto.response.chapter.ChapterCreateResponseTj;
+import com.spring.aidea.vibefiction.dto.response.chapter.ChapterResponseSH;
 import com.spring.aidea.vibefiction.entity.Users;
 import com.spring.aidea.vibefiction.global.common.ApiResponse;
 import com.spring.aidea.vibefiction.global.exception.BusinessException;
 import com.spring.aidea.vibefiction.global.exception.ErrorCode;
 import com.spring.aidea.vibefiction.repository.UsersRepository;
+import com.spring.aidea.vibefiction.service.ChapterServiceSH;
 import com.spring.aidea.vibefiction.service.ChapterServiceTj;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 소설의 개별 회차(Chapter)와 관련된 API 요청을 처리하는 컨트롤러입니다.
@@ -31,6 +35,7 @@ import org.springframework.web.bind.annotation.*;
 public class ChapterControllerTj {
 
     private final ChapterServiceTj chapterServiceTj;
+    private final ChapterServiceSH chapterServiceSH;
     private final UsersRepository usersRepository;
 
     /**
@@ -59,4 +64,39 @@ public class ChapterControllerTj {
         return ResponseEntity.status(HttpStatus.CREATED)
             .body(ApiResponse.success("새로운 회차가 등록되었습니다.", result));
     }
+
+    /**
+     *
+     * 챕터페이지 렌더링을 위한 데이터를 반환합니다.
+     *
+     *
+     * @param novelId
+     * @return -
+     * 예시  {
+     *         "chapterId": 3,
+     *         "novelId": 3,
+     *         "chapterNumber": 1,
+     *         "title": "입학 통지서",
+     *         "content": "내 이름이 적힌 붉은 봉랍의 편지. 그것은 마법학교 에테르의 입학 통지서였다.",
+     *         "author": "이야기꾼조씨" - 1회차인 경우에는 원작자의 이름이 들어갑니다.
+     *     }
+     */
+    @GetMapping
+    public ResponseEntity<?> findChaptersByNovelID(@PathVariable Long novelId) {
+
+
+        List<ChapterResponseSH> chapters = chapterServiceSH.findChaptersByNovelID(novelId);
+        if (chapters.isEmpty()) throw new BusinessException(ErrorCode.CHAPTER_NOT_FOUND);
+
+        return ResponseEntity.ok().body(chapters);
+    }
+
+
+
+
+
+
+
+
+
 }
