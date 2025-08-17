@@ -389,10 +389,13 @@ const MyPage = () => {
                 return;
             }
 
-            // 소설 카드 클릭
+            // 소설 카드 클릭 시 페이지 이동 로직
             const novelCard = e.target.closest('.novel-card');
             if (novelCard) {
-                console.log('소설 카드 클릭됨');
+                const novelId = novelCard.dataset.novelId;
+                if (novelId) {
+                    window.location.href = `/chapters?novelId=${novelId}`;
+                }
                 return;
             }
 

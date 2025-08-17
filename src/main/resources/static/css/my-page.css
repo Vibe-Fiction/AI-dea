@@ -126,8 +126,9 @@
 }
 
 .novel-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    display: flex;           /* Flexbox 레이아웃 사용 */
+    flex-wrap: wrap;         /* 아이템이 공간을 넘어가면 다음 줄로 자동 줄바꿈 */
+    justify-content: center; /* 아이템들을 항상 수평 중앙에 정렬 */
     gap: 1.5rem;
 }
 
@@ -166,6 +167,8 @@
 }
 
 /* 모달 관련 스타일 */
+
+
 .modal {
     display: none;
     position: fixed;
@@ -187,8 +190,8 @@
 .modal-content {
     background-color: white;
     border-radius: 12px;
-    width: 90%;
-    max-width: 500px;
+    width: 100%;
+    max-width: 700px;
     max-height: 90vh;
     overflow-y: auto;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
