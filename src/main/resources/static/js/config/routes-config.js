@@ -20,3 +20,22 @@ export function initRouter() {
         }
     });
 }
+export const PAGE_CONFIG = {
+    '/': {
+        module: 'home',
+        requiresAuth: false,
+    },
+    '/my-page': {
+        module: 'my-page',
+        requiresAuth: false,
+    },
+    '/my-page/:userid': {
+        module: 'my-page',
+        requiresAuth: false,
+    },
+    '/chapters': {
+        module: 'chapters-page',
+        requiresAuth: false,
+    }
+
+};
