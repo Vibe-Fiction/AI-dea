@@ -1,7 +1,7 @@
 // js/auth.js
 
-import * as api from './utils/api.js';
-import { saveToken, removeToken } from './utils/token.js';
+import * as api from './api.js';
+import { saveToken, removeToken } from './token.js';
 import { updateHeaderUI, closeLoginModal } from './ui.js';
 
 // --- 유효성 검사 정규식 (백엔드와 일치) ---
@@ -192,6 +192,7 @@ async function handleLogin(e) {
             updateHeaderUI();
             closeLoginModal();
             alert('로그인 되었습니다.');
+            window.location.href = '/';
         }
     } catch (error) {
         console.error('로그인 실패:', error);

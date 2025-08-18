@@ -1,6 +1,6 @@
 // js/ui.js
 
-import { getToken } from './utils/token.js';
+import { getToken } from './token.js';
 
 // --- DOM 요소 선택 ---
 const $authButtons = document.querySelector('.auth-buttons'); // 로그인/회원가입 버튼 그룹
