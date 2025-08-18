@@ -87,4 +87,19 @@ public class AuthControllerKO {
             ));
     }
 
+    /**
+     *  닉네임 중복 체크 API
+     * GET /api/auth/check-nickname?nickname=xxx
+     */
+    @GetMapping("/check-nickname")
+    public ResponseEntity<?> checkNickname(@RequestParam String nickname) {
+
+        boolean exists = loginServiceKO.checkDuplicateNickname(nickname);
+
+        return ResponseEntity.ok()
+            .body(ApiResponse.success(
+                exists ? "이미 사용 중인 닉네임입니다." : "사용 가능한 닉네임입니다.",
+                exists
+            ));
+    }
 }

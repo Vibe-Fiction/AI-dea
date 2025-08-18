@@ -168,3 +168,134 @@
         grid-template-columns: 1fr;
     }
 }
+
+
+/*============================= 투표 모달을 위한 CSS 스타일 ==================================*/
+.voting-modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
+
+.voting-modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.voting-modal {
+    position: relative;
+    background-color: var(--bg-card);
+    border-radius: 1rem;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 800px;
+    max-height: 80vh;
+    padding: 2rem;
+    z-index: 101;
+    display: flex;
+    flex-direction: column;
+}
+
+.voting-modal-close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    font-size: 2rem;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    line-height: 1;
+}
+
+.voting-modal-content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    min-height: 0;
+    height: 100%;
+}
+
+.voting-modal-novel-title {
+    font-size: 1rem; /* 소설 이름 폰트 크기 축소 */
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 0.25rem;
+}
+
+.voting-modal-chapter-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1rem;
+}
+
+.voting-chapter-details {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-grow: 1;
+}
+
+.voting-chapter-title {
+    font-weight: 700; /* 챕터 제목 폰트 굵게 */
+    color: var(--text-primary);
+    font-size: 1.5rem; /* 챕터 제목 폰트 크기 확대 */
+}
+
+.voting-author-name, .voting-score {
+    font-size: 1rem; /* 폰트 크기 조정 */
+}
+
+.btn-vote {
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-vote:hover {
+    background-color: var(--primary-hover);
+}
+
+.voting-modal-story-content {
+    flex-grow: 1;
+    overflow-y: auto;
+    line-height: 1.8;
+    padding-right: 1rem;
+    height: 100%;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+}
+
+.voting-modal-story-content p {
+    margin-bottom: 1rem;
+}
+
+.voting-modal-story-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.voting-modal-story-content::-webkit-scrollbar-thumb {
+    background-color: var(--text-secondary);
+    border-radius: 10px;
+}

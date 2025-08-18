@@ -101,3 +101,46 @@
         padding: 1.5rem;
     }
 }
+
+.form-group .feedback-message {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    height: 1rem;
+    text-align: left; /* 텍스트 왼쪽 정렬 */
+}
+
+.feedback-message.success {
+    color: #10b981; /* 초록색 (성공) */
+}
+
+.feedback-message.error {
+    color: #ef4444; /* 빨간색 (에러) */
+}
+
+.form-group .password-rules {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0 0 0.25rem;
+    font-size: 0.875rem;
+    text-align: left; /* 텍스트 왼쪽 정렬 */
+}
+
+.password-rules li {
+    display: none;
+    margin-bottom: 0.25rem;
+    color: #ef4444;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.password-rules li.fail {
+    display: list-item;
+}
+
+.password-rules li.fail::before {
+    content: '✗ ';
+    font-weight: bold;
+    margin-right: 0.25rem;
+}

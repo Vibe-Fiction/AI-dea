@@ -1,27 +1,38 @@
-<div id="loginModal" class="modal-overlay" th:fragment="loginModal">
+
+
+<!--               이 코드를 삽입하면 로그인 모달이 삽입됨                   -->
+<!--<div th:insert="~{fragments/modal :: loginModal}"></div>-->
+
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="modal-overlay" th:fragment="loginModal">
     <div class="modal-content">
         <button class="modal-close-btn">&times;</button>
         <h2 class="modal-title">로그인</h2>
-        <form id="loginForm">
+        <!-- 로그인 폼 -->
+        <form id="login-form">
             <div class="form-group">
-                <label for="login-id">아이디/이메일</label>
-                <input type="text" id="login-id" name="id" placeholder="아이디 또는 이메일 주소를 입력해주세요." required>
+                <label for="loginIdOrEmail">아이디 또는 이메일</label>
+                <!-- 백엔드 DTO의 'loginIdOrEmail' 필드와 name을 일치시킵니다. -->
+                <input type="text" id="loginIdOrEmail" name="loginIdOrEmail" required>
             </div>
             <div class="form-group">
                 <label for="login-password">비밀번호</label>
-                <input type="password" id="login-password" name="password" placeholder="비밀번호를 입력해주세요." required>
+                <!-- 백엔드 DTO의 'password' 필드와 name을 일치시킵니다. -->
+                <input type="password" id="login-password" name="password" required>
             </div>
+
+            <!--  로그인 실패 메시지를 표시할 영역 -->
+            <p id="login-feedback" class="feedback-message"></p>
+
             <div class="modal-actions">
-                <button type="submit" class="btn-login-submit">로그인하기</button>
+                <button type="submit" class="btn-login-submit">로그인</button>
+                <!-- 회원가입 페이지로 이동하는 버튼 -->
                 <button type="button" class="btn-signup">회원가입</button>
             </div>
         </form>
     </div>
 </div>
-
-
-
-
-
-<!--               이 코드를 삽입하면 로그인 모달이 삽입됨                   -->
-<!--<div th:insert="~{fragments/modal :: loginModal}"></div>-->
+</body>
+</html>
