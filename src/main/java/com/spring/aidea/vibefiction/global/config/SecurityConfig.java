@@ -1,6 +1,8 @@
 package com.spring.aidea.vibefiction.global.config;
 
 
+import com.spring.aidea.vibefiction.global.jwt.JwtAuthenticationFilter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -8,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
  * Spring Security 설정 클래스입니다.
@@ -22,13 +25,21 @@ import org.springframework.security.web.SecurityFilterChain;
  */
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     // 검증 제외 할 api URL
     String[] apiURLs = {
+            "/api/novels/**",
+            "/api/genres",
+            "/api/chapters/{chapterId}/proposals" ,
+            "/api/auth/**",
         "/api/novels/**",
         "/api/auth/signup",
         "/api/auth/login",
+        "/api/auth/**",
 
     };
     // 검증 제외 할 정적소스 (html,css,image,js) URL
@@ -42,7 +53,8 @@ public class SecurityConfig {
         "/proposal",
         "my-page",
         "signup",
-        "/images/**"
+        "/img/**"
+
 
     };
 
@@ -63,11 +75,17 @@ public class SecurityConfig {
             //
             .authorizeHttpRequests(authorize -> authorize
                 // 로그인 로직완성 후 토큰로직 연결되면 밑의 코드는 지워야함
-                .requestMatchers(apiURLs).permitAll()
-                .requestMatchers(wedPagesURLs).permitAll()
+                .requestMatchers(apiURLs)
+                .permitAll()
+
+                .requestMatchers(wedPagesURLs)
+                .permitAll()
                 // 다른 모든 요청은 인증 필요
-                .anyRequest().authenticated()
-            );
+                .anyRequest()
+                .authenticated()
+            )
+
+            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
 
         ;

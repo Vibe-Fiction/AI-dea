@@ -1,0 +1,40 @@
+<!-- fragments/fiction-modal.html -->
+
+<!--
+    다른 페이지에서도 사용할 수 있는 공통 모달입니다.
+    이 HTML 조각을 사용하려면, 페이지의 <body> 태그 끝에
+    <div th:insert="~{fragments/fiction-modal :: fiction-modal}"></div>
+    와 같이 삽입하고, fiction-modal.css 파일을 링크해야 합니다.
+-->
+<div th:fragment="fiction-modal" class="fiction-modal-container">
+    <!-- 모달 배경 오버레이 -->
+    <div class="fiction-modal-overlay"></div>
+
+    <!-- 모달 본체 -->
+    <div class="fiction-modal">
+        <button class="fiction-modal-close-btn">&times;</button>
+        <div class="fiction-modal-content">
+            <!-- 소설 제목 -->
+            <h2 class="fiction-modal-novel-title"></h2>
+
+            <div class="fiction-modal-chapter-info">
+                <!-- 챕터 넘버와 제목 -->
+                <span class="fiction-modal-chapter-num"></span>
+                <span class="fiction-modal-chapter-title"></span>
+                <!-- 작성자 -->
+                <span class="fiction-modal-chapter-author"></span>
+            </div>
+
+            <!-- 챕터 이야기 내용 (스크롤 가능) -->
+            <div class="fiction-modal-story-content">
+                <!-- 내용이 동적으로 채워질 곳 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 모달 외부 버튼 -->
+    <div class="fiction-modal-nav-buttons">
+        <button class="fiction-nav-btn prev-btn"><i class="fas fa-chevron-left"></i></button>
+        <button class="fiction-nav-btn next-btn"><i class="fas fa-chevron-right"></i></button>
+    </div>
+</div>

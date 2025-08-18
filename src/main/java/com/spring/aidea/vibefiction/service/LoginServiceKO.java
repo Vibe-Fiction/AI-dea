@@ -56,8 +56,8 @@ public class LoginServiceKO {
         }
 
         // 로그인 성공 시 토큰 발급
-        String token = jwtProvider.generateToken(user.getLoginId());
-        log.info("사용자 로그인 {},", user.getLoginId());
+        String role = user.getRole().name(); // Enum을 "USER" 또는 "ADMIN" 같은 문자열로 변환
+        String token = jwtProvider.generateToken(user.getLoginId(), role);
 
 
         return AuthResponseKO.of(token, UserResponseKO.from(user));

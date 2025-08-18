@@ -1,0 +1,49 @@
+<!-- fragments/login-required-modal.html -->
+
+<!--
+    다른 페이지에서도 사용할 수 있는 로그인 필요 공통 모달입니다.
+    이 HTML 조각을 사용하려면, 페이지의 <body> 태그 끝에
+    <div th:insert="~{fragments/login-required-modal :: loginRequiredModal}"></div>
+    와 같이 삽입하고, 아래 CSS 스타일과 스크립트를 적용해야 합니다.
+-->
+
+<div id="loginRequiredModal" class="login-required-container" th:fragment="loginRequiredModal">
+    <!-- 모달 배경 오버레이 -->
+    <div class="login-required-overlay"></div>
+
+    <!-- 모달 본체 -->
+    <div class="login-required-popup">
+        <button class="login-required-close-btn">&times;</button>
+        <div class="login-required-content">
+            <!-- 메시지는 JS로 동적으로 삽입하거나, 직접 수정하여 사용할 수 있습니다. -->
+            <p class="login-required-message">
+                <span id="required-action-text">이 기능을 사용</span>하려면 로그인이 필요합니다.
+                <br>
+                로그인 하시겠어요?
+            </p>
+            <div class="login-required-actions">
+                <a href="#" class="req-login-btn">로그인하기</a>
+                <a href="/signup" class="btn btn-signup">회원가입</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
