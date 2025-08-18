@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -29,7 +31,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtProvider jwtProvider;
 
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
@@ -46,10 +47,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 List<SimpleGrantedAuthority> authorities =
                     List.of(new SimpleGrantedAuthority("ROLE_" + role));
 
-                // 시큐리티에게 알려줄 인증정보(사용자명, 권한) 생성
+                // UserDetails 객체를 생성합니다.
+                // 비밀번호가 필요 없으므로 "password"를 임시로 사용합니다.
+                UserDetails userDetails = new User(username, "password", authorities);
+
+                // 시큐리티에게 알려줄 인증정보(UserDetails 객체와 권한)를 생성
+                UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
+                    userDetails, null, authorities); // 권한 목록 전달
+
+               /* // 시큐리티에게 알려줄 인증정보(사용자명, 권한) 생성
                 UsernamePasswordAuthenticationToken auth
                     = new UsernamePasswordAuthenticationToken(
-                        username, null, authorities); // 권한 목록 전달
+                        username, null, authorities); */
 
 
                 // 스프링 시큐리티에게 인증 성공을 알려줌

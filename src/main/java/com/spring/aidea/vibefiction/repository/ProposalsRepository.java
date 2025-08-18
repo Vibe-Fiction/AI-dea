@@ -24,4 +24,6 @@ public interface ProposalsRepository extends JpaRepository<Proposals, Long> {
      * @since 2025.08
      */
     List<Proposals> findByChapter_ChapterIdOrderByCreatedAtAsc(Long chapterId);
+
+
 }

@@ -62,6 +62,10 @@ public class Proposals {
     @OneToOne(mappedBy = "fromProposal")
     private Chapters adoptedChapter;
 
+    public void incrementVoteCount() {
+        this.voteCount += 1;
+    }
+
     // --- Enum ---
     public enum Status { VOTING, ADOPTED, REJECTED, DELETED }
 
@@ -94,6 +98,7 @@ public class Proposals {
             .title(title)
             .content(content)
             .aiGenerated(aiGenerated)
+            .voteDeadline(LocalDateTime.now().plusDays(3)) // create 메서드에서 초기화
             .build();
     }
 
@@ -106,7 +111,6 @@ public class Proposals {
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
         // "작성일 기준 3일 뒤 마감" 정책을 반영합니다.
-        this.voteDeadline = this.createdAt.plusDays(3);
 
         if (this.status == null) {
             this.status = Status.VOTING;

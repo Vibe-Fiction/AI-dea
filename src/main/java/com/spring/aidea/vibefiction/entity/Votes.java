@@ -1,12 +1,19 @@
 package com.spring.aidea.vibefiction.entity;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "votes",
         uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "proposal_id"}))
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED) // JPA를 위한 기본 생성자
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class Votes {
 
     @Id

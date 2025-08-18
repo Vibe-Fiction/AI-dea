@@ -36,13 +36,10 @@ public class SecurityConfig {
             "/api/genres",
             "/api/chapters/{chapterId}/proposals" ,
             "/api/auth/**",
-        "/api/novels/**",
         "/api/auth/signup",
         "/api/auth/login",
-        "/api/auth/**",
         "/api/vote/novels/**",
-        "/api/chapters/**/proposals"
-
+        "/api/chapters/**"
     };
     // 검증 제외 할 정적소스 (html,css,image,js) URL
     String[] wedPagesURLs = {
@@ -53,8 +50,8 @@ public class SecurityConfig {
         "/vote",
         "/novel",
         "/proposal",
-        "my-page",
-        "signup",
+        "/my-page",
+        "/signup",
         "/img/**"
 
 
