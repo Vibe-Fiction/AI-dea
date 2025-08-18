@@ -32,6 +32,14 @@ public class SecurityConfig {
 
     // 검증 제외 할 api URL
     String[] apiURLs = {
+    // feature/novel-editor-ai
+        "/api/novels/**",
+        "/api/genres",
+        "/api/chapters/*/proposals/**",
+        "/api/auth/**",
+        "/api/ai/**"
+
+     //dev
             "/api/novels/**",
             "/api/genres",
             "/api/chapters/{chapterId}/proposals" ,
@@ -42,21 +50,29 @@ public class SecurityConfig {
         "/api/my-page/**",
         "/api/chapters/**",
 
-
     };
     // 검증 제외 할 정적소스 (html,css,image,js) URL
     String[] wedPagesURLs = {
         "/",
+        "/favicon.ico",
         "/css/**",
         "/js/**",
         "/chapters",
         "/chapters/**",
         "/vote",
+    // feature/novel-editor-ai
+        "/vote-page/**",
+        //"/novel",
+        //"/proposal",
+        "/novels/create",              // '새 소설 쓰기' 페이지
+        "/proposals/create/**",        // '이어쓰기 제안' 페이지
+    // dev
         "/vote/**",
         "/novel",
         "/novel/**",
         "/proposal",
         "/proposal/**",
+      
         "/my-page",
         "/my-page/**",
         "/signup",
@@ -87,6 +103,7 @@ public class SecurityConfig {
 
             //
             .authorizeHttpRequests(authorize -> authorize
+                .requestMatchers("/api/genres", "/api/genres/").permitAll()
                 // 로그인 로직완성 후 토큰로직 연결되면 밑의 코드는 지워야함
                 .requestMatchers(apiURLs)
                 .permitAll()
@@ -103,6 +120,30 @@ public class SecurityConfig {
 
         ;
         return http.build();
+    }
+
+    /**
+     * CORS(Cross-Origin Resource Sharing) 설정 Bean
+     * 프론트엔드(예: http://localhost:3000)에서 API 서버로 요청 시
+     * 보안 정책에 의해 차단되지 않도록 허용합니다.
+     *
+     * 개발 단계에서는 모든 Origin, Header, Method를 허용합니다.
+     * 운영 환경에서는 필요한 도메인만 선택적으로 허용해야 합니다.
+     *
+     * @author 왕택준
+     */
+    @Bean
+    public org.springframework.web.cors.CorsConfigurationSource corsConfigurationSource() {
+        org.springframework.web.cors.CorsConfiguration config = new org.springframework.web.cors.CorsConfiguration();
+        config.addAllowedOriginPattern("*");   // 모든 출처 허용 (개발용)
+        config.addAllowedMethod("*");          // 모든 HTTP 메서드 허용
+        config.addAllowedHeader("*");          // 모든 헤더 허용
+        config.setAllowCredentials(true);      // 인증 정보 포함 허용 (쿠키, Authorization 등)
+
+        org.springframework.web.cors.UrlBasedCorsConfigurationSource source =
+            new org.springframework.web.cors.UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return source;
     }
 
 

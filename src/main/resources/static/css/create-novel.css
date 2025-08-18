@@ -1,20 +1,16 @@
-/* create-novel.css */
+/* ========================== */
+/*        기본 컨테이너        */
+/* ========================== */
 
 .create-novel-container {
-    /* max-width 제한을 제거하여 화면을 가득 채웁니다. */
     width: 100%;
-
     margin: 0 auto;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    padding-top: 2rem;
-    padding-bottom: 2rem;
-    display: flex; /* flexbox를 추가하여 내부 요소를 중앙에 정렬합니다. */
+    padding: 2rem 1rem;
+    display: flex;
     justify-content: center;
 }
 
 .create-novel-section {
-    /* 화면 너비의 70%를 차지하도록 수정하고, 최대 너비를 960px로 유지합니다. */
     width: 70%;
     max-width: 960px;
     padding: 2rem;
@@ -30,6 +26,10 @@
     margin-bottom: 2rem;
     text-align: center;
 }
+
+/* ========================== */
+/*        Form Group           */
+/* ========================== */
 
 .form-group {
     margin-bottom: 1.5rem;
@@ -55,14 +55,12 @@
     font-size: 1rem;
     color: var(--text-primary);
     transition: border-color 0.3s, box-shadow 0.3s;
-    /* 이 부분을 추가하여 패딩과 테두리가 너비에 포함되도록 합니다. */
     box-sizing: border-box;
 }
 
-/* 파일 입력 필드가 부모 요소 너비를 꽉 채우도록 수정 */
 .form-group input[type="file"] {
     width: 100%;
-    box-sizing: border-box; /* 이 부분이 이미 있었지만, 다른 input에도 적용하면 좋습니다. */
+    box-sizing: border-box;
 }
 
 .form-group input:focus,
@@ -77,9 +75,44 @@
     resize: vertical;
 }
 
-.genre-input-wrapper {
-    position: relative;
-    width: 100%;
+/* ========================== */
+/*       장르 선택 UI          */
+/* ========================== */
+
+.genre-select-wrapper {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.genre-select-wrapper select {
+    flex-grow: 1;
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    padding: 0.65rem 1rem;
+    font-size: 1rem;
+}
+
+/* '추가' 버튼 - 메인 컬러 적용 */
+.btn-add-genre {
+    flex-shrink: 0;
+    padding: 0.65rem 1.25rem;
+    background-color: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.btn-add-genre:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
 .selected-genres-list {
@@ -90,6 +123,7 @@
     padding: 0.5rem;
     border: 1px solid var(--border-color);
     border-radius: 0.5rem;
+    min-height: 40px;
 }
 
 .genre-tag {
@@ -113,6 +147,60 @@
     opacity: 1;
 }
 
+/* ========================== */
+/*    첫 번째 회차 블록        */
+/* ========================== */
+
+.chapter-block {
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.75rem;
+    background-color: #f9fafb; /* 밝은 배경 */
+}
+
+.chapter-block h3 {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.chapter-block label {
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 0.3rem;
+    display: block;
+}
+
+.chapter-block input[type="text"],
+.chapter-block textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    color: var(--text-primary);
+    box-sizing: border-box;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.chapter-block input[type="text"]:focus,
+.chapter-block textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(79,70,229,0.2);
+}
+
+.chapter-block textarea {
+    resize: vertical;
+    min-height: 200px;
+}
+
+/* ========================== */
+/*    소설 생성 버튼 / AI 도움 */
+/* ========================== */
+
 .btn-submit {
     display: block;
     width: 100%;
@@ -132,12 +220,11 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* 추가된 스타일 */
 .novel-content-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
 }
 
 .btn-ai-help {
@@ -146,19 +233,26 @@
     color: #fff;
     border: none;
     border-radius: 9999px;
-    font-weight: 500;
+    font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
 .btn-ai-help:hover {
     background-color: #ef4444;
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
+
+/* ========================== */
+/*         반응형 대응          */
+/* ========================== */
 
 @media (max-width: 768px) {
     .create-novel-section {
         padding: 1rem;
         max-width: 100%;
-        width: 100%; /* 모바일에서는 화면 너비를 꽉 채우도록 설정 */
+        width: 100%;
     }
 }
