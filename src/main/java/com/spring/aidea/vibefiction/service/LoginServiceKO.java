@@ -71,4 +71,7 @@ public class LoginServiceKO {
         return usersRepository.existsByEmail(email);
     }
 
+    public boolean checkDuplicateNickname(String nickname) {
+        return usersRepository.existsByNickname(nickname);
+    }
 }
