@@ -6,9 +6,9 @@
     <title>Vibe Fiction | 소설 상세</title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/chapters-page.css">
-<!--  로그인 모달 css 링크  -->
+    <!--  로그인 모달 css 링크  -->
     <link rel="stylesheet" th:href="@{/css/login-modal.css}">
-<!--  챕터 내용 모달 css 링크  -->
+    <!--  챕터 내용 모달 css 링크  -->
     <link rel="stylesheet" th:href="@{/css/fiction-modal.css}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,7 +28,6 @@
     <div th:insert="~{fragments/fiction-modal :: fiction-modal}"></div>
 
 
-
     <!-- 소설 상세 페이지 메인 콘텐츠 -->
     <main class="container main-content">
 
@@ -38,81 +37,42 @@
                 <img src="https://placehold.co/400x550/e2e8f0/64748b?text=소설+표지" alt="소설 표지" class="novel-detail-cover">
             </div>
             <div class="novel-info-area">
-                <h1 class="novel-title">재벌집 막내아들</h1>
+                <h1 class="novel-title"></h1>
                 <div class="novel-meta-info">
-                    <span class="author-info"><i class="fas fa-user-circle"></i> JP</span>
-                    <span class="genre-info">드라마/현판</span>
-                    <span class="copyright-info">원작: 산경(山景)</span>
+                    <span class="author-info"><i class="fas fa-user-circle"></i></span>
+                    <span class="genre-info"></span>
+                    <span class="copyright-info"></span>
                 </div>
                 <div class="synopsis">
                     <p>
-                        13년 동안의 수고를 배신으로 돌려받다!
-                        머슴처럼 살다 버려진 순양그룹의 실장, 윤현우.
-                        모든 게 끝났다 싶을 쯤, 순양그룹 진회장의 순주 진도준으로 깨어난다!
-                        하지만 상속권리는 거리가 먼 재벌집 막내아들 진도준.
-                        과연 그는 가족 정치극에서 최후의 승자가 될 수 있을 것인가!
+
                     </p>
                 </div>
                 <div class="hashtag-list">
-                    <span class="hashtag">#드라마</span>
-                    <span class="hashtag">#고저극드라마</span>
-                    <span class="hashtag">#오피스</span>
-                    <span class="hashtag">#재벌</span>
                 </div>
-                <div class="action-buttons">
-                    <button class="btn btn-like">
-                        <i class="fas fa-heart"></i>
-                        <span>관심 330,286</span>
-                    </button>
-                    <button class="btn btn-share">
-                        <i class="fas fa-share-alt"></i>
-                        <span>공유하기</span>
-                    </button>
-                </div>
+
             </div>
         </section>
 
         <!-- 소설 회차 리스트 섹션 -->
         <section class="chapter-list-section">
             <div class="chapter-list-header">
-                <h3>총 163화</h3>
+                <h3></h3>
                 <div class="sort-options">
                     <span class="sort-active">최신화부터</span>
                     <span>1화부터</span>
                 </div>
             </div>
 
-            <!-- 이어쓰기 버튼을 회차 리스트의 가장 위로 옮겼습니다. -->
+            <!-- 이어쓰기 버튼. -->
             <div class="btn-continue-writing-wrapper">
                 <button class="btn-continue-writing">경쟁중인 글보기</button>
             </div>
 
             <ul class="chapter-list">
-                <!-- Thymeleaf 예시: th:each를 사용해 서버에서 받은 chapters 리스트를 반복합니다. -->
-                <!-- 소설 회차 리스트 아이템 -->
-                <li class="chapter-item">
-                    <div class="chapter-info">
-                        <span class="chapter-num">163화</span>
-                        <span class="chapter-title">새로운 시작</span>
-                        <span class="chapter-author">by 사용자A</span>
-                    </div>
-                </li>
 
-                <li class="chapter-item">
-                    <div class="chapter-info">
-                        <span class="chapter-num">162화</span>
-                        <span class="chapter-title">오래된 비밀</span>
-                        <span class="chapter-author">by 사용자B</span>
-                    </div>
-                </li>
+                <!-- 동적으로 소설 회차 리스트 아이템 추가 -->
 
-                <li class="chapter-item">
-                    <div class="chapter-info">
-                        <span class="chapter-num">161화</span>
-                        <span class="chapter-title">운명의 갈림길</span>
-                        <span class="chapter-author">by 사용자C</span>
-                    </div>
-                </li>
 
             </ul>
         </section>
@@ -121,132 +81,6 @@
     <!-- 메인 푸터 -->
     <div th:replace="~{fragments/mainFooter :: mainFooter}"></div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // 챕터 목록 항목과 모달 관련 요소들을 가져옵니다.
-            const chapterItems = document.querySelectorAll('.chapter-item');
-            const modalContainer = document.querySelector('.fiction-modal-container');
-            const modalCloseBtn = document.querySelector('.fiction-modal-close-btn');
-            const modalOverlay = document.querySelector('.fiction-modal-overlay');
-            const novelTitleEl = document.querySelector('.novel-title');
-
-            const prevBtn = document.querySelector('.fiction-nav-btn.prev-btn');
-            const nextBtn = document.querySelector('.fiction-nav-btn.next-btn');
-
-            let currentChapterIndex = -1; // 현재 열린 챕터의 인덱스
-
-            // 챕터 이야기 내용 (더미 데이터)를 매핑하는 함수
-            const getStoryContent = (chapterNum) => {
-                if (chapterNum.includes('163')) {
-                    return `<p>"새로운 시작이라..." 윤현우는 눈을 감았다. 머슴처럼 13년을 바친 순양그룹의 배신. 그는 이미 죽었어야 할 운명이었다. 하지만 그는 다시 눈을 떴고, 놀랍게도 순양그룹 회장의 막내손주, 진도준이 되어 있었다. 창밖으로 보이는 풍경은 낯설면서도 익숙했다. 과거의 기억과 현재의 현실이 뒤엉켜 혼란스러웠다. 하지만 이내 그의 눈빛이 날카롭게 빛났다. '진도준... 이 이름으로, 나는 순양을 내 손에 넣을 것이다.' 그의 새로운 삶은 복수를 향한 서막이었다.</p>
-                <p>그는 거울을 보며 생각에 잠겼다. 앳된 얼굴, 하지만 그 안에는 13년의 세월을 버텨온 강인함과 냉철함이 숨어 있었다. 순양가에 다시 들어왔지만, 이번에는 가장 약한 막내아들이 아닌, 모든 것을 뒤흔들 최후의 승자가 될 것이다.</p>
-                <p>"도련님, 식사 준비됐습니다." 방문 밖에서 들려오는 목소리에 그는 현실로 돌아왔다. 이 모든 것이 꿈이 아니었다. 진도준이라는 이름으로 시작된 두 번째 삶. 그는 천천히 일어섰다.</p>
-                <p>순양가 사람들은 그를 그저 어린애로만 봤다. 하지만 그들은 몰랐다. 그 어린애의 눈에 담긴 불꽃이 얼마나 뜨거운지를. 과거의 모든 것을 되갚아줄 시간이 다가오고 있었다.</p>
-                <p>'기다려라, 순양. 그리고 진양철 회장님...'</p>`;
-                } else if (chapterNum.includes('162')) {
-                    return `<p>오래된 비밀은 순양그룹의 깊은 곳에 숨겨져 있었다. 13년 전, 윤현우가 그룹을 위해 비밀리에 처리했던 프로젝트는 사실 그의 모든 것을 빼앗기 위한 거대한 음모의 시작이었다. 그는 회장의 서재에서 우연히 발견한 오래된 일기장에서 그 진실을 마주하게 된다.</p>
-                <p>일기장에는 진양철 회장이 그룹의 후계 구도를 위해 얼마나 잔인하고 철저한 계획을 세웠는지, 그리고 윤현우를 어떻게 희생양으로 삼았는지가 상세하게 기록되어 있었다. 그는 충격과 분노에 휩싸였다. 이 모든 것이 회장님의 뜻이었다니...</p>
-                <p>그는 조용히 일기장을 덮고 미소를 지었다. 이제 그는 단순한 복수가 아닌, 순양그룹의 가장 깊은 곳에 숨겨진 비밀을 모두에게 드러낼 계획을 세우기 시작했다.</p>`;
-                } else if (chapterNum.includes('161')) {
-                    return `<p>운명의 갈림길은 윤현우에게 두 가지 선택지를 제시했다. 순양그룹의 배신에 좌절하며 죽음을 맞이할 것인가, 아니면 새로운 삶을 통해 복수를 꿈꿀 것인가. 그는 절망 속에서 마지막 희망을 붙잡았다.</p>
-                <p>그는 진도준이 되기로 결심했다. 단순히 살아남기 위해서가 아니라, 순양을 무너뜨리기 위해, 그리고 자신을 배신한 사람들에게 똑같이 되갚아주기 위해서였다. 그의 눈빛은 흔들림이 없었다. </p>
-                <p>이 결정은 그의 인생뿐만 아니라, 순양그룹 전체의 운명을 바꾸게 될 거대한 시작이었다. 그는 과거의 모든 것을 뒤로하고, 새로운 운명을 향한 첫걸음을 내디뎠다.</p>
-<p>이 결정은 그의 인생뿐만 아니라, 순양그룹 전체의 운명을 바꾸게 될 거대한 시작이었다. 그는 과거의 모든 것을 뒤로하고, 새로운 운명을 향한 첫걸음을 내디뎠다.</p>
-<p>이 결정은 그의 인생뿐만 아니라, 순양그룹 전체의 운명을 바꾸게 될 거대한 시작이었다. 그는 과거의 모든 것을 뒤로하고, 새로운 운명을 향한 첫걸음을 내디뎠다.</p>
-<p>이 결정은 그의 인생뿐만 아니라, 순양그룹 전체의 운명을 바꾸게 될 거대한 시작이었다. 그는 과거의 모든 것을 뒤로하고, 새로운 운명을 향한 첫걸음을 내디뎠다.</p>
-<p>이 결정은 그의 인생뿐만 아니라, 순양그룹 전체의 운명을 바꾸게 될 거대한 시작이었다. 그는 과거의 모든 것을 뒤로하고, 새로운 운명을 향한 첫걸음을 내디뎠다.</p>
-<p>이 결정은 그의 인생뿐만 아니라, 순양그룹 전체의 운명을 바꾸게 될 거대한 시작이었다. 그는 과거의 모든 것을 뒤로하고, 새로운 운명을 향한 첫걸음을 내디뎠다.</p>
-<p>이 결정은 그의 인생뿐만 아니라, 순양그룹 전체의 운명을 바꾸게 될 거대한 시작이었다. 그는 과거의 모든 것을 뒤로하고, 새로운 운명을 향한 첫걸음을 내디뎠다.</p>
-<p>이 결정은 그의 인생뿐만 아니라, 순양그룹 전체의 운명을 바꾸게 될 거대한 시작이었다. 그는 과거의 모든 것을 뒤로하고, 새로운 운명을 향한 첫걸음을 내디뎠다.</p>
-<p>이 결정은 그의 인생뿐만 아니라, 순양그룹 전체의 운명을 바꾸게 될 거대한 시작이었다. 그는 과거의 모든 것을 뒤로하고, 새로운 운명을 향한 첫걸음을 내디뎠다.</p>
-<p>이 결정은 그의 인생뿐만 아니라, 순양그룹 전체의 운명을 바꾸게 될 거대한 시작이었다. 그는 과거의 모든 것을 뒤로하고, 새로운 운명을 향한 첫걸음을 내디뎠다.</p>
-<p>이 결정은 그의 인생뿐만 아니라, 순양그룹 전체의 운명을 바꾸게 될 거대한 시작이었다. 그는 과거의 모든 것을 뒤로하고, 새로운 운명을 향한 첫걸음을 내디뎠다.</p>
-<p>이 결정은 그의 인생뿐만 아니라, 순양그룹 전체의 운명을 바꾸게 될 거대한 시작이었다. 그는 과거의 모든 것을 뒤로하고, 새로운 운명을 향한 첫걸음을 내디뎠다.</p>
-<p>이 결정은 그의 인생뿐만 아니라, 순양그룹 전체의 운명을 바꾸게 될 거대한 시작이었다. 그는 과거의 모든 것을 뒤로하고, 새로운 운명을 향한 첫걸음을 내디뎠다.</p>
-<p>이 결정은 그의 인생뿐만 아니라, 순양그룹 전체의 운명을 바꾸게 될 거대한 시작이었다. 그는 과거의 모든 것을 뒤로하고, 새로운 운명을 향한 첫걸음을 내디뎠다.</p>
-<p>이 결정은 그의 인생뿐만 아니라, 순양그룹 전체의 운명을 바꾸게 될 거대한 시작이었다. 그는 과거의 모든 것을 뒤로하고, 새로운 운명을 향한 첫걸음을 내디뎠다.</p>
-<p>이 결정은 그의 인생뿐만 아니라, 순양그룹 전체의 운명을 바꾸게 될 거대한 시작이었다. 그는 과거의 모든 것을 뒤로하고, 새로운 운명을 향한 첫걸음을 내디뎠다.</p>
-<p>이 결정은 그의 인생뿐만 아니라, 순양그룹 전체의 운명을 바꾸게 될 거대한 시작이었다. 그는 과거의 모든 것을 뒤로하고, 새로운 운명을 향한 첫걸음을 내디뎠다.</p>
-<p>이 결정은 그의 인생뿐만 아니라, 순양그룹 전체의 운명을 바꾸게 될 거대한 시작이었다. 그는 과거의 모든 것을 뒤로하고, 새로운 운명을 향한 첫걸음을 내디뎠다.</p>
-<p>이 결정은 그의 인생뿐만 아니라, 순양그룹 전체의 운명을 바꾸게 될 거대한 시작이었다. 그는 과거의 모든 것을 뒤로하고, 새로운 운명을 향한 첫걸음을 내디뎠다.</p>
-<p>이 결정은 그의 인생뿐만 아니라, 순양그룹 전체의 운명을 바꾸게 될 거대한 시작이었다. 그는 과거의 모든 것을 뒤로하고, 새로운 운명을 향한 첫걸음을 내디뎠다.</p>
-<p>이 결정은 그의 인생뿐만 아니라, 순양그룹 전체의 운명을 바꾸게 될 거대한 시작이었다. 그는 과거의 모든 것을 뒤로하고, 새로운 운명을 향한 첫걸음을 내디뎠다.</p>
-<p>이 결정은 그의 인생뿐만 아니라, 순양그룹 전체의 운명을 바꾸게 될 거대한 시작이었다. 그는 과거의 모든 것을 뒤로하고, 새로운 운명을 향한 첫걸음을 내디뎠다.</p>
-<p>이 결정은 그의 인생뿐만 아니라, 순양그룹 전체의 운명을 바꾸게 될 거대한 시작이었다. 그는 과거의 모든 것을 뒤로하고, 새로운 운명을 향한 첫걸음을 내디뎠다.</p>
-<p>이 결정은 그의 인생뿐만 아니라, 순양그룹 전체의 운명을 바꾸게 될 거대한 시작이었다. 그는 과거의 모든 것을 뒤로하고, 새로운 운명을 향한 첫걸음을 내디뎠다.</p>
-<p>이 결정은 그의 인생뿐만 아니라, 순양그룹 전체의 운명을 바꾸게 될 거대한 시작이었다. 그는 과거의 모든 것을 뒤로하고, 새로운 운명을 향한 첫걸음을 내디뎠다.</p>
-<p>이 결정은 그의 인생뿐만 아니라, 순양그룹 전체의 운명을 바꾸게 될 거대한 시작이었다. 그는 과거의 모든 것을 뒤로하고, 새로운 운명을 향한 첫걸음을 내디뎠다.</p>
-<p>이 결정은 그의 인생뿐만 아니라, 순양그룹 전체의 운명을 바꾸게 될 거대한 시작이었다. 그는 과거의 모든 것을 뒤로하고, 새로운 운명을 향한 첫걸음을 내디뎠다.</p>
-<p>이 결정은 그의 인생뿐만 아니라, 순양그룹 전체의 운명을 바꾸게 될 거대한 시작이었다. 그는 과거의 모든 것을 뒤로하고, 새로운 운명을 향한 첫걸음을 내디뎠다.</p>
-<p>이 결정은 그의 인생뿐만 아니라, 순양그룹 전체의 운명을 바꾸게 될 거대한 시작이었다. 그는 과거의 모든 것을 뒤로하고, 새로운 운명을 향한 첫걸음을 내디뎠다.</p>
-`;
-
-                } else {
-                    return `<p>해당 챕터의 내용은 준비 중입니다.</p>`;
-                }
-            };
-
-            // 모달을 열고 내용을 채우는 함수
-            const openModal = (chapterEl) => {
-                // 현재 페이지에서 소설 제목과 클릭된 챕터의 정보를 가져옵니다.
-                const novelTitle = novelTitleEl.textContent;
-                const chapterNum = chapterEl.querySelector('.chapter-num').textContent;
-                const chapterTitle = chapterEl.querySelector('.chapter-title').textContent;
-                const chapterAuthor = chapterEl.querySelector('.chapter-author').textContent;
-
-                // 챕터 인덱스 업데이트
-                currentChapterIndex = parseInt(chapterEl.getAttribute('data-chapter-index'));
-
-                // 챕터 이야기 내용 가져오기
-                const storyContent = getStoryContent(chapterNum);
-
-                // 모달 내부에 정보를 채워 넣습니다.
-                modalContainer.querySelector('.fiction-modal-novel-title').textContent = novelTitle;
-                modalContainer.querySelector('.fiction-modal-chapter-num').textContent = chapterNum;
-                modalContainer.querySelector('.fiction-modal-chapter-title').textContent = chapterTitle;
-                modalContainer.querySelector('.fiction-modal-chapter-author').textContent = chapterAuthor;
-                modalContainer.querySelector('.fiction-modal-story-content').innerHTML = storyContent;
-
-                // 모달을 화면에 표시하고, 배경 스크롤을 방지합니다.
-                modalContainer.style.display = 'flex';
-                document.body.style.overflow = 'hidden';
-            };
-
-            // 모달을 닫는 함수
-            const closeModal = () => {
-                // 모달을 숨기고, 배경 스크롤을 다시 허용합니다.
-                modalContainer.style.display = 'none';
-                document.body.style.overflow = '';
-                currentChapterIndex = -1; // 인덱스 초기화
-            };
-
-            // 챕터 변경 함수
-            const changeChapter = (direction) => {
-                // 다음 챕터로 이동
-                if (direction === 'next' && currentChapterIndex < chapterItems.length - 1) {
-                    currentChapterIndex++;
-                    openModal(chapterItems[currentChapterIndex]);
-                }
-                // 이전 챕터로 이동
-                else if (direction === 'prev' && currentChapterIndex > 0) {
-                    currentChapterIndex--;
-                    openModal(chapterItems[currentChapterIndex]);
-                }
-            };
-
-            // 각 챕터 항목에 클릭 이벤트를 추가하여 모달을 엽니다.
-            chapterItems.forEach(item => {
-                item.addEventListener('click', () => openModal(item));
-            });
-
-            // 모달 닫기 버튼과 오버레이 클릭 시 모달을 닫습니다.
-            modalCloseBtn.addEventListener('click', closeModal);
-            modalOverlay.addEventListener('click', closeModal);
-
-            // 이전/다음 버튼 클릭 이벤트 추가
-            prevBtn.addEventListener('click', () => changeChapter('prev'));
-            nextBtn.addEventListener('click', () => changeChapter('next'));
-        });
-    </script>
+    <script type="module" src="/js/app.js"></script>
 </body>
 </html>
