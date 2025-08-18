@@ -34,9 +34,14 @@ public class PageController {
     public String chapters() {
         return "chapters-page";
     }
-    // 투표페이지로 이동
-    @GetMapping("/vote")
-    public String vote() {
+
+    /**
+     * '투표하기' 페이지로 이동합니다.
+     * @return "vote-page" 템플릿 이름
+     */
+    @GetMapping("/vote-page/{novelId}")
+    public String votePage(@PathVariable Long novelId, Model model) {
+        model.addAttribute("novelId", novelId);
         return "vote-page";
     }
     // 소설페이지로 이동

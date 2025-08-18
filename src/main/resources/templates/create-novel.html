@@ -27,7 +27,8 @@
                 <!-- 시놉시스 -->
                 <div class="form-group">
                     <label for="novel-synopsis">시놉시스 (줄거리)</label>
-                    <textarea id="novel-synopsis" name="synopsis" rows="6" placeholder="소설의 간략한 줄거리를 입력해주세요." required></textarea>
+                    <textarea id="novel-synopsis" name="synopsis" rows="6" placeholder="소설의 간략한 줄거리를 입력해주세요."
+                              required></textarea>
                 </div>
 
                 <!-- 장르 선택 및 추가 -->
@@ -38,7 +39,7 @@
                             <option value="">-- 장르를 선택해주세요 --</option>
                             <!-- 장르 목록은 JS로 동적으로 채워집니다. -->
                         </select>
-                        <button type="button" id="add-genre-btn">추가</button>
+                        <button type="button" id="add-genre-btn" class="btn-add-genre">추가</button>
                     </div>
                     <div id="selected-genres" class="selected-genres-list">
                         <!-- 선택된 장르 태그들이 여기에 추가됩니다. -->
@@ -51,15 +52,25 @@
                     <input type="file" id="cover-image" name="coverImage">
                 </div>
 
-                <!-- 소설 내용 (1화) -->
-                <div class="form-group">
+                <!-- 첫 번째 회차 -->
+                <div class="chapter-block">
+                    <h3>첫 번째 회차</h3>
                     <div class="novel-content-header">
-                        <label for="novel-content">소설 내용 (1화)</label>
+                        <label for="novel-content">회차 작성</label>
                         <button type="button" class="btn-ai-help">
                             <i class="fas fa-magic"></i> AI 와 함께쓰기
                         </button>
                     </div>
-                    <textarea id="novel-content" name="content" rows="15" placeholder="디폴트로 1화당 글자수는 5000자 까지 가능합니다." required></textarea>
+                    <div class="form-group">
+                        <label for="chapter-title">1화 제목</label>
+                        <input type="text" id="chapter-title" name="firstChapterTitle"
+                               placeholder="예: 꼴찌가 최강이 되는 법" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="novel-content">1화 내용</label>
+                        <textarea id="novel-content" name="content" rows="15"
+                                  placeholder="디폴트로 1화당 글자수는 5000자 까지 가능합니다." required></textarea>
+                    </div>
                 </div>
 
                 <button type="submit" class="btn btn-submit">소설 생성하기</button>
