@@ -77,6 +77,41 @@
     resize: vertical;
 }
 
+/*
+ * [리팩토링] 장르 선택 UI 변경에 따른 스타일 수정
+ * 기존: input과 datalist를 사용하는 .genre-input-wrapper
+ * 변경: select와 button을 사용하는 .genre-select-wrapper
+ */
+.genre-select-wrapper {
+    display: flex;      /* select와 button을 가로로 정렬합니다. */
+    gap: 0.5rem;        /* 두 요소 사이에 간격을 줍니다. */
+    align-items: center;/* 세로 중앙 정렬을 위해 추가합니다. */
+}
+
+.genre-select-wrapper select {
+    flex-grow: 1; /* select 요소가 남은 공간을 모두 차지하도록 설정합니다. */
+}
+
+/* [추가] '추가' 버튼에 대한 스타일 */
+.btn-add-genre {
+    padding: 0.75rem 1.5rem;
+    background-color: var(--secondary-color, #6c757d);
+    color: #fff;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-weight: 500;
+    white-space: nowrap; /* 글자 줄바꿈 방지 */
+    transition: background-color 0.3s;
+}
+
+.btn-add-genre:hover {
+    background-color: var(--secondary-hover, #5a6268);
+}
+/* --- 리팩토링 끝 --- */
+
+
+/* 기존 .genre-input-wrapper는 더 이상 사용되지 않지만, 다른 곳에서 사용할 가능성을 위해 남겨둡니다. */
 .genre-input-wrapper {
     position: relative;
     width: 100%;
@@ -90,6 +125,7 @@
     padding: 0.5rem;
     border: 1px solid var(--border-color);
     border-radius: 0.5rem;
+    min-height: 40px; /* 태그가 없을 때도 영역이 유지되도록 추가 */
 }
 
 .genre-tag {

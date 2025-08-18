@@ -8,24 +8,22 @@
 
 import { recommendNovelApi, createNovelApi } from '../utils/api.js';
 
-/**
- * 페이지의 모든 기능이 시작되는 메인 함수.
- * DOM이 완전히 로드된 후에 호출됩니다.
- */
 function main() {
     // --- DOM 요소 선택 ---
     const form = document.getElementById('createNovelForm');
     const novelTitleInput = document.getElementById('novel-title');
     const synopsisTextarea = document.getElementById('novel-synopsis');
-    const genresInput = document.getElementById('novel-genres-input');
-    const genreOptions = document.getElementById('genre-options');
-    const selectedGenresContainer = document.getElementById('selected-genres');
     const contentTextarea = document.getElementById('novel-content');
     const aiHelpBtn = document.querySelector('.btn-ai-help');
     const submitBtn = form.querySelector('button[type="submit"]');
 
+    // [리팩토링] 장르 관련 DOM 요소 변경
+    const genreSelect = document.getElementById('genre-select');
+    const addGenreBtn = document.getElementById('add-genre-btn');
+    const selectedGenresContainer = document.getElementById('selected-genres');
+
     let allGenres = [];
-    let selectedGenres = new Set();
+    let selectedGenres = new Set(); // 선택된 장르 Enum 이름 추적
 
     // --- 장르 선택/추가 로직 ---
     async function fetchGenres() {
@@ -34,12 +32,12 @@ function main() {
             if (response.ok) {
                 const result = await response.json();
                 allGenres = result.data;
-                genreOptions.innerHTML = '';
+                // <select> 태그의 <option>을 채웁니다.
                 allGenres.forEach(genre => {
                     const option = document.createElement('option');
-                    option.value = genre.name.description;
-                    option.dataset.enumName = genre.name.name;
-                    genreOptions.appendChild(option);
+                    option.value = genre.name.name; // 서버로 보낼 Enum 이름
+                    option.textContent = genre.name.description; // 사용자에게 보여줄 한글 이름
+                    genreSelect.appendChild(option);
                 });
             }
         } catch (error) {
@@ -47,7 +45,15 @@ function main() {
         }
     }
 
-    function addGenreTag(description, enumName) {
+    function addSelectedGenre() {
+        const enumName = genreSelect.value;
+        if (!enumName) {
+            alert('먼저 목록에서 장르를 선택해주세요.');
+            return;
+        }
+
+        const description = genreSelect.options[genreSelect.selectedIndex].textContent;
+
         if (selectedGenres.size >= 3) {
             alert('장르는 최대 3개까지만 선택할 수 있습니다.');
             return;
@@ -56,7 +62,9 @@ function main() {
             alert('이미 선택된 장르입니다.');
             return;
         }
+
         selectedGenres.add(enumName);
+
         const tag = document.createElement('span');
         tag.className = 'genre-tag';
         tag.textContent = description;
@@ -68,35 +76,22 @@ function main() {
         };
         tag.appendChild(removeBtn);
         selectedGenresContainer.appendChild(tag);
-    }
 
-    genresInput.addEventListener('change', () => {
-        const inputValue = genresInput.value.trim();
-        if (inputValue) {
-            const option = Array.from(genreOptions.options).find(opt => opt.value === inputValue);
-            if (option) {
-                addGenreTag(option.value, option.dataset.enumName);
-            } else {
-                alert('목록에 있는 장르만 선택할 수 있습니다.');
-            }
-            genresInput.value = '';
-        }
-    });
+        genreSelect.selectedIndex = 0; // 선택 후 드롭다운 초기화
+    }
 
     // --- AI 추천 및 소설 생성 로직 ---
     async function handleAiHelpClick(event) {
         event.preventDefault();
         const synopsis = synopsisTextarea.value;
-        const genreTags = selectedGenresContainer.querySelectorAll('.genre-tag');
-        const genre = genreTags.length > 0 ? genreTags[0].textContent.trim() : genresInput.value;
+        const genreArray = Array.from(selectedGenres);
+        const genre = genreArray.length > 0 ? genreArray[0] : ''; // 선택된 장르 중 첫 번째 것을 사용
 
         if (!genre || !synopsis) {
-            alert('AI의 도움을 받으려면 [장르]와 [시놉시스]를 모두 입력/선택해야 합니다.');
+            alert('AI의 도움을 받으려면 [장르]를 1개 이상 선택하고 [시놉시스]를 입력해야 합니다.');
             return;
         }
-
         toggleLoading(true, aiHelpBtn, 'AI 생각 중...');
-
         try {
             const aiResponse = await recommendNovelApi(genre, synopsis);
             populateFormWithAiData(aiResponse);
@@ -125,9 +120,7 @@ function main() {
             genres: Array.from(selectedGenres),
             visibility: 'PUBLIC'
         };
-
         toggleLoading(true, submitBtn, '소설 등록 중...');
-
         try {
             const result = await createNovelApi(novelData);
             alert(`소설이 성공적으로 생성되었습니다!`);
@@ -160,6 +153,7 @@ function main() {
     }
 
     // --- 페이지 초기화 ---
+    addGenreBtn.addEventListener('click', addSelectedGenre);
     aiHelpBtn.addEventListener('click', handleAiHelpClick);
     form.addEventListener('submit', handleFormSubmit);
     fetchGenres();

@@ -32,12 +32,13 @@
 
                 <!-- 장르 선택 및 추가 -->
                 <div class="form-group">
-                    <label for="novel-genres-input">장르 선택 (최대 3개)</label>
-                    <div class="genre-input-wrapper">
-                        <input type="text" id="novel-genres-input" list="genre-options" placeholder="장르를 검색하여 선택하세요">
-                        <datalist id="genre-options">
+                    <label for="genre-select">장르 선택 (최대 3개)</label>
+                    <div class="genre-select-wrapper">
+                        <select id="genre-select">
+                            <option value="">-- 장르를 선택해주세요 --</option>
                             <!-- 장르 목록은 JS로 동적으로 채워집니다. -->
-                        </datalist>
+                        </select>
+                        <button type="button" id="add-genre-btn">추가</button>
                     </div>
                     <div id="selected-genres" class="selected-genres-list">
                         <!-- 선택된 장르 태그들이 여기에 추가됩니다. -->
