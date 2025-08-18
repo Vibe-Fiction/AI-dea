@@ -1,3 +1,4 @@
+/*
 package com.spring.aidea.vibefiction.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -6,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
+*/
 /**
  * 외부 AI API와의 실제 통신을 모방(imitating)하는 모의(Mock) 서비스 클래스입니다.
  *
@@ -19,14 +21,18 @@ import java.util.Map;
  *
  * @author 왕택준
  * @since 2025.08
- */
+ *//*
+
 @Service
 public class MockAIServiceTj {
 
-    /** 모의 응답 데이터(Map)를 실제 AI 응답과 동일한 JSON 문자열 형식으로 직렬화하기 위해 사용됩니다. */
+    */
+/** 모의 응답 데이터(Map)를 실제 AI 응답과 동일한 JSON 문자열 형식으로 직렬화하기 위해 사용됩니다. *//*
+
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    /**
+    */
+/**
      * '새 소설 추천' 시나리오를 위한 예측 가능한 모의 응답 데이터를 생성합니다.
      * <p>
      * <b>[모의 동작]</b>
@@ -35,7 +41,8 @@ public class MockAIServiceTj {
      *
      * @param prompt {@link AiAssistServiceTj}로부터 전달받은 AI 요청 프롬프트. (현재 구현에서는 내용에 영향을 주지 않음)
      * @return 하드코딩된 소설 추천 정보가 담긴 JSON 형식의 응답 문자열.
-     */
+     *//*
+
     public String getNovelRecommendation(String prompt) {
         // [디버깅용] 실제 AI 연동 시, 이 프롬프트가 잘 생성되는지 확인하기 위한 로그
         System.out.println("--- [Mock AI TJ] 새 소설 추천 프롬프트 ---");
@@ -61,7 +68,8 @@ public class MockAIServiceTj {
         }
     }
 
-    /**
+    */
+/**
      * '이어쓰기 제안' 시나리오를 위한 예측 가능한 모의 응답 데이터를 생성합니다.
      * <p>
      * <b>[모의 동작]</b>
@@ -70,7 +78,8 @@ public class MockAIServiceTj {
      *
      * @param prompt {@link AiAssistServiceTj}로부터 전달받은 AI 요청 프롬프트. (현재 구현에서는 내용에 영향을 주지 않음)
      * @return 하드코딩된 이어쓰기 제안 정보가 담긴 JSON 형식의 응답 문자열.
-     */
+     *//*
+
     public String getContinueProposal(String prompt) {
         // [디버깅용] 실제 AI 연동 시, 이 프롬프트가 잘 생성되는지 확인하기 위한 로그
         System.out.println("--- [Mock AI TJ] 이어쓰기 제안 프롬프트 ---");
@@ -95,3 +104,4 @@ public class MockAIServiceTj {
         }
     }
 }
+*/
