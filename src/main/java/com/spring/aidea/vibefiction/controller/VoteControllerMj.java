@@ -1,12 +1,10 @@
 package com.spring.aidea.vibefiction.controller;
 
-import com.spring.aidea.vibefiction.dto.response.vote.VoteProposalResponseMj;
+import com.spring.aidea.vibefiction.dto.response.vote.VoteListAndClosingResponseMj;
 import com.spring.aidea.vibefiction.service.VoteServiceMj;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,8 +18,8 @@ public class VoteControllerMj {
      * ex) GET /api/vote/novels/1/proposals
      */
     @GetMapping("/novels/{novelId}/proposals")
-    public ResponseEntity<List<VoteProposalResponseMj>> getProposalsByNovelId(@PathVariable Long novelId) {
-        List<VoteProposalResponseMj> response = voteService.getProposalsForNovel(novelId);
+    public ResponseEntity<VoteListAndClosingResponseMj> getProposalsByNovelId(@PathVariable Long novelId) {
+        VoteListAndClosingResponseMj response = voteService.getVoteDataForNovel(novelId);
         return ResponseEntity.ok(response);
     }
 }
