@@ -55,6 +55,33 @@ function showFeedback(element, message, isSuccess) {
     }
 }
 
+function handleBirthDateCheck(e) {
+    const input = e.target;
+    const feedbackEl = document.getElementById('birthDate-feedback');
+    const birthDateValue = input.value;
+
+    // 입력값이 없으면 메시지를 지웁니다.
+    if (!birthDateValue) {
+        feedbackEl.textContent = '';
+        feedbackEl.className = 'feedback-message';
+        return;
+    }
+
+    const selectedDate = new Date(birthDateValue);
+    const today = new Date();
+
+    // 시간을 0으로 설정하여 날짜만 비교합니다.
+    today.setHours(0, 0, 0, 0);
+
+    if (selectedDate >= today) {
+        showFeedback(feedbackEl, '생년월일은 오늘보다 이전 날짜여야 합니다.', false);
+    } else {
+        // 유효한 경우 메시지를 지웁니다.
+        feedbackEl.textContent = '';
+        feedbackEl.className = 'feedback-message';
+    }
+}
+
 // --- 실시간 유효성 검사 핸들러 ---
 
 const handleUsernameCheck = debounce(async (e) => {
@@ -226,6 +253,7 @@ export function initAuth() {
         document.getElementById('nickname').addEventListener('input', handleNicknameCheck);
         document.getElementById('password').addEventListener('input', handlePasswordValidation);
         document.getElementById('password-confirm').addEventListener('input', handlePasswordCheck);
+        document.getElementById('birthDate').addEventListener('change', handleBirthDateCheck);
     }
     if ($loginForm) {
         $loginForm.addEventListener('submit', handleLogin);
