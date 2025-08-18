@@ -1,11 +1,12 @@
 spring:
   config:
-    import:
+    import: optional:classpath:application-template.yml
 
   datasource:
-    url:
-    username:
-    password:
+    url: jdbc:mariadb://localhost:3306/ai-dea
+    username: root
+    password: mariadb
+    driver-class-name: org.mariadb.jdbc.Driver
   jpa:
     hibernate:
       naming:
@@ -19,7 +20,7 @@ spring:
         show_sql: true
 
 server:
-  port:
+  port: 9009
 
 logging:
   level:
@@ -33,14 +34,12 @@ logging:
 # jwt setting
 jwt:
   # secret key (실제 운영에서는 환경변수로 관리)
-  secret:
+  secret: oIirSuZv9VNydoYp4h2ARrqwxRyPVZW82XGB2MovuKs=
   # 만료시간 (ms) - 24 hour
-  expiration:
+  expiration: 86400000
 
 # Gemini API Key는 application-template.yml 또는 환경변수에서 로드
 gemini:
   api:
-    # API 호출을 위한 URL. RestTemplate이 {apiKey} 부분을 실제 키로 치환합니다.
-    url: ""
     # API 키는 application-template.yml 또는 환경 변수에서 가져옵니다.
-    key: ${GEMINI_API_KEY:}
+    key: "본인 Gemini AI API KEY"
