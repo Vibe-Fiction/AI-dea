@@ -34,8 +34,24 @@ public class Proposals {
     @Column(name = "title", nullable = false, length = 60)
     private String title;
 
+    /*
+     * [리팩토링-AS-IS] 기존 @Lob 어노테이션
+     *
+     * [주석 처리 이유] by 왕택준
+     * Chapters 엔티티와 동일한 이유로, 모든 환경에서 일관된 스키마(MEDIUMTEXT)를 보장하고
+     * 저장 용량을 명확하게 지정하기 위해 @Column(columnDefinition = "...") 옵션을 사용합니다.
+     *
     @Lob
     @Column(name = "content", nullable = false)
+    private String content;
+    */
+
+    /**
+     * [리팩토링-TO-BE] 이어쓰기 제안의 본문 내용입니다.
+     * {@code columnDefinition = "MEDIUMTEXT"} 설정을 통해, DB 컬럼 타입을 명시적으로 지정하여
+     * 길이 제한(최대 5000자)을 넘어서는 긴 본문도 안정적으로 저장할 수 있습니다.
+     */
+    @Column(name = "content", columnDefinition = "MEDIUMTEXT", nullable = false)
     private String content;
 
     @Column(name = "vote_deadline", nullable = false)
