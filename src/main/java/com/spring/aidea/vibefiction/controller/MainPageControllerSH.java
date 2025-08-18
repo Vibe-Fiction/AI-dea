@@ -6,6 +6,8 @@ import com.spring.aidea.vibefiction.global.exception.ErrorCode;
 import com.spring.aidea.vibefiction.service.MainPageServiceSH;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,9 +27,10 @@ public class MainPageControllerSH {
 
 
     @GetMapping
-    public ResponseEntity<?> findAllNovels() {
+    public ResponseEntity<?> findAllNovels(
+        @PageableDefault(size = 8) Pageable pageable) {
 
-        List<NovelsResponseDtoSH> allNovels = mainPageServiceSH.findAllNovels();
+        List<NovelsResponseDtoSH> allNovels = mainPageServiceSH.findAllNovels(pageable);
 
         if (allNovels.isEmpty()) throw new BusinessException(ErrorCode.NOVEL_NOT_FOUND);
 

@@ -16,11 +16,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  * Spring Security 설정 클래스입니다.
  *
  * @author 고동현
- * <p>
+ *
  * 주석으로 설명이 달린 코드부분에
  * .requestMatchers("각자URL").permitAll() 을 추가해야 Spring security의 검증을 거치지 않고
- * postman 테스트가 가능합니다. 토큰 인증과 연동하기 전의 작업단계에서는 이부분에 작업중인 URL을
- * 추가해서 JWT 인증을 비활성화 하면 됩니다.
+ *  postman 테스트가 가능합니다. 토큰 인증과 연동하기 전의 작업단계에서는 이부분에 작업중인 URL을
+ *  추가해서 JWT 인증을 비활성화 하면 됩니다.
+ *
  */
 @Configuration
 @EnableWebSecurity
@@ -31,12 +32,17 @@ public class SecurityConfig {
 
     // 검증 제외 할 api URL
     String[] apiURLs = {
-        "/api/novels/**",
-        "/api/genres",
-        "/api/chapters/{chapterId}/proposals",
-        "/api/auth/**",
+            "/api/novels/**",
+            "/api/genres",
+            "/api/chapters/{chapterId}/proposals" ,
+            "/api/auth/**",
         "/api/auth/signup",
         "/api/auth/login",
+        "/api/auth/**",
+        "/api/my-page/**",
+        "/api/chapters/**",
+
+
     };
     // 검증 제외 할 정적소스 (html,css,image,js) URL
     String[] wedPagesURLs = {
@@ -44,13 +50,28 @@ public class SecurityConfig {
         "/css/**",
         "/js/**",
         "/chapters",
+        "/chapters/**",
         "/vote",
+        "/vote/**",
         "/novel",
+        "/novel/**",
         "/proposal",
+        "/proposal/**",
         "/my-page",
+        "/my-page/**",
         "/signup",
-        "/img/**"
+        "/signup/**",
+        "/config/**",
+        "/pages/**",
+        "/utils/**",
+        "/uploads/**",
+        "/img/**",
+
+
+
     };
+
+
 
 
     @Bean
