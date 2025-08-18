@@ -40,6 +40,7 @@ public class SecurityConfig {
         "/api/auth/signup",
         "/api/auth/login",
         "/api/auth/**",
+        "/api/vote/novels/**"
 
     };
     // 검증 제외 할 정적소스 (html,css,image,js) URL
