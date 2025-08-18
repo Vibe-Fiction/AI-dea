@@ -100,6 +100,7 @@ body {
 
 /* 메인 콘텐츠 */
 .main-content {
+    width: 80%;
     padding-top: 2rem;
     padding-bottom: 2rem;
     flex-grow: 1;

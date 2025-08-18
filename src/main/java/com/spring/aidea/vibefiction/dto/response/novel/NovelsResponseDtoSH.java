@@ -63,36 +63,6 @@ public class NovelsResponseDtoSH {
      */
     public static NovelsResponseDtoSH from(Novels novels) {
 
-        /*
-         * [리팩토링-AS-IS] 기존 변환 로직 (Original Author: SH)
-         * @author 왕택준 (Refactored by)
-         *
-         * [주석 처리 이유]
-         * Genres 엔티티의 name 필드가 String에서 Genres.GenreType Enum으로 변경되었습니다.
-         * 따라서 .map(Genres::getName)을 호출할 때 반환 타입이 Enum으로 바뀌었으므로,
-         * 이를 클라이언트에게 보낼 문자열로 변환하기 위해 .map(type -> type.name()) 또는
-         * .map(Genres.GenreType::name)을 호출하는 로직으로 수정합니다.
-         *
-        return NovelsResponseDtoSH.builder()
-                .novelId(novels.getNovelId())
-                .title(novels.getTitle())
-                .author(String.valueOf(novels.getAuthor().getUserId()))
-                .authorName(String.valueOf(novels.getAuthor().getNickname()))
-                .coverImageUrl(novels.getCoverImageUrl())
-                .synopsis(novels.getSynopsis())
-                .status(novels.getStatus().toString())
-                .viewCount(novels.getViewCount())
-                .novelGenres(novels.getNovelGenres()
-                        .stream()
-                        .map(NovelGenres::getGenre)
-                        .map(Genres::getName)
-                        .toList()
-                )
-                .laseUpdatedAt(novels.getLastUpdatedAt())
-                .build();
-        */
-
-        // [리팩토링-TO-BE] 새로운 변환 로직
         return NovelsResponseDtoSH.builder()
             .novelId(novels.getNovelId())
             .title(novels.getTitle())
@@ -106,7 +76,7 @@ public class NovelsResponseDtoSH {
                 .stream()
                 .map(NovelGenres::getGenre)
                 .map(Genres::getName)
-                .map(Genres.GenreType::name)
+                .map(Genres.GenreType::getDescription) // 한글 설명을 가져오도록 변경
                 .collect(Collectors.toList())
             )
             .lastUpdatedAt(novels.getLastUpdatedAt())

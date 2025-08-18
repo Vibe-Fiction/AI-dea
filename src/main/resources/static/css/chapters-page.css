@@ -3,11 +3,13 @@
 /* 소설 상세 헤더 */
 .novel-detail-header {
     display: flex;
-    gap: 2rem;
+    gap: 5rem;
     padding: 2rem;
     background-color: var(--bg-card);
     border-radius: 1rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    justify-content: center;
+    align-items: center;
 }
 
 .novel-cover-wrapper {

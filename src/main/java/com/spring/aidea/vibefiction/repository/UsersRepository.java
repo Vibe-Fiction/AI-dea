@@ -17,6 +17,13 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
     Optional<Users> findByEmail(String email);
     Optional<Users> findByNickname(String nickname);
 
+    /**
+     *
+     * @param userId - user PK
+     * @return - UserId로 찾은 사용자를 반환
+     */
+    Optional<Users> findByUserId(Long userId);
+
     boolean existsByLoginId(String loginId);
     boolean existsByEmail(String email);
     boolean existsByNickname(String nickname);
