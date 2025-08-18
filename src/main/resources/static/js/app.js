@@ -24,7 +24,8 @@ const getCurrentPage = () => {
  */
 function main() {
 
-    // 1. 외부 모듈 JS파일들을 로드
+    // 1. 외부 모듈들을 로드합니다.
+
     const currentPage = getCurrentPage();
     const init = async () => {
         try {
@@ -42,7 +43,7 @@ function main() {
             initRouter();
 
 
-
+            // 6. 현재 페이지의 모듈을 로드합니다.
             const module = await import(`./pages/${currentPage.module}.js`);
             console.log(module);
 
