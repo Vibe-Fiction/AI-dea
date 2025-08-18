@@ -61,11 +61,11 @@ public class SecurityConfig {
         "/my-page/**",
         "/signup",
         "/signup/**",
-        "/images/**",
         "/config/**",
         "/pages/**",
         "/utils/**",
         "/uploads/**",
+        "/img/**",
 
 
 

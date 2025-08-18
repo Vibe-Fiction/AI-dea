@@ -61,7 +61,7 @@ const MyPage = () => {
             if (imageUrl && !imageUrl.startsWith('http') && !imageUrl.startsWith('/')) {
                 imageUrl = `file://${imageUrl}`;
             } else if (!imageUrl) {
-                imageUrl = '/images/2.JPEG';
+                imageUrl = '/img/default-profile.webp';
             }
 
             profileImage.src = imageUrl;
@@ -69,7 +69,7 @@ const MyPage = () => {
 
             // 이미지 로드 실패 시 기본 이미지로 변경
             profileImage.onerror = function() {
-                this.src = '/images/2.JPEG';
+                this.src = '/img/default-profile.webp';
                 this.onerror = null; // 무한 루프 방지
             };
         }
@@ -99,13 +99,12 @@ const MyPage = () => {
         article.dataset.novelId = novel.novelId;
 
         // 소설 표지 이미지 설정 (없으면 기본 이미지 사용)
-        const coverImageUrl = novel.coverImageUrl || '/images/2.JPEG';
+        const coverImageUrl = novel.coverImageUrl;
 
         article.innerHTML = `
             <img src="${coverImageUrl}"
                  alt="소설 표지"
-                 class="novel-cover"
-                 onerror="this.src='/images/2.JPEG'; this.onerror=null;">
+                 class="novel-cover">
             <div class="card-content">
                 <h3 class="novel-title">${novel.title}</h3>
             </div>

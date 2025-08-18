@@ -18,7 +18,7 @@ import {authService} from './utils/auth.js';
  * @param requiresAuth - 이 페이지 진입에 로그인이 필요한지 여부
  * @returns true일 경우 페이지 진입 허용, false일 경우 로그인 페이지로 튕겨내기
  */
-// 라우트 가드 함수
+// 라우트 가드 함수   ============================= 복구예정
 const checkRouteAccess = (requiresAuth) => {
     // requiresAuth는 정적으로 페이지 진입이 인증이 필요한지를 표현하는 변수
     // 동적으로는 로그인이 되었을 때 가드처리를 수행하면 안된다.
@@ -65,6 +65,7 @@ const checkRouteAccess = (requiresAuth) => {
         document.body.appendChild(overlay);
 
         // 잠깐 후 얼럿 표시 및 리다이렉트
+        // 로그인 모달띄우기
         setTimeout(() => {
             showAlert('로그인이 필요한 페이지입니다. 로그인 페이지로 이동합니다.');
             setTimeout(() => {
@@ -91,7 +92,7 @@ const App = () => {
     const currentPage = getCurrentPage();
     // console.log(`currentPage: ${currentPage}`);
 
-    // 라우트 가드 처리
+    // 라우트 가드 처리============================= 복구예정
     if(!checkRouteAccess(currentPage.requiresAuth)){
         return;
     }
