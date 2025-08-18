@@ -37,7 +37,7 @@ public class SecurityConfig {
         "/api/genres",
         "/api/chapters/*/proposals/**",
         "/api/auth/**",
-        "/api/ai/**"
+        "/api/ai/**",
 
      //dev
             "/api/novels/**",
@@ -72,7 +72,7 @@ public class SecurityConfig {
         "/novel/**",
         "/proposal",
         "/proposal/**",
-      
+
         "/my-page",
         "/my-page/**",
         "/signup",
