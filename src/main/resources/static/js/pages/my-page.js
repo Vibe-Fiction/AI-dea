@@ -1,31 +1,41 @@
+import {getToken} from '../utils/token.js';
+
 /**
  * 마이페이지 모듈
  * URL 파라미터의 userid를 사용해서 사용자 정보와 작성한 소설 목록을 보여주는 페이지
  */
+
 const MyPage = () => {
     let userData = null;
 
-    // URL 파라미터에서 userid 가져오기
-    const getUserIdFromUrl = () => {
-        const urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get('userid') || '1'; // 기본값 1
-    };
 
     // API에서 사용자 데이터를 가져오는 함수
-    const fetchUserData = async (userId) => {
-        try {
-            console.log(`API 호출: /api/my-page?userid=${userId}`);
+    const fetchUserData = async () => {
 
-            const response = await fetch(`/api/my-page?userid=${userId}`, {
+        const token = getToken();
+        if (!token) {
+            // 토큰이 없으면 요청을 보내기 전에 에러 처리
+            throw new Error('로그인이 필요합니다. 메인 페이지로 이동합니다.');
+        }
+
+
+        try {
+            console.log(`API 호출: /api/my-page`);
+
+            const response = await fetch(`/api/my-page`, {
                 method: 'GET',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 }
             });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status} - ${response.statusText}`);
+            if (response.status === 401) {
+                throw new Error('인증이 만료되었습니다. 다시 로그인해주세요.');
             }
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
 
             const data = await response.json();
             console.log('API 응답 데이터:', data);
@@ -68,7 +78,7 @@ const MyPage = () => {
             profileImage.alt = `${user.nickname} 프로필 사진`;
 
             // 이미지 로드 실패 시 기본 이미지로 변경
-            profileImage.onerror = function() {
+            profileImage.onerror = function () {
                 this.src = '/img/default-profile.webp';
                 this.onerror = null; // 무한 루프 방지
             };
@@ -217,7 +227,7 @@ const MyPage = () => {
             }
 
             currentProfilePreview.src = currentImageUrl;
-            currentProfilePreview.onerror = function() {
+            currentProfilePreview.onerror = function () {
                 this.src = '/images/2.JPEG';
                 this.onerror = null;
             };
@@ -241,14 +251,20 @@ const MyPage = () => {
     };
 
     const handleProfileUpdate = async (changedFields) => {
+
+        const token = getToken();
+        if (!token) {
+            // 토큰이 없으면 요청을 보내기 전에 에러 처리
+            throw new Error('로그인이 필요합니다. 메인 페이지로 이동합니다.');
+        }
+
+
         try {
             // 저장 버튼 비활성화
             const saveBtn = document.querySelector('.btn-save');
             saveBtn.disabled = true;
             saveBtn.textContent = '저장 중...';
 
-            // 사용자 ID 가져오기
-            const userId = getUserIdFromUrl();
 
             // FormData 객체 생성 (변경된 필드만 포함)
             const updateData = new FormData();
@@ -271,10 +287,14 @@ const MyPage = () => {
                 updateData.append('profileImage', changedFields.profileImage);
             }
 
-            // POST API 호출 - userid를 쿼리 파라미터로 전송
-            const response = await fetch(`/api/my-page?userid=${userId}`, {
+            // POST API 호출
+            const response = await fetch(`/api/my-page`, {
                 method: 'POST',
-                body: updateData
+                headers: {
+                    'Authorization': `Bearer ${token}`
+
+                },
+                body: updateData,
             });
 
             if (!response.ok) {
@@ -324,7 +344,7 @@ const MyPage = () => {
             console.log('프로필 업데이트 성공');
 
             // 업데이트된 사용자 정보 다시 가져오기
-            userData = await fetchUserData(userId);
+            userData = await fetchUserData();
 
             // 화면 업데이트
             renderProfile(userData);
@@ -336,12 +356,17 @@ const MyPage = () => {
             const changedFieldNames = Object.keys(changedFields)
                 .filter(key => key !== 'currentPassword') // 현재 비밀번호는 표시하지 않음
                 .map(field => {
-                    switch(field) {
-                        case 'nickname': return '닉네임';
-                        case 'email': return '이메일';
-                        case 'password': return '비밀번호';
-                        case 'profileImage': return '프로필 이미지';
-                        default: return field;
+                    switch (field) {
+                        case 'nickname':
+                            return '닉네임';
+                        case 'email':
+                            return '이메일';
+                        case 'password':
+                            return '비밀번호';
+                        case 'profileImage':
+                            return '프로필 이미지';
+                        default:
+                            return field;
                     }
                 });
             alert(`${changedFieldNames.join(', ')}이(가) 성공적으로 업데이트되었습니다!`);
@@ -422,7 +447,7 @@ const MyPage = () => {
                     // 파일이 이미지인지 확인
                     if (file.type.startsWith('image/')) {
                         const reader = new FileReader();
-                        reader.onload = function(e) {
+                        reader.onload = function (e) {
                             previewImg.src = e.target.result;
 
                             // 미리보기 텍스트 변경
@@ -560,16 +585,9 @@ const MyPage = () => {
 
             showLoading();
 
-            // URL 파라미터에서 userid 가져오기
-            const userId = getUserIdFromUrl();
-            console.log('URL 파라미터에서 가져온 userId:', userId);
-
-            if (!userId) {
-                throw new Error('사용자 ID가 제공되지 않았습니다. URL을 /my-page?userid=1 형태로 접속해주세요.');
-            }
 
             // API에서 사용자 데이터 가져오기
-            userData = await fetchUserData(userId);
+            userData = await fetchUserData();
 
             // 페이지 렌더링
             render();

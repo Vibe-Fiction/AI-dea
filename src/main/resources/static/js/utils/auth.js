@@ -3,6 +3,7 @@
 import * as api from './api.js';
 import { saveToken, removeToken } from './token.js';
 import { updateHeaderUI, closeLoginModal } from './ui.js';
+import { PAGE_CONFIG } from '../config/routes-config.js'
 
 // --- 유효성 검사 정규식 (백엔드와 일치) ---
 const REGEX = {
@@ -228,10 +229,17 @@ async function handleLogin(e) {
 }
 
 function handleLogout(e) {
+    const currentPath = window.location.pathname;
     e.preventDefault();
     if (confirm('로그아웃 하시겠습니까?')) {
         removeToken();
         updateHeaderUI();
+
+        // 검증이 필요한 페이지라면 메인 페이지로 이동
+        if(PAGE_CONFIG[currentPath].requiresAuth)
+        window.location.href = '/';
+        // 필요없는 페이지라면 새로고침
+        else
         window.location.reload();
     }
 }
