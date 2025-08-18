@@ -1,9 +1,9 @@
 // js/app.js
 
 // 각 모듈에서 초기화 함수들을 가져옵니다.
-import { initAuth } from './auth.js';
-import { initRouter } from './config/router.js';
-import { updateHeaderUI, initLoginModal } from './ui.js';
+import { initAuth } from './utils/auth.js';
+import { initRouter } from './config/routes-config.js';
+import { updateHeaderUI, initLoginModal } from './utils/ui.js';
 
 /**
  * 애플리케이션을 시작하는 메인 함수

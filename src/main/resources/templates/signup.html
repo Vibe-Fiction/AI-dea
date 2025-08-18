@@ -6,12 +6,13 @@
     <title>Vibe Fiction | 회원가입</title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/signup.css">
+    <link rel="stylesheet" href="/css/login-modal.css">
 </head>
 <body>
+    <div th:insert="~{fragments/loginModal :: loginModal}"></div>
 
 <!-- 메인 헤더 -->
-<div th:replace="~{fragments/mainHeader :: mainHeader}"></div>
-
+    <div th:replace="~{fragments/mainHeader :: mainHeader}"></div>
 <!-- Main Content Area -->
 <main>
     <section class="signup-section">
