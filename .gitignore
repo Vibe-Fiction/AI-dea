@@ -1,6 +1,6 @@
 
 .gradle
-.yml
+*.yml
 logs
 *.log
 .DS_Store
