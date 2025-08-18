@@ -9,6 +9,7 @@ import com.spring.aidea.vibefiction.dto.response.aiInteractionLog.AiContinueResp
 import com.spring.aidea.vibefiction.dto.response.aiInteractionLog.AiRecommendNovelResponseTj;
 import com.spring.aidea.vibefiction.entity.AiInteractionLogs;
 import com.spring.aidea.vibefiction.entity.Chapters;
+import com.spring.aidea.vibefiction.entity.Genres;
 import com.spring.aidea.vibefiction.entity.Users;
 import com.spring.aidea.vibefiction.repository.AiInteractionLogsRepository;
 import com.spring.aidea.vibefiction.repository.ChaptersRepository;
@@ -27,9 +28,8 @@ import java.util.stream.Collectors;
  * 이 서비스는 AI 모델과의 상호작용을 담당하며, 프롬프트 생성, AI 응답 파싱,
  * 그리고 모든 상호작용에 대한 로그를 데이터베이스에 기록하는 책임을 가집니다.
  * <p>
- * <b>[리팩토링]</b> AI 서비스와의 의존성을 구체적인 구현체({@code MockAIServiceTj})가 아닌,
- * 추상적인 {@link GeminiApiService} 인터페이스로 변경하여, 향후 다른 AI 서비스로의 교체가 용이하도록
- * 유연한 구조로 개선되었습니다.
+ * <b>[설계]</b> AI 서비스와의 의존성을 추상적인 {@link GeminiApiService} 인터페이스로 설정하여,
+ * 향후 다른 AI 서비스로의 교체가 용이하도록 유연한 구조로 설계되었습니다.
  *
  * @author 왕택준
  * @since 2025.08
@@ -39,19 +39,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AiAssistServiceTj {
 
-    /*
-     * [리팩토링-AS-IS] Mock 서비스에 대한 직접 의존성
-     * @author 왕택준
-     *
-     * [주석 처리 이유]
-     * 테스트용 Mock 서비스 구현체에 직접 의존하는 것은 확장성이 떨어지며, 실제 서비스로 교체 시
-     * 이 클래스의 코드를 직접 수정해야 하는 단점이 있습니다. 이를 해결하기 위해,
-     * GeminiApiService 인터페이스에 의존하도록 변경하여 DIP(의존성 역전 원칙)를 적용합니다.
-     *
-    private final MockAIServiceTj mockAiServiceTj;
-    */
-
-    /** [리팩토링-TO-BE] 실제 AI API 호출을 담당하는 서비스 인터페이스입니다. DI(의존성 주입)를 통해 실제 구현체(GeminiApiServiceImpl)가 주입됩니다. */
+    /** 실제 AI API 호출을 담당하는 서비스 인터페이스입니다. DI(의존성 주입)를 통해 실제 구현체(GeminiApiServiceImpl)가 주입됩니다. */
     private final GeminiApiService geminiApiService;
     /** 사용자와 AI의 모든 상호작용을 데이터베이스에 기록하여, 사용량 분석이나 문제 추적에 활용하기 위한 저장소입니다. */
     private final AiInteractionLogsRepository aiInteractionLogsRepository;
@@ -79,18 +67,47 @@ public class AiAssistServiceTj {
         Users user = usersRepository.findById(userId)
             .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다. ID: " + userId));
 
+        /*
+         * [리팩토링-AS-IS] 기존 프롬프트
+         *
+         * [주석 처리 이유] by 왕택준
+         * 기존 프롬프트는 AI에게 기본적인 정보만 제공하여 결과물의 일관성과 품질을 보장하기 어려웠습니다.
+         * 아래 TO-BE 프롬프트에서는 역할(Role), 명확한 지시사항(Instructions), 구조화된 입력 데이터(Input Data) 등을
+         * 명시하는 프롬프트 엔지니어링 기법을 적용하여 AI가 의도를 더 잘 파악하고 고품질의 JSON 응답을
+         * 생성하도록 개선했습니다.
+         *
+        String prompt = String.format(
+            \"\"\"
+            당신은 웹소설 전문 작가입니다. ...
+            { ... }
+            \"\"\",
+            req.getGenre(), req.getSynopsis()
+        );
+        */
+
+        // [리팩토링-TO-BE] 강화된 프롬프트
+        // [프롬프트 강화] 역할, 지시사항, 컨텍스트, 출력 형식 등을 명확히 구분하여 AI의 성능을 극대화
         String prompt = String.format(
             """
-            당신은 웹소설 전문 작가입니다. 주어진 장르와 시놉시스를 바탕으로, 독자들의 흥미를 끌만한 소설 제목과 1화의 제목, 그리고 1화의 내용을 추천해주세요.
-            반드시 아래의 JSON 형식에 맞춰서, JSON 코드 블록 없이 순수한 JSON 텍스트로만 답변해야 합니다.
+            ## ROLE & GOAL
+            당신은 Vibe Fiction 플랫폼을 위한 창의적인 웹소설 작가 AI입니다. 당신의 목표는 사용자가 제공한 최소한의 정보(장르, 시놉시스)를 바탕으로, 즉시 독자들의 시선을 사로잡을 수 있는 매력적인 소설의 시작을 제안하는 것입니다.
 
-            - 장르: "%s"
-            - 시놉시스: "%s"
+            ## INSTRUCTIONS
+            1.  **Analyze Input**: 주어진 '장르'와 '시놉시스'를 분석하여 핵심 키워드와 분위기를 파악하세요.
+            2.  **Generate Novel Title**: 분석한 내용을 바탕으로, 소설의 전체 내용을 암시하면서도 호기심을 유발하는 소설 제목을 생성하세요.
+            3.  **Generate Chapter 1 Title**: 소설의 시작을 알리는 첫 번째 회차의 제목을 생성하세요. "1화" 또는 "프롤로그"와 같은 형식을 포함해도 좋습니다.
+            4.  **Generate Chapter 1 Content**: 시놉시스를 바탕으로, 이야기의 배경을 설정하고, 주인공을 소개하며, 독자들이 다음 화를 궁금해할 만한 핵심 사건이나 복선을 암시하는 도입부를 200~300자 내외로 작성하세요.
+            5.  **Format Output**: 결과는 반드시 JSON 형식으로, JSON 코드 블록 없이 순수한 텍스트로만 제공해야 합니다.
 
+            ## INPUT DATA
+            -   **장르**: "%s"
+            -   **시놉시스**: "%s"
+
+            ## OUTPUT FORMAT (JSON ONLY)
             {
-              "novelTitle": "추천 소설 제목",
-              "firstChapterTitle": "추천 1화 제목",
-              "firstChapterContent": "추천 1화 내용 (200자 내외)"
+              "novelTitle": "생성된 소설 제목",
+              "firstChapterTitle": "생성된 1화 제목",
+              "firstChapterContent": "생성된 1화 내용"
             }
             """,
             req.getGenre(), req.getSynopsis()
@@ -147,24 +164,65 @@ public class AiAssistServiceTj {
 
         String fullStoryContext = buildFullStoryContext(baseChapter);
 
+        /*
+         * [리팩토링-AS-IS] 기존 프롬프트
+         *
+         * [주석 처리 이유] by 왕택준
+         * 기존 프롬프트는 '이전 회차 내용'과 '사용자 요구사항'만 제공하여 AI가 소설의 전체적인 맥락
+         * (제목, 장르, 시놉시스)을 파악하기 어려웠습니다. 아래 TO-BE 프롬프트에서는 CONTEXT 섹션을 추가하여
+         * 소설의 기본 정보까지 함께 제공함으로써, AI가 더 일관성 있고 맥락에 맞는 이야기를 생성하도록 개선했습니다.
+         *
         String prompt = String.format(
-            """
-            당신은 프로 웹소설 작가입니다. 주어진 소설의 전체 내용을 파악하고, 사용자의 요구사항을 반영하여 다음 이야기를 자연스럽게 이어주세요.
-            반드시 아래의 JSON 형식에 맞춰서 답변해야 합니다.
-
+            \"\"\"
+            당신은 프로 웹소설 작가입니다. ...
             --- 전체 소설 내용 ---
             %s
-            --------------------
-
             --- 사용자의 추가 요구사항 ---
             "%s"
-            ------------------------
+            ...
+            \"\"\",
+            fullStoryContext,
+            req.getInstruction()
+        );
+        */
 
+        // [리팩토링-TO-BE] 강화된 프롬프트
+        // [프롬프트 강화] 이어쓰기에 필요한 모든 정보(소설 정보, 이전 내용, 사용자 요구)를 구조화하여 제공
+        String prompt = String.format(
+            """
+            ## ROLE & GOAL
+            당신은 Vibe Fiction 플랫폼을 위한 전문 웹소설 AI 어시스턴트입니다. 당신의 임무는 주어진 소설의 전체 맥락과 사용자의 새로운 요구사항을 깊이 이해하여, 다음 회차의 초안을 일관성 있고 창의적으로 작성하는 것입니다.
+
+            ## INSTRUCTIONS
+            1.  **Analyze Context**: 아래에 제공되는 '소설 기본 정보'와 '이전 회차 전체 내용'을 완벽하게 분석하여, 소설의 장르, 분위기, 문체, 인물들의 성격과 관계, 그리고 현재까지의 사건 흐름을 파악하세요.
+            2.  **Incorporate User Request**: '사용자의 추가 요구사항'을 다음 이야기의 핵심 사건으로 삼아 자연스럽게 전개하세요.
+            3.  **Maintain Consistency**: 이전 내용과 충돌하는 설정 오류(e.g., 죽은 인물의 재등장)나 급격한 문체 변화를 피하고, 이야기의 일관성을 반드시 유지해야 합니다.
+            4.  **Generate Creatively**: 단순히 내용을 잇는 것을 넘어, 독자들이 흥미를 느낄 만한 긴장감, 복선, 또는 감정적인 묘사를 추가하여 글의 품질을 높여주세요.
+            5.  **Format Output**: 결과는 반드시 JSON 형식으로, JSON 코드 블록 없이 순수한 텍스트로만 제공해야 합니다.
+
+            ## CONTEXT
+            ### 소설 기본 정보:
+            -   **제목**: "%s"
+            -   **장르**: [%s]
+            -   **시놉시스**: "%s"
+
+            ### 이전 회차 전체 내용 (1화부터 순서대로):
+            %s
+
+            ## USER REQUEST
+            -   **다음 이야기 요구사항**: "%s"
+
+            ## OUTPUT FORMAT (JSON ONLY)
             {
-              "suggestedTitle": "제안할 다음 이야기의 제목",
-              "suggestedContent": "제안할 다음 이야기의 내용 (300자 내외)"
+              "suggestedTitle": "생성된 다음 회차의 흥미로운 제목",
+              "suggestedContent": "사용자 요구사항이 반영된, 약 300~500자 내외의 몰입감 있는 다음 회차 내용 초안."
             }
             """,
+            baseChapter.getNovel().getTitle(),
+            baseChapter.getNovel().getNovelGenres().stream()
+                .map(novelGenre -> novelGenre.getGenre().getName().getDescription())
+                .collect(Collectors.joining(", ")),
+            baseChapter.getNovel().getSynopsis(),
             fullStoryContext,
             req.getInstruction()
         );
@@ -215,8 +273,13 @@ public class AiAssistServiceTj {
     }
 
     /**
-     * AI가 반환한 전체 문자열에서 순수한 JSON 부분만 추출하는 헬퍼 메서드.
-     * "```json\n{...}\n```" 와 같은 마크다운 형식의 응답에 대응합니다.
+     * AI가 반환한 전체 문자열에서 순수한 JSON 부분만 추출하는 헬퍼 메서드입니다.
+     * <p>
+     * Gemini와 같은 LLM은 종종 응답에 "```json\n{...}\n```" 와 같은 마크다운 코드 블록을
+     * 포함할 수 있습니다. 이 메서드는 이러한 추가 텍스트를 제거하고 안정적으로 JSON만 파싱할 수 있도록 합니다.
+     *
+     * @param text AI의 전체 응답 문자열
+     * @return JSON 형식의 문자열
      */
     private String extractJsonFromString(String text) {
         int firstBrace = text.indexOf('{');
