@@ -206,6 +206,12 @@ async function handleSignUp(e) {
     }
 }
 
+
+
+// 로그인 핸들러
+// 1. 기본적인 로그인 모달 기능
+// 2. 검증이 필요한 페이지 이동버튼 클릭시에는
+// 로그인을 요청하고, 성공하면 이동하려던 페이지로 이동
 async function handleLogin(e) {
     e.preventDefault();
     const form = e.target;
@@ -220,13 +226,28 @@ async function handleLogin(e) {
             updateHeaderUI();
             closeLoginModal();
             alert('로그인 되었습니다.');
-            window.location.href = '/';
+
+            // 로그인 후 리다이렉트할 페이지가 있는지 확인
+            const redirectUrl = localStorage.getItem('redirect_after_login');
+            if (redirectUrl) {
+                // 리다이렉트 URL 제거
+                localStorage.removeItem('redirect_after_login');
+                // 해당 페이지로 이동
+                window.location.href = redirectUrl;
+            } else {
+                // 기본적으로 메인 페이지로 이동
+                window.location.href = '/';
+            }
         }
     } catch (error) {
         console.error('로그인 실패:', error);
         feedbackEl.textContent = getErrorMessage(error);
     }
 }
+
+
+
+
 
 function handleLogout(e) {
     const currentPath = window.location.pathname;
