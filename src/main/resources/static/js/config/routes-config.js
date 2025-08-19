@@ -20,6 +20,9 @@ export function initRouter() {
         }
     });
 }
+
+
+
 export const PAGE_CONFIG = {
     '/': {
         module: 'home',
@@ -27,11 +30,11 @@ export const PAGE_CONFIG = {
     },
     '/my-page': {
         module: 'my-page',
-        requiresAuth: false,
+        requiresAuth: true,
     },
     '/my-page/:userid': {
         module: 'my-page',
-        requiresAuth: false,
+        requiresAuth: true,
     },
     '/chapters': {
         module: 'chapters-page',
