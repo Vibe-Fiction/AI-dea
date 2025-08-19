@@ -126,24 +126,22 @@
     z-index: 102;
 }
 
-/* 수정된 버튼 스타일 */
+/* 수정된 버튼 스타일 (소설 챕터 이동) */
 .fiction-nav-btn {
-    /* 기존 투명 배경 대신 투명도가 낮은 메인 컬러 적용 */
-    background: rgba(79, 70, 229, 0.2);
+    background: rgba(79, 40, 15, 0.2);  /* 메인 브라운 색상 투명도 */
     border: none;
     color: #fff;
     font-size: 2rem;
     padding: 1rem;
-    border-radius: 50%; /* 깔끔한 원형으로 변경 */
+    border-radius: 50%; /* 원형 버튼 */
     cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s; /* 호버 시 애니메이션 추가 */
-    pointer-events: auto; /* 버튼 자체는 클릭 가능하게 */
+    transition: background-color 0.3s, transform 0.2s;
+    pointer-events: auto;
 }
 
 .fiction-nav-btn:hover {
-    /* 호버 시 투명도 조금 더 높게 설정 */
-    background: rgba(79, 70, 229, 0.7);
-    transform: scale(1.1); /* 호버 시 약간 확대되는 효과 */
+    background: rgba(79, 40, 15, 0.7);  /* hover 시 진한 브라운 */
+    transform: scale(1.1);
 }
 
 .fiction-nav-btn.prev-btn {

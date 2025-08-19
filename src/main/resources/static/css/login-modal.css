@@ -87,7 +87,7 @@
 .form-group input:focus {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+    box-shadow: 0 0 0 2px rgba(79, 40, 15, 0.2);
 }
 
 .modal-actions {
@@ -150,7 +150,7 @@
 .feedback-message {
     font-size: 0.875rem;
     font-weight: 500;
-    color: #ef4444; /* 기본 색상을 에러 색상(빨간색)으로 설정 */
+    color: #8b1a1a; /* 기본 색상을 에러 색상(빨간색)으로 설정 */
     text-align: center;
     margin-top: -0.5rem; /* 버튼과의 간격을 살짝 줄임 */
     margin-bottom: 1rem;
