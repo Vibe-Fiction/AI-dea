@@ -15,6 +15,7 @@ const getCurrentPage = () => {
 
 
 
+
 /**
  * 애플리케이션을 시작하는 메인 함수
  */
