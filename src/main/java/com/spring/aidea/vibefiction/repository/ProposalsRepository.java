@@ -1,8 +1,11 @@
 package com.spring.aidea.vibefiction.repository;
 
 import com.spring.aidea.vibefiction.entity.Proposals;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ProposalsRepository extends JpaRepository<Proposals, Long> {
@@ -24,4 +27,14 @@ public interface ProposalsRepository extends JpaRepository<Proposals, Long> {
      * @since 2025.08
      */
     List<Proposals> findByChapter_ChapterIdOrderByCreatedAtAsc(Long chapterId);
+
+    // VoteServiceMj에서 사용될 메서드 추가
+    // 챕터 ID로 제안을 조회하되, 투표 수(voteCount) 내림차순으로 정렬
+    // `Pageable` 객체를 사용해 최대 6개만 가져오도록 함
+    List<Proposals> findByChapter_ChapterIdOrderByVoteCountDesc(Long chapterId, Pageable pageable);
+
+    // 투표 마감일이 현재 시간보다 이전이고, 상태가 VOTING인 제안들을 찾는 메서드
+    List<Proposals> findByVoteDeadlineBeforeAndStatus(LocalDateTime now, Proposals.Status status);
+
+    List<Proposals> findByChapter_ChapterIdAndProposalIdNotInOrderByVoteCountDesc(Long chapterId, List<Long> excludedProposalIds, PageRequest of);
 }

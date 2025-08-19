@@ -46,6 +46,8 @@ public class SecurityConfig {
             "/api/auth/**",
         "/api/auth/signup",
         "/api/auth/login",
+        "/api/vote/novels/**",
+        "/api/chapters/**",
         "/api/auth/**",
         "/api/my-page/**",
         "/api/chapters/**",
@@ -71,6 +73,9 @@ public class SecurityConfig {
         "/novel",
         "/novel/**",
         "/proposal",
+        "/my-page",
+        "/signup",
+        "/img/**",
         "/proposal/**",
 
         "/my-page",
