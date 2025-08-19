@@ -20,13 +20,13 @@
     --text-primary: #1f2937;
     --text-secondary: #6b7280;
     --border-color: #e5e7eb;
+    --body-color: #746EC5;
 }
 
 body {
     font-family: 'Inter', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: var(--bg-light);
     color: var(--text-primary);
     display: flex;
     flex-direction: column;
@@ -100,6 +100,7 @@ body {
 
 /* 메인 콘텐츠 */
 .main-content {
+    width: 80%;
     padding-top: 2rem;
     padding-bottom: 2rem;
     flex-grow: 1;

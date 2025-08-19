@@ -1,83 +1,73 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vibe Fiction | 회원가입</title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/signup.css">
+    <link rel="stylesheet" href="/css/login-modal.css">
 </head>
 <body>
+    <div th:insert="~{fragments/loginModal :: loginModal}"></div>
 
-    <!-- 메인 헤더 -->
+<!-- 메인 헤더 -->
     <div th:replace="~{fragments/mainHeader :: mainHeader}"></div>
+<!-- Main Content Area -->
+<main>
+    <section class="signup-section">
+        <h2 class="signup-title">회원가입</h2>
+        <!-- form id를 'signup-form'으로 변경하여 일관성을 높였습니다. -->
+        <form id="signup-form">
+            <div class="form-group">
+                <label for="loginId">아이디</label>
+                <!-- name="id" -> name="loginId"로 수정 -->
+                <input type="text" id="loginId" name="loginId" placeholder="3~15자의 영문, 숫자, 언더스코어" required>
+                <!--아이디 중복 체크 메시지를 표시할 영역 -->
+                <span id="loginId-feedback" class="feedback-message"></span>
+            </div>
+            <div class="form-group">
+                <label for="password">비밀번호</label>
+                <input type="password" id="password" name="password" placeholder="8~16자의 영문, 숫자, 특수문자 조합" required>
+                <!-- 👇 [추가] 비밀번호 일치 여부 메시지를 표시할 영역 -->
+                <span id="password-feedback" class="feedback-message"></span>
+                <ul id="password-rules" class="password-rules">
+                    <li id="rule-length">8~16자 길이</li>
+                    <li id="rule-letter">영문 대/소문자 포함</li>
+                    <li id="rule-number">숫자 포함</li>
+                    <li id="rule-special">특수문자(@$!%*?&) 포함</li>
+                </ul>
+            </div>
+            <div class="form-group">
+                <label for="password-confirm">비밀번호 확인</label>
+                <input type="password" id="password-confirm" name="password-confirm" placeholder="비밀번호를 다시 입력해주세요." required>
+            </div>
+            <div class="form-group">
+                <label for="nickname">닉네임</label>
+                <input type="text" id="nickname" name="nickname" placeholder="2~10자의 영문, 숫자, 한글" required>
+                <span id="nickname-feedback" class="feedback-message"></span>
+            </div>
+            <div class="form-group">
+                <label for="email">이메일</label>
+                <input type="email" id="email" name="email" placeholder="이메일을 입력해주세요." required>
+                <!--  이메일 중복 체크 메시지를 표시할 영역 -->
+                <span id="email-feedback" class="feedback-message"></span>
+            </div>
+            <div class="form-group">
+                <label for="birthDate">생년월일</label>
+                <!-- name="birthdate" -> name="birthDate"로 수정 (CamelCase) -->
+                <input type="date" id="birthDate" name="birthDate" required>
+                <span id="birthDate-feedback" class="feedback-message"></span>
+            </div>
+            <button type="submit" class="btn-signup-submit">가입하기</button>
+        </form>
+    </section>
+</main>
 
-    <!-- Main Content Area -->
-    <main>
-        <section class="signup-section">
-            <h2 class="signup-title">회원가입</h2>
-            <form id="signupForm">
-                <div class="form-group">
-                    <label for="user-id">아이디</label>
-                    <input type="text" id="user-id" name="id" placeholder="아이디를 입력해주세요." required>
-                </div>
-                <div class="form-group">
-                    <label for="password">비밀번호</label>
-                    <input type="password" id="password" name="password" placeholder="비밀번호를 입력해주세요." required>
-                </div>
-                <div class="form-group">
-                    <label for="password-confirm">비밀번호 확인</label>
-                    <input type="password" id="password-confirm" name="password-confirm" placeholder="비밀번호를 다시 입력해주세요." required>
-                </div>
-                <div class="form-group">
-                    <label for="nickname">닉네임</label>
-                    <input type="text" id="nickname" name="nickname" placeholder="닉네임을 입력해주세요." required>
-                </div>
-                <div class="form-group">
-                    <label for="email">이메일</label>
-                    <input type="email" id="email" name="email" placeholder="이메일을 입력해주세요." required>
-                </div>
-                <div class="form-group">
-                    <label for="birthdate">생년월일</label>
-                    <input type="date" id="birthdate" name="birthdate" required>
-                </div>
-                <button type="submit" class="btn-signup-submit">가입하기</button>
-            </form>
-        </section>
-    </main>
+<!-- 메인 푸터 -->
+<div th:replace="~{fragments/mainFooter :: mainFooter}"></div>
 
-    <!-- 메인 푸터 -->
-    <div th:replace="~{fragments/mainFooter :: mainFooter}"></div>
-
-    <script>
-        // 파일 이름 업데이트 함수
-        function updateFileName(input) {
-            const fileName = document.getElementById('file-name');
-            if (input.files.length > 0) {
-                fileName.textContent = input.files[0].name;
-            } else {
-                fileName.textContent = '선택된 파일 없음';
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const signupForm = document.getElementById('signupForm');
-
-            signupForm.addEventListener('submit', (event) => {
-                event.preventDefault();
-
-                const password = document.getElementById('password').value;
-                const passwordConfirm = document.getElementById('password-confirm').value;
-
-                if (password !== passwordConfirm) {
-                    alert('비밀번호가 일치하지 않습니다.');
-                    return;
-                }
-
-                alert('회원가입이 완료되었습니다!');
-                // 실제 서버 통신 로직을 여기에 추가합니다.
-            });
-        });
-    </script>
+<!-- JS 파일을 body 최하단에 추가합니다. type="module"을 꼭 넣어주세요! -->
+<script type="module" src="/js/app.js"></script>
 </body>
 </html>

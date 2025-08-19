@@ -2,11 +2,12 @@
 package com.spring.aidea.vibefiction.repository;
 
 import com.spring.aidea.vibefiction.entity.Chapters;
+import com.spring.aidea.vibefiction.repository.custom.ChaptersRepositoryCustom;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface ChaptersRepository extends JpaRepository<Chapters, Long> {
+public interface ChaptersRepository extends JpaRepository<Chapters, Long> , ChaptersRepositoryCustom {
     /**
      * 지정된 소설에서 가장 마지막 회차(가장 높은 회차 번호를 가진 회차)를 조회합니다.
      * <p>

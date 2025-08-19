@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vibe Fiction | 다음 챕터 쓰기</title>
-    <!-- Tailwind CSS -->
+    <!--Thymeleaf를 사용하여 소설 제목을 동적으로 표시 -->
+    <title th:text="|Vibe Fiction ! ${novelData.title ?: '새 소설'} 이어쓰기|">
+        Vibe Fiction ! 다음 챕터 쓰기
+    </title>
     <!-- 외부 스타일시트 링크 -->
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/create-proposal.css">
@@ -17,13 +19,21 @@
 
     <!-- 메인 콘텐츠 영역 -->
     <main class="container main-content">
-        <div class="novel-info-card">
-            <img src="https://placehold.co/400x550/e2e8f0/64748b?text=소설+표지" alt="소설 표지" class="novel-cover">
-            <div class="novel-title-text">재벌집 막내아들</div>
+        <!-- (서버 사이드 렌더링) Thymeleaf를 사용하여 실제 소설 정보를 동적으로 표시합니다. -->
+        <!-- th:if를 사용하여, novelData가 존재할 때만 이 블록이 렌더링되도록 합니다. -->
+        <div th:object="${novelData}">
+            <img th:src="*{coverImageUrl} ?: '/img/default-cover.png'" alt="소설 표지" class="novel-cover">
+            <div class="novel-title-text" th:text="*{title}"></div>
+        </div>
+
+        <!-- novelData가 없을 경우, 사용자에게 상태를 알려주는 메시지를 표시합니다. -->
+        <div th:if="${novelData == null}" class="novel-info-card missing">
+            <p>소설 정보를 불러오는 데 실패했습니다.<br>올바른 경로로 접근했는지 확인해주세요.</p>
         </div>
 
         <section class="chapter-form-section">
             <h2>다음 이야기를 만들어주세요!</h2>
+            <!-- 이 폼의 chapterId는 URL 경로를 통해 JavaScript에서 동적으로 인식합니다. -->
             <form id="createChapterForm">
                 <!-- 챕터 소제목 -->
                 <div class="form-group">
@@ -53,16 +63,7 @@
     <!-- 메인 푸터 -->
     <div th:replace="~{fragments/mainFooter :: mainFooter}"></div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const form = document.getElementById('createChapterForm');
+    <script type="module" src="/js/app.js"></script>
 
-            form.addEventListener('submit', (event) => {
-                event.preventDefault();
-                alert('챕터가 생성되었습니다!');
-                // 실제 서버 통신 로직은 여기에 추가합니다.
-            });
-        });
-    </script>
 </body>
 </html>

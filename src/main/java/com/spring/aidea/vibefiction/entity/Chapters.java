@@ -39,8 +39,25 @@ public class Chapters {
     @Column(name = "title", nullable = false, length = 60)
     private String title;
 
+    /*
+     * [리팩토링-AS-IS] 기존 @Lob 어노테이션
+     *
+     * [주석 처리 이유] by 왕택준
+     * @Lob 어노테이션은 데이터베이스 종류에 따라 매핑되는 실제 타입(TEXT, LONGTEXT 등)이 달라질 수 있습니다.
+     * 모든 개발 및 운영 환경에서 일관된 스키마(MEDIUMTEXT)를 보장하기 위해
+     * @Column(columnDefinition = "...") 옵션을 사용하여 타입을 명시적으로 지정하는 방식으로 변경합니다.
+     *
     @Lob
     @Column(name = "content", nullable = false)
+    private String content;
+    */
+
+    /**
+     * [리팩토링-TO-BE] 회차의 본문 내용입니다.
+     * {@code columnDefinition = "MEDIUMTEXT"} 설정을 통해, DB 컬럼 타입을 명시적으로 지정하여
+     * 길이 제한(최대 5000자)을 넘어서는 긴 본문도 안정적으로 저장할 수 있습니다.
+     */
+    @Column(name = "content", columnDefinition = "MEDIUMTEXT", nullable = false)
     private String content;
 
     @Enumerated(EnumType.STRING)

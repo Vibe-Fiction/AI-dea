@@ -31,12 +31,31 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-security'
 
-// JWT
+    // JWT
     implementation 'io.jsonwebtoken:jjwt-api:0.12.3'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.3'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.3'
+
+    // Google Generative AI (Gemini) SDK for Java
+    implementation(platform("com.google.cloud:libraries-bom:26.42.0")) // 버전 관리를 위한 BOM
+    implementation("com.google.cloud:google-cloud-vertexai")
+
     // Database
     runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+
+
+
+    // QueryDSL
+    implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+    annotationProcessor 'com.querydsl:querydsl-apt:5.0.0:jakarta'
+    annotationProcessor 'jakarta.annotation:jakarta.annotation-api:2.1.1'
+    annotationProcessor 'jakarta.persistence:jakarta.persistence-api:3.1.0'
+
+
+
+
+
+
 
     // Test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -44,7 +63,6 @@ dependencies {
     testRuntimeOnly 'com.h2database:h2'
     testCompileOnly 'org.projectlombok:lombok'
     testAnnotationProcessor 'org.projectlombok:lombok'
-
 
     // Development
     compileOnly 'org.projectlombok:lombok'

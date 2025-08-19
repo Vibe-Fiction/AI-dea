@@ -9,11 +9,13 @@ import com.spring.aidea.vibefiction.dto.response.aiInteractionLog.AiContinueResp
 import com.spring.aidea.vibefiction.dto.response.aiInteractionLog.AiRecommendNovelResponseTj;
 import com.spring.aidea.vibefiction.entity.AiInteractionLogs;
 import com.spring.aidea.vibefiction.entity.Chapters;
+import com.spring.aidea.vibefiction.entity.Genres;
 import com.spring.aidea.vibefiction.entity.Users;
 import com.spring.aidea.vibefiction.repository.AiInteractionLogsRepository;
 import com.spring.aidea.vibefiction.repository.ChaptersRepository;
 import com.spring.aidea.vibefiction.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,167 +24,192 @@ import java.util.stream.Collectors;
 
 /**
  * AI 기반의 보조 기능(소설 추천, 이어쓰기 제안)을 처리하는 핵심 서비스 클래스입니다.
- *
+ * <p>
  * 이 서비스는 AI 모델과의 상호작용을 담당하며, 프롬프트 생성, AI 응답 파싱,
  * 그리고 모든 상호작용에 대한 로그를 데이터베이스에 기록하는 책임을 가집니다.
  * <p>
- * <b>[설계]</b> 현재는 외부 AI API 호출 없이 Mock 데이터를 반환하는 {@link MockAIServiceTj}를 사용하며,
- * 향후 실제 AI 연동 시 이 부분만 의존성 주입(DI)을 통해 교체하면 되도록 유연하게 설계되었습니다.
+ * <b>[설계]</b> AI 서비스와의 의존성을 추상적인 {@link GeminiApiService} 인터페이스로 설정하여,
+ * 향후 다른 AI 서비스로의 교체가 용이하도록 유연한 구조로 설계되었습니다.
  *
  * @author 왕택준
  * @since 2025.08
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AiAssistServiceTj {
 
-    /** 실제 AI API 호출을 대체하는 Mock 서비스입니다. DI(의존성 주입)를 통해 실제 서비스로 쉽게 교체 가능합니다. */
-    private final MockAIServiceTj mockAiServiceTj;
+    /** 실제 AI API 호출을 담당하는 서비스 인터페이스입니다. DI(의존성 주입)를 통해 실제 구현체(GeminiApiServiceImpl)가 주입됩니다. */
+    private final GeminiApiService geminiApiService;
     /** 사용자와 AI의 모든 상호작용을 데이터베이스에 기록하여, 사용량 분석이나 문제 추적에 활용하기 위한 저장소입니다. */
     private final AiInteractionLogsRepository aiInteractionLogsRepository;
     /** AI 이어쓰기 시, 이전 회차 내용을 조회하기 위해 사용되는 저장소입니다. */
     private final ChaptersRepository chaptersRepository;
     /** 요청의 주체인 사용자를 식별하고 AI 로그에 기록하기 위해 사용되는 저장소입니다. */
     private final UsersRepository usersRepository;
-    /** AI가 반환하는 JSON 형식의 응답 문자열을 자바 객체(JsonNode)로 파싱하기 위해 사용됩니다. */
-    private final ObjectMapper objectMapper;
 
     /**
      * 사용자가 입력한 장르와 시놉시스를 기반으로 AI에게 새로운 소설의 제목과 1화 내용을 추천받습니다.
      * <p>
-     * 이 메서드는 AI 모델에 전달할 프롬프트를 생성하고, AI의 응답(JSON)을 파싱하여 클라이언트가 사용하기 쉬운
-     * DTO 형태로 가공하여 반환합니다. 모든 AI 상호작용 과정은 {@link AiInteractionLogs}에 기록됩니다.
+     * AI의 성능을 극대화하기 위해, 역할, 지시사항, 제약 조건 등을 명시하는
+     * 정교한 프롬프트 엔지니어링 기법이 적용되었습니다.
      *
      * @param userId AI 추천을 요청한 사용자의 고유 ID.
      * @param req    추천에 필요한 소설 장르(genre)와 시놉시스(synopsis)를 담은 DTO.
      * @return AI가 추천한 제목과 내용을 담은 {@link AiRecommendNovelResponseTj}.
-     * @throws IllegalArgumentException 요청한 ID에 해당하는 사용자가 존재하지 않을 경우.
-     * @throws RuntimeException         AI 응답(JSON) 파싱에 실패한 경우.
+     * @throws RuntimeException AI 서비스 호출 또는 응답 파싱에 실패한 경우.
      */
     @Transactional
     public AiRecommendNovelResponseTj recommendForNewNovel(Long userId, AiRecommendNovelRequestTj req) {
-        // [1. 사용자 조회] 요청의 주체가 되는 사용자 엔티티를 조회합니다.
         Users user = usersRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다. ID: " + userId));
+            .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다. ID: " + userId));
 
-        // [2. 프롬프트 생성] AI 모델에 명확한 역할을 부여하고 원하는 출력 형식을 지정하는 프롬프트 엔지니어링 과정입니다.
+        // [리팩토링] AI가 JSON 형식 오류를 자주 반환하는 문제를 해결하기 위해, 텍스트와 구분자를 사용하도록 프롬프트 변경
         String prompt = String.format(
-                // ... (프롬프트 내용은 동일)
-                """
-                당신은 웹소설 전문 작가입니다. 주어진 장르와 시놉시스를 바탕으로, 독자들의 흥미를 끌만한 소설 제목과 1화의 제목, 그리고 1화의 내용을 추천해주세요.
-                반드시 아래의 JSON 형식에 맞춰서 답변해야 합니다.
+            """
+            ## ROLE & GOAL
+            당신은 Vibe Fiction 플랫폼을 위한 창의적인 웹소설 작가 AI입니다. 당신의 목표는 사용자가 제공한 최소한의 정보(장르, 시놉시스)를 바탕으로, 즉시 독자들의 시선을 사로잡을 수 있는 매력적인 소설의 시작을 제안하는 것입니다.
 
-                - 장르: "%s"
-                - 시놉시스: "%s"
+            ## INSTRUCTIONS
+            1.  **Analyze Input**: 주어진 '장르'와 '시놉시스'를 분석하여 핵심 키워드와 분위기를 파악하세요.
+            2.  **Generate Creatively**: 분석한 내용을 바탕으로 소설 제목, 1화 제목, 1화 내용을 생성하세요.
+            3.  **Leave Open-ended**: 릴레이 소설의 '첫 화'이므로, 다음 작가가 이야기를 이어갈 수 있도록 열린 결말로 마무리하세요.
+            4.  **Adhere to Constraints**: 생성하는 모든 텍스트는 아래의 '길이 제한' 규칙을 반드시 준수해야 합니다.
+            5.  **Format Output**: **매우 중요합니다.** 아래 설명된 텍스트 형식과 구분자를 반드시 지켜서 답변해야 합니다. JSON 형식을 사용하지 마세요.
 
-                {
-                  "novelTitle": "추천 소설 제목",
-                  "firstChapterTitle": "추천 1화 제목",
-                  "firstChapterContent": "추천 1화 내용 (200자 내외)"
-                }
-                """,
-                req.getGenre(), req.getSynopsis()
+            ## INPUT DATA
+            -   **장르**: "%s"
+            -   **시놉시스**: "%s"
+
+            ## CONSTRAINTS (길이 제한)
+            -   **novelTitle**: 최대 50자
+            -   **firstChapterTitle**: 최대 60자
+            -   **firstChapterContent**: 최소 200자, 최대 5000자
+
+            ## OUTPUT FORMAT (TEXT ONLY, USE SEPARATOR)
+            -   첫 번째 줄: 생성된 소설 제목
+            -   두 번째 줄: --- (하이픈 3개 구분자)
+            -   세 번째 줄: 생성된 1화 제목
+            -   네 번째 줄: --- (하이픈 3개 구분자)
+            -   다섯 번째 줄부터: 생성된 1화 내용
+
+            ## 예시:
+            악녀는 조용히 살고 싶을 뿐
+            ---
+            제1화: 내가 왜 여기에?
+            ---
+            차가운 대리석 바닥의 감촉에 정신이 들었다...
+            """,
+            req.getGenre(), req.getSynopsis()
         );
 
-        // [3. AI 서비스 호출] 프롬프트를 전달하여 AI로부터 추천 결과를 받습니다. (현재 Mock 서비스 사용)
-        String aiResultJson = mockAiServiceTj.getNovelRecommendation(prompt);
+        log.info("Gemini API에 소설 추천을 요청합니다. (사용자 ID: {})", userId);
+        String aiResultText = geminiApiService.generateContent(prompt);
 
-        // [4. 핵심 비즈니스 로직] 사용자의 요청과 AI의 응답을 모두 로그로 기록하여, 추후 서비스 분석 및 문제 추적에 활용합니다.
-        AiInteractionLogs log = AiInteractionLogs.builder()
-                .user(user)
-                .type(AiInteractionLogs.AiInteractionType.NOVEL_CREATION)
-                .prompt(prompt)
-                .result(aiResultJson)
-                .build();
-        aiInteractionLogsRepository.save(log);
+        AiInteractionLogs logEntity = AiInteractionLogs.builder()
+            .user(user)
+            .type(AiInteractionLogs.AiInteractionType.NOVEL_CREATION)
+            .prompt(prompt)
+            .result(aiResultText)
+            .build();
+        aiInteractionLogsRepository.save(logEntity);
+        log.info("AI 상호작용 로그를 저장했습니다. (로그 ID: {})", logEntity.getLogId());
 
-        // [5. 결과 파싱 및 반환] AI 응답(JSON)을 파싱하여 클라이언트에게 전달할 DTO 객체로 변환합니다.
         try {
-            JsonNode rootNode = objectMapper.readTree(aiResultJson);
-            // .path()는 키가 없어도 예외를 던지지 않고 MissingNode를 반환하므로, .asText()의 기본값으로 안전하게 처리 가능
+            // [리팩토링] JSON 파싱 대신, 구분자("---") 기반의 텍스트 파싱 로직으로 변경하여 안정성 확보
+            String[] parts = aiResultText.split("\n---\n", 3);
+
+            String novelTitle = (parts.length > 0) ? parts[0].trim() : "제목 추천 실패";
+            String firstChapterTitle = (parts.length > 1) ? parts[1].trim() : "1화 제목 추천 실패";
+            String firstChapterContent = (parts.length > 2) ? parts[2].trim() : "1화 내용 추천 실패";
+
             return AiRecommendNovelResponseTj.builder()
-                    .logId(log.getLogId())
-                    .novelTitle(rootNode.path("novelTitle").asText("제목 추천 실패"))
-                    .firstChapterTitle(rootNode.path("firstChapterTitle").asText("1화 제목 추천 실패"))
-                    .firstChapterContent(rootNode.path("firstChapterContent").asText("1화 내용 추천 실패"))
-                    .build();
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException("AI 응답(JSON) 파싱에 실패했습니다.", e);
+                .logId(logEntity.getLogId())
+                .novelTitle(novelTitle)
+                .firstChapterTitle(firstChapterTitle)
+                .firstChapterContent(firstChapterContent)
+                .build();
+        } catch (Exception e) {
+            log.error("AI 응답(텍스트) 파싱 실패. AI로부터 받은 원본 응답: {}", aiResultText, e);
+            throw new RuntimeException("AI 응답을 처리하는 중 오류가 발생했습니다.", e);
         }
     }
 
-    /**
-     * 기존 소설의 특정 회차 내용을 기반으로, AI에게 이어질 다음 이야기를 제안받습니다.
-     * <p>
-     * 이전 회차까지의 전체 내용을 컨텍스트로 제공하고 사용자의 추가 요구사항을 반영하여,
-     * 일관성 있고 자연스러운 다음 회차의 제목과 내용을 추천받습니다.
-     * 모든 AI 상호작용 과정은 {@link AiInteractionLogs}에 기록됩니다.
-     *
-     * @param userId    이어쓰기를 요청한 사용자의 고유 ID.
-     * @param chapterId 이어쓰기의 기준이 될 회차의 고유 ID.
-     * @param req       이어쓰기에 대한 추가적인 지시사항을 담은 DTO.
-     * @return AI가 제안한 제목과 내용을 담은 {@link AiContinueResponseTj}.
-     * @throws IllegalArgumentException 요청한 ID의 사용자 또는 회차가 존재하지 않을 경우.
-     * @throws RuntimeException         AI 응답(JSON) 파싱에 실패한 경우.
-     */
     @Transactional
     public AiContinueResponseTj continueForChapter(Long userId, Long chapterId, AiContinueRequestTj req) {
-        // [1. 엔티티 조회] 요청 주체인 사용자와 이어쓰기의 기준이 될 회차 엔티티를 조회합니다.
         Users user = usersRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다. ID: " + userId));
+            .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다. ID: " + userId));
         Chapters baseChapter = chaptersRepository.findById(chapterId)
-                .orElseThrow(() -> new IllegalArgumentException("기반 회차를 찾을 수 없습니다. ID: " + chapterId));
+            .orElseThrow(() -> new IllegalArgumentException("기반 회차를 찾을 수 없습니다. ID: " + chapterId));
 
-        // [2. 컨텍스트 생성] AI가 이야기의 일관성을 유지할 수 있도록, 이전 스토리를 모두 조회하여 하나의 컨텍스트로 만듭니다.
         String fullStoryContext = buildFullStoryContext(baseChapter);
 
-        // [3. 프롬프트 생성] 전체 내용과 사용자 요구사항을 결합하여 AI에게 전달할 최종 프롬프트를 구성합니다.
         String prompt = String.format(
-                // ... (프롬프트 내용은 동일)
-                """
-                당신은 프로 웹소설 작가입니다. 주어진 소설의 전체 내용을 파악하고, 사용자의 요구사항을 반영하여 다음 이야기를 자연스럽게 이어주세요.
-                반드시 아래의 JSON 형식에 맞춰서 답변해야 합니다.
+            """
+            ## ROLE & GOAL
+            당신은 Vibe Fiction 플랫폼을 위한 전문 웹소설 AI 어시스턴트입니다. 당신의 임무는 주어진 소설의 전체 맥락과 사용자의 새로운 요구사항을 깊이 이해하여, 다음 회차의 초안을 일관성 있고 창의적으로 작성하는 것입니다.
 
-                --- 전체 소설 내용 ---
-                %s
-                --------------------
+            ## INSTRUCTIONS
+            1.  **Strictly Continue the Story**: **가장 중요한 규칙입니다.** '이전 회차 전체 내용'의 마지막 문장에서 이야기가 바로 이어지도록 다음 내용을 작성해야 합니다.
+            2.  **Maintain All Details**: 등장인물의 이름, 능력 등 '이전 회차 전체 내용'에 언급된 모든 세부 설정을 변경하거나 무시해서는 안 됩니다.
+            3.  **Incorporate User Request**: '사용자의 추가 요구사항'을 기존 설정과 충돌하지 않는 선에서 다음 이야기의 핵심 사건으로 자연스럽게 녹여내세요.
+            4.  **Leave Open-ended**: 이 이야기는 계속 이어져야 하므로, 반드시 열린 결말(Open-ended)로 마무리해야 합니다.
+            5.  **Adhere to Constraints**: 생성하는 모든 텍스트는 아래의 '길이 제한' 규칙을 반드시 준수해야 합니다.
+            6.  **Format Output**: **매우 중요합니다.** 아래 설명된 텍스트 형식과 구분자를 반드시 지켜서 답변해야 합니다. JSON 형식을 사용하지 마세요.
 
-                --- 사용자의 추가 요구사항 ---
-                "%s"
-                ------------------------
+            ## CONTEXT
+            ### 소설 기본 정보:
+            -   제목: "%s", 장르: [%s], 시놉시스: "%s"
+            ### 이전 회차 전체 내용:
+            %s
 
-                {
-                  "suggestedTitle": "제안할 다음 이야기의 제목",
-                  "suggestedContent": "제안할 다음 이야기의 내용 (300자 내외)"
-                }
-                """,
-                fullStoryContext,
-                req.getInstruction()
+            ## USER REQUEST
+            -   다음 이야기 요구사항: "%s"
+
+            ## CONSTRAINTS (길이 제한)
+            -   suggestedTitle: 최대 60자
+            -   suggestedContent: 최대 5000자
+
+            ## OUTPUT FORMAT (TEXT ONLY, USE SEPARATOR)
+            -   첫 줄: 생성된 다음 회차의 제목
+            -   두 번째 줄: --- (하이픈 3개 구분자)
+            -   세 번째 줄부터: 생성된 다음 회차의 내용
+            """,
+            baseChapter.getNovel().getTitle(),
+            baseChapter.getNovel().getNovelGenres().stream().map(ng -> ng.getGenre().getName().getDescription()).collect(Collectors.joining(", ")),
+            baseChapter.getNovel().getSynopsis(),
+            fullStoryContext,
+            req.getInstruction()
         );
 
-        // [4. AI 서비스 호출]
-        String aiResultJson = mockAiServiceTj.getContinueProposal(prompt);
+        log.info("Gemini API에 이어쓰기 추천을 요청합니다. (사용자 ID: {}, 챕터 ID: {})", userId, chapterId);
+        String aiResultText = geminiApiService.generateContent(prompt);
 
-        // [5. 핵심 비즈니스 로직] AI와의 상호작용을 로그로 기록합니다.
-        AiInteractionLogs log = AiInteractionLogs.builder()
-                .user(user)
-                .type(AiInteractionLogs.AiInteractionType.PROPOSAL_GENERATION)
-                .prompt(prompt)
-                .result(aiResultJson)
-                .basedOnChapter(baseChapter)
-                .build();
-        aiInteractionLogsRepository.save(log);
+        AiInteractionLogs logEntity = AiInteractionLogs.builder()
+            .user(user)
+            .type(AiInteractionLogs.AiInteractionType.PROPOSAL_GENERATION)
+            .prompt(prompt)
+            .result(aiResultText)
+            .basedOnChapter(baseChapter)
+            .build();
+        aiInteractionLogsRepository.save(logEntity);
+        log.info("AI 상호작용 로그를 저장했습니다. (로그 ID: {})", logEntity.getLogId());
 
-        // [6. 결과 파싱 및 반환]
         try {
-            JsonNode rootNode = objectMapper.readTree(aiResultJson);
+            // [리팩토링] JSON 파싱 대신, 구분자("---") 기반의 텍스트 파싱 로직으로 변경하여 안정성 확보
+            String[] parts = aiResultText.split("\n---\n", 2);
+
+            String title = (parts.length > 0) ? parts[0].trim() : "제목 제안 실패";
+            String content = (parts.length > 1) ? parts[1].trim() : "내용 제안 실패";
+
             return AiContinueResponseTj.builder()
-                    .logId(log.getLogId())
-                    .suggestedTitle(rootNode.path("suggestedTitle").asText("제목 제안 실패"))
-                    .suggestedContent(rootNode.path("suggestedContent").asText("내용 제안 실패"))
-                    .build();
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException("AI 응답(JSON) 파싱에 실패했습니다.", e);
+                .logId(logEntity.getLogId())
+                .suggestedTitle(title)
+                .suggestedContent(content)
+                .build();
+        } catch (Exception e) {
+            log.error("AI 응답(텍스트) 파싱 실패. AI로부터 받은 원본 응답: {}", aiResultText, e);
+            throw new RuntimeException("AI 응답을 처리하는 중 오류가 발생했습니다.", e);
         }
     }
 
@@ -198,9 +225,8 @@ public class AiAssistServiceTj {
     private String buildFullStoryContext(Chapters baseChapter) {
         List<Chapters> allChapters = baseChapter.getNovel().getChapters();
         return allChapters.stream()
-                // [데이터 정합성] 회차 순서가 보장되어야 하므로 chapterNumber 기준으로 명시적 정렬
-                .sorted((c1, c2) -> c1.getChapterNumber().compareTo(c2.getChapterNumber()))
-                .map(c -> String.format("제%d화: %s\n%s", c.getChapterNumber(), c.getTitle(), c.getContent()))
-                .collect(Collectors.joining("\n\n---\n\n"));
+            .sorted((c1, c2) -> c1.getChapterNumber().compareTo(c2.getChapterNumber()))
+            .map(c -> String.format("제%d화: %s\n%s", c.getChapterNumber(), c.getTitle(), c.getContent()))
+            .collect(Collectors.joining("\n\n---\n\n"));
     }
 }
