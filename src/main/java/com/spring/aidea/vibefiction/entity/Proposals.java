@@ -122,4 +122,14 @@ public class Proposals {
             this.aiGenerated = false;
         }
     }
+
+    // --- 비즈니스 로직 메서드 ---
+
+    /**
+     * 제안의 상태를 변경합니다.
+     * @param status 변경할 새로운 상태.
+     */
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 }

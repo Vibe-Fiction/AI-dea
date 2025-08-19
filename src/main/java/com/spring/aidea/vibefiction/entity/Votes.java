@@ -38,4 +38,7 @@ public class Votes {
 
 
     }
+
+    public void setStatus(Proposals.Status status) {
+    }
 }

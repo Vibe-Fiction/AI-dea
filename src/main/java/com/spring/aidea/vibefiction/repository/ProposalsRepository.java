@@ -3,6 +3,7 @@ package com.spring.aidea.vibefiction.repository;
 import com.spring.aidea.vibefiction.entity.Proposals;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ProposalsRepository extends JpaRepository<Proposals, Long> {
@@ -25,5 +26,6 @@ public interface ProposalsRepository extends JpaRepository<Proposals, Long> {
      */
     List<Proposals> findByChapter_ChapterIdOrderByCreatedAtAsc(Long chapterId);
 
-
+    // 투표 마감일이 현재 시간보다 이전이고, 상태가 VOTING인 제안들을 찾는 메서드
+    List<Proposals> findByVoteDeadlineBeforeAndStatus(LocalDateTime now, Proposals.Status status);
 }
