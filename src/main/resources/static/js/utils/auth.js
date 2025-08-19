@@ -1,9 +1,9 @@
 // js/auth.js
 
 import * as api from './api.js';
-import { saveToken, removeToken } from './token.js';
-import { updateHeaderUI, closeLoginModal } from './ui.js';
-import { PAGE_CONFIG } from '../config/routes-config.js'
+import {saveToken, removeToken} from './token.js';
+import {updateHeaderUI, closeLoginModal} from './ui.js';
+import {PAGE_CONFIG} from '../config/routes-config.js'
 
 // --- 유효성 검사 정규식 (백엔드와 일치) ---
 const REGEX = {
@@ -207,7 +207,6 @@ async function handleSignUp(e) {
 }
 
 
-
 // 로그인 핸들러
 // 1. 기본적인 로그인 모달 기능
 // 2. 검증이 필요한 페이지 이동버튼 클릭시에는
@@ -246,9 +245,6 @@ async function handleLogin(e) {
 }
 
 
-
-
-
 function handleLogout(e) {
     const currentPath = window.location.pathname;
     e.preventDefault();
@@ -256,12 +252,16 @@ function handleLogout(e) {
         removeToken();
         updateHeaderUI();
 
-        // 검증이 필요한 페이지라면 메인 페이지로 이동
-        if(PAGE_CONFIG[currentPath].requiresAuth)
-        window.location.href = '/';
-        // 필요없는 페이지라면 새로고침
-        else
-        window.location.reload();
+        // 인증이 필요한 페이지 목록
+        const authRequiredPaths = ['/my-page', '/novels/create', '/chapters/create'];
+        const isAuthRequired = authRequiredPaths.includes(currentPath) ||
+            currentPath.startsWith('/vote-page/');
+
+        if (isAuthRequired) {
+            window.location.href = '/';
+        } else {
+            window.location.reload();
+        }
     }
 }
 

@@ -92,10 +92,7 @@ export const PAGE_CONFIG = {
         module: 'my-page',
         requiresAuth: true,
     },
-    '/my-page/:userid': {
-        module: 'my-page',
-        requiresAuth: true,
-    },
+
     '/chapters': {
         module: 'chapters-page',
         requiresAuth: false,
@@ -108,4 +105,8 @@ export const PAGE_CONFIG = {
         module: 'create-proposal',
         requiresAuth: true,
     },
+    '/vote-page/:id': {
+        module: 'vote-page',
+        requiresAuth: true,
+    }
 };
