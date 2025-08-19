@@ -66,5 +66,5 @@ function main() {
 // 'DOMContentLoaded'는 CSS, 이미지 등을 기다리지 않고 HTML 구조만 완성되면 바로 실행되어 빠릅니다.
 document.addEventListener('DOMContentLoaded',()=> {
     main();
-    console.log('Vibe Fiction App Initialized! 🚀');
+    console.log('Relai App Initialized! 🚀');
 });

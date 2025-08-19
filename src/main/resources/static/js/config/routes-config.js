@@ -39,6 +39,13 @@ export const PAGE_CONFIG = {
     '/chapters': {
         module: 'chapters-page',
         requiresAuth: false,
-    }
-
+    },
+    '/novels/create': {
+        module: 'create-novel',
+        requiresAuth: true,
+    },
+    '/chapters/create': {
+        module: 'create-proposal',
+        requiresAuth: true,
+    },
 };
