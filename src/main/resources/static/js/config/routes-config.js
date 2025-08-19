@@ -20,6 +20,9 @@ export function initRouter() {
         }
     });
 }
+
+
+
 export const PAGE_CONFIG = {
     '/': {
         module: 'home',
