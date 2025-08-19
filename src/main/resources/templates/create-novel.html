@@ -81,12 +81,7 @@
     <!-- 메인 푸터 -->
     <div th:replace="~{fragments/mainFooter :: mainFooter}"></div>
 
-    <!--
-      [리팩토링] 기존 <script> 태그의 내부 로직을 외부 파일로 분리했습니다.
-      'type="module"'을 사용하여, 다른 JavaScript 파일(api.js)을 import 할 수 있도록 합니다.
-      이제 이 페이지의 모든 동적인 기능은 /js/pages/create-novel.js 파일이 담당합니다.
-    -->
-    <script type="module" src="/js/pages/create-novel.js"></script>
+    <script type="module" src="/js/app.js"></script>
 
 </body>
 </html>
