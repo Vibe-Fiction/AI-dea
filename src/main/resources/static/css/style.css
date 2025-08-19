@@ -1,25 +1,36 @@
 /* style.css */
 
-
 /*
-
-        style.css 는 우리 페이지의 시그니쳐 색, 폰트, 헤더디자인, 푸터디자인에만 관여합니다.
-         여러분이 맡으신 페이지의 css를 수정하실 때는 여러분의 페이지에 해당하는 css만 수정하면 됩니다.
-
+    style.css 는 우리 페이지의 시그니쳐 색, 폰트, 헤더디자인, 푸터디자인에만 관여합니다.
+    여러분이 맡으신 페이지의 css를 수정하실 때는 여러분의 페이지에 해당하는 css만 수정하면 됩니다.
 */
-
-
-
 
 /* 전역 스타일 */
 :root {
-    --primary-color: #4f46e5;
-    --primary-hover: #4338ca;
-    --bg-light: #f9fafb;
-    --bg-card: #ffffff;
-    --text-primary: #1f2937;
-    --text-secondary: #6b7280;
-    --border-color: #e5e7eb;
+    /* 🎨 색상 시스템 (세련된 톤으로 개선) */
+    --primary-color: #4f280f;   /* 버튼 */
+    --primary-hover: #694530;   /* 버튼 hover */
+    --bg-light: #fffae8;        /* 전체 배경 */
+    --bg-card: #ffffff;             /* 카드/팝업 배경 (화이트) */
+    --text-primary: #2C2C2C;        /* 기본 본문 글씨 (짙은 차콜) */
+    --text-secondary: #6B5E55;      /* 보조 글씨 (그레이 브라운) */
+    --border-color: #E0D6CC;        /* 테두리 색상 (샌드 베이지) */
+
+    /* ✨ 추가 색상/효과 변수 */
+    --overlay-dark: rgba(0,0,0,0.65);
+    --shadow-light: rgba(0, 0, 0, 0.08);
+    --shadow-medium: rgba(0, 0, 0, 0.12);
+    --shadow-strong: rgba(0, 0, 0, 0.18);
+
+    /* 폰트 사이즈 */
+    --font-sm: 0.875rem;
+    --font-base: 1rem;
+    --font-lg: 1.125rem;
+    --font-xl: 1.5rem;
+    --font-xxl: 2rem;
+
+    /* 브레이크포인트 */
+    --breakpoint-md: 768px;
 }
 
 body {
@@ -44,11 +55,11 @@ body {
 /* 헤더 */
 .main-header {
     background-color: var(--bg-card);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 3px var(--shadow-light);
     position: sticky;
     top: 0;
     z-index: 50;
-   height: 4rem;
+    height: 4rem;
 }
 
 .main-header .container {
@@ -59,10 +70,16 @@ body {
 }
 
 .logo {
-    font-size: 1.5rem;
+    font-size: var(--font-xl);
     font-weight: bold;
     color: var(--primary-color);
     text-decoration: none;
+}
+
+.logo img {
+    height: 150px;   /* 헤더 높이에 맞게 조정 */
+    width: auto;    /* 가로세로 비율 유지 */
+    display: block; /* 이미지 하단 여백 제거 */
 }
 
 .main-nav ul {
@@ -86,16 +103,35 @@ body {
 .main-nav ul li {
     align-items: center;
 }
-.btn-login {
-    background-color: var(--primary-color);
-    color: #fff !important;
+
+/* 공통 버튼 스타일 */
+.btn {
     padding: 0.5rem 1rem;
     border-radius: 9999px;
-    transition: background-color 0.3s;
+    font-size: var(--font-base);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: inline-block;
+    text-align: center;
 }
 
-.btn-login:hover {
+.btn-primary {
+    background-color: var(--primary-color);
+    color: #fff !important;
+}
+.btn-primary:hover {
     background-color: var(--primary-hover);
+}
+
+.btn-outline {
+    background-color: transparent;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+}
+.btn-outline:hover {
+    background-color: var(--primary-color);
+    color: #fff !important;
 }
 
 /* 메인 콘텐츠 */
@@ -104,49 +140,30 @@ body {
     padding-top: 2rem;
     padding-bottom: 2rem;
     flex-grow: 1;
-
 }
 
 /* 푸터 */
 .main-footer {
-    background-color: #1f2937;
+    background-color: var(--primary-color);
     color: #fff;
     padding: 2rem 0;
     text-align: center;
     margin-top: 3rem;
 }
 
-@media (max-width: 768px) {
-    .main-header .container {
-        flex-direction: column;
-        gap: 1rem;
-    }
-    .main-nav ul {
-        justify-content: center;
-        gap: 1rem; /* 모바일 뷰에서도 간격 추가 */
-    }
-}
-
-/* =========================       로그인 검증여부에 따른 헤더버튼             ================================*/
+/* ========================= 로그인 검증여부에 따른 헤더버튼 ================================ */
 .auth-buttons {
     display: flex;
-    gap: 1.5rem; /* 버튼 간 간격 추가 */
-    align-items: center; /* 수직 정렬 */
+    gap: 1.5rem;
+    align-items: center;
 }
 .user-buttons {
     display: none;
-    gap: 1.5rem; /* 버튼 간 간격 추가 */
-    align-items: center; /* 수직 정렬 */
+    gap: 1.5rem;
+    align-items: center;
 }
-/*==============================         로그인이 필요합니다 모달            =================================*/
 
-/*
- .login-required-container의 display 속성을 none, flex 로 바꿔서 사용.
-*/
-
-
-
-/* 로그인 필요 모달 컨테이너 */
+/* ============================== 로그인이 필요합니다 모달 ================================= */
 .login-required-container {
     position: fixed;
     top: 0;
@@ -156,32 +173,29 @@ body {
     display: none;
     align-items: center;
     justify-content: center;
-    z-index: 200; /* voting-modal보다 높게 설정 */
+    z-index: 200;
 }
 
-/* 모달 배경 오버레이 */
 .login-required-overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: var(--overlay-dark);
 }
 
-/* 모달 팝업 본체 */
 .login-required-popup {
     position: relative;
-    background-color: var(--bg-card); /* style.css의 변수 사용 */
+    background-color: var(--bg-card);
     border-radius: 1rem;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 20px var(--shadow-strong);
     width: 90%;
     max-width: 400px;
     padding: 2rem;
     z-index: 201;
 }
 
-/* 모달 닫기 버튼 */
 .login-required-close-btn {
     position: absolute;
     top: 1rem;
@@ -189,95 +203,74 @@ body {
     font-size: 2rem;
     background: none;
     border: none;
-    color: var(--text-secondary); /* style.css의 변수 사용 */
+    color: var(--text-secondary);
     cursor: pointer;
     line-height: 1;
     transition: color 0.3s;
 }
 
 .login-required-close-btn:hover {
-    color: var(--text-primary); /* style.css의 변수 사용 */
+    color: var(--text-primary);
 }
 
-/* 모달 내용 */
 .login-required-content {
     text-align: center;
 }
 
-/* 로그인 필요 메시지 */
 .login-required-message {
-    font-size: 1.125rem;
+    font-size: var(--font-lg);
     line-height: 1.6;
-    color: var(--text-primary); /* style.css의 변수 사용 */
+    color: var(--text-primary);
     margin-bottom: 2rem;
 }
 
-/* 액션 버튼 영역 */
 .login-required-actions {
     display: flex;
     gap: 1rem;
     justify-content: center;
 }
 
-/* 로그인하러가기 버튼  */
+/* 기존 버튼들을 공통 시스템 기반으로 매핑 */
 .req-login-btn {
-    background-color: var(--primary-color);
-    color: #fff !important;
-    border-radius: 9999px;
-    padding: 0.75rem 1.5rem; /* 모달에서 더 큰 패딩 */
-    font-size: 1rem;
+    composes: btn btn-primary;
     min-width: 145px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s;
-    text-decoration: none;
-}
-
-.req-login-btn:hover {
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    background-color: var(--primary-hover);
-}
-
-/* 회원가입 버튼 */
-.btn-signup {
-    background-color: transparent;
-    color: var(--primary-color); /* style.css의 변수 사용 */
-    border: 2px solid var(--primary-color);
     padding: 0.75rem 1.5rem;
-    border-radius: 9999px;
-    font-size: 1rem;
-    font-weight: 500;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-block;
-    text-align: center;
-    transition: all 0.3s;
+    font-size: var(--font-base);
+    box-shadow: 0 4px 6px var(--shadow-light);
+}
+.req-login-btn:hover {
+    box-shadow: 0 6px 12px var(--shadow-medium);
+}
+
+.btn-signup {
+    composes: btn btn-outline;
     min-width: 100px;
+    padding: 0.75rem 1.5rem;
 }
 
-.btn-signup:hover {
-    background-color: var(--primary-color); /* style.css의 변수 사용 */
-    color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* 반응형 디자인 (style.css의 미디어 쿼리와 일치) */
-@media (max-width: 768px) {
+/* 반응형 */
+@media (max-width: var(--breakpoint-md)) {
+    .main-header .container {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    .main-nav ul {
+        justify-content: center;
+        gap: 1rem;
+    }
     .login-required-popup {
         width: 95%;
         max-width: 350px;
         padding: 1.5rem;
     }
-
     .login-required-message {
-        font-size: 1rem;
+        font-size: var(--font-base);
         margin-bottom: 1.5rem;
     }
-
     .login-required-actions {
         flex-direction: column;
         gap: 0.75rem;
     }
-
     .login-required-actions .btn-login-submit,
     .login-required-actions .btn-signup {
         width: 100%;
