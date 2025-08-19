@@ -28,6 +28,15 @@ const ChaptersPage = () => {
                 throw new Error('데이터를 불러오는 데 실패했습니다.');
             }
 
+            // ✅ [수정] '현재 진행 중인 이어쓰기' 버튼에 클릭 이벤트 리스너를 추가합니다.
+            const continueWritingBtn = document.querySelector('.btn-continue-writing');
+            if (continueWritingBtn) {
+                continueWritingBtn.addEventListener('click', () => {
+                    // novelId를 사용하여 동적으로 URL을 생성합니다.
+                    window.location.href = `/vote-page/${novelId}`;
+                });
+            }
+
             const novel = await novelResponse.json();
             const chapters = await chaptersResponse.json();
 

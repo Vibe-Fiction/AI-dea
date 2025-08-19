@@ -4,6 +4,7 @@
 import { initAuth } from './utils/auth.js';
 import { initRouter,PAGE_CONFIG } from './config/routes-config.js';
 import {updateHeaderUI, initLoginModal,} from './utils/ui.js';
+import { getCurrentPage } from './config/routes-config.js';
 import { getToken } from './utils/token.js';
 
 // 현재 페이지 확인 함수

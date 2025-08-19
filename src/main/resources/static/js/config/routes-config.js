@@ -48,4 +48,9 @@ export const PAGE_CONFIG = {
         module: 'create-proposal',
         requiresAuth: true,
     },
+    '/vote-page/:novelId': {
+        module: 'vote-page',
+        requiresAuth: false,
+        pattern: /^\/vote-page\/\d+$/
+    }
 };
