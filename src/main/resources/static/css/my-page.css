@@ -65,27 +65,33 @@
 /* 정보 수정하기 버튼 */
 .edit-profile-btn {
     margin-top: 2rem;
-    padding: 10px 16px;
-    background-color: #6366f1;
-    color: white;
+    padding: 0.625rem 1rem;
+    min-width: 120px;
+
+    background-color: var(--secondary-color);
+    color: #fff;
     border: none;
-    border-radius: 8px;
-    font-size: 14px;
-    cursor: pointer;
+    border-radius: 0.5rem;
+    font-size: var(--font-sm);
+    font-weight: 500;
+
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
-    transition: background-color 0.3s ease;
-    min-width: 120px;
+    gap: 0.4rem;
+
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 4px var(--shadow-light);
 }
 
 .edit-profile-btn:hover {
-    background-color: #4f46e5;
+    background-color: var(--secondary-hover);
+    box-shadow: 0 4px 8px var(--shadow-medium);
 }
 
 .edit-profile-btn i {
-    font-size: 12px;
+    font-size: 0.875rem;
 }
 
 /* 소설 네비게이션 섹션 (버튼 그룹) */
