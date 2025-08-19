@@ -59,4 +59,3 @@ export function closeLoginModal() {
         $loginModalOverlay.classList.remove('open');
     }
 }
-

@@ -3,14 +3,18 @@
 // 각 모듈에서 초기화 함수들을 가져옵니다.
 import { initAuth } from './utils/auth.js';
 import { initRouter,PAGE_CONFIG } from './config/routes-config.js';
-import {updateHeaderUI, initLoginModal,} from './utils/ui.js';
-import { getToken } from './utils/token.js';
+import { updateHeaderUI, initLoginModal } from './utils/ui.js';
+
+
+
 
 // 현재 페이지 확인 함수
 const getCurrentPage = () => {
     const path = window.location.pathname;
     return PAGE_CONFIG[path];
 };
+
+
 
 
 
@@ -37,7 +41,6 @@ function main() {
 
             // 5. 페이지 이동(라우팅) 기능을 활성화합니다.
             initRouter();
-
 
 
             // 6. 현재 페이지의 모듈을 로드합니다.
