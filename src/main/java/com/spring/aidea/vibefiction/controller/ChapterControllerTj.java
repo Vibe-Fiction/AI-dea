@@ -2,11 +2,13 @@ package com.spring.aidea.vibefiction.controller;
 
 import com.spring.aidea.vibefiction.dto.request.chapter.ChapterCreateRequestTj;
 import com.spring.aidea.vibefiction.dto.response.chapter.ChapterCreateResponseTj;
+import com.spring.aidea.vibefiction.dto.response.chapter.ChapterResponseSH;
 import com.spring.aidea.vibefiction.entity.Users;
 import com.spring.aidea.vibefiction.global.common.ApiResponse;
 import com.spring.aidea.vibefiction.global.exception.BusinessException;
 import com.spring.aidea.vibefiction.global.exception.ErrorCode;
 import com.spring.aidea.vibefiction.repository.UsersRepository;
+import com.spring.aidea.vibefiction.service.ChapterServiceSH;
 import com.spring.aidea.vibefiction.service.ChapterServiceTj;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 소설의 개별 회차(Chapter)와 관련된 API 요청을 처리하는 컨트롤러입니다.
@@ -59,4 +63,14 @@ public class ChapterControllerTj {
         return ResponseEntity.status(HttpStatus.CREATED)
             .body(ApiResponse.success("새로운 회차가 등록되었습니다.", result));
     }
+
+
+
+
+
+
+
+
+
+
 }
