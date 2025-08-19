@@ -53,6 +53,8 @@ const HomePage = () => {
                 const novels = await response.json();
 
                 if (!Array.isArray(novels)) {
+                    // ✅ 데이터 형식이 배열이 아닐 경우에도 더 이상 요청하지 않도록 상태 변경
+                    state.hasMoreData = false;
                     if (!append) novelGrid.innerHTML = '<p>데이터 형식 오류가 발생했습니다.</p>';
                     return;
                 }
@@ -68,6 +70,7 @@ const HomePage = () => {
                         endMessage.style.cssText = 'text-align: center; padding: 20px; color: #666;';
                         novelGrid.parentNode.appendChild(endMessage);
                     }
+                    // ✅ 데이터가 없으면 자동 로드 로직을 실행하지 않고 바로 종료
                     return;
                 }
 
@@ -75,20 +78,24 @@ const HomePage = () => {
                 state.totalLoadedNovels += novels.length;
                 renderNovels(novels, append);
 
-            } catch (error) {
-                if (!append) novelGrid.innerHTML = '<p>소설 목록을 불러오는 중 오류가 발생했습니다.</p>';
-            } finally {
-                state.isLoading = false;
-                if (loadingIndicator) loadingIndicator.style.display = 'none';
-
-                // ✅ [추가] 렌더링 후 화면에 공간이 남으면 추가로 데이터를 로드합니다.
-                // 무한 루프를 방지하기 위해 로딩 중이 아닐 때만 실행합니다.
+                // ✅ [수정] 성공적으로 데이터를 가져온 후에만, 그리고 더 가져올 데이터가 있을 때만 추가 로드를 검사합니다.
+                // 이 로직을 finally에서 try의 성공 경로 끝으로 이동합니다.
                 setTimeout(() => {
                     if (state.hasMoreData && !state.isLoading && document.body.scrollHeight <= window.innerHeight) {
                         state.currentPage++;
                         fetchNovels(state.currentPage, true);
                     }
-                }, 100); // DOM이 업데이트될 시간을 줍니다.
+                }, 100);
+
+            } catch (error) {
+                // ✅ [수정] 오류 발생 시 더 이상 데이터를 요청하지 않도록 상태를 변경하여 무한 루프를 방지합니다.
+                state.hasMoreData = false;
+                if (!append) novelGrid.innerHTML = '<div class="errortext">아직 등록된 소설이 없습니다.<br> 새로운 소설을 만들어주세요!</div>';
+            } finally {
+                state.isLoading = false;
+                if (loadingIndicator) loadingIndicator.style.display = 'none';
+
+                // ❌ [제거] 이 위치의 자동 로드 로직은 오류 발생 시에도 실행되어 문제를 일으키므로 제거합니다.
             }
         };
 
