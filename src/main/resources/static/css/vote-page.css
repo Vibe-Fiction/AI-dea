@@ -56,7 +56,7 @@
 }
 
 .btn-continue-writing:hover {
-    background-color: #059669;
+    background-color: var(--primary-hover);
 }
 
 .proposal-grid {
