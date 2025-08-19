@@ -1,6 +1,6 @@
 # 프로젝트 구조 규칙 (Vibe Fiction)
 
-> [↩ 규칙 허브로 돌아가기](../CONTRIBUTING.md)
+> [↩ 규칙 허브로 돌아가기](../../CONTRIBUTING.md)
 
 본 문서는 **Team Ai-dea**가 개발하는 **Vibe Fiction** 프로젝트에서 사용하는 디렉토리 구조, 클래스 분리 등 일관된 개발 구조를 정의합니다.
 
