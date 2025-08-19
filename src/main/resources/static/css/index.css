@@ -1,5 +1,35 @@
 /* index.css */
 
+/* 웰컴메세지 및 소설쓰러가기 버튼 */
+.main-section{
+    width: 100%;
+    border: 1px solid red;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.welcome-message{
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* 소설 목록 헤더 및 검색/필터 영역 */
 .novel-list-header {
     display: flex;
