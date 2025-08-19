@@ -43,7 +43,7 @@
 }
 
 .btn-continue-writing {
-    background-color: #10b981;
+    background-color: var(--primary-color);
     color: #fff;
     padding: 0.75rem 2rem;
     border-radius: 9999px;
@@ -51,7 +51,7 @@
     font-weight: 500;
     border: none;
     cursor: pointer;
-    box-shadow: 0 4px 6px rgba(16, 185, 129, 0.3);
+    box-shadow: 0 4px 6px rgba(79, 40, 15, 0.3);
     transition: background-color 0.3s;
 }
 
@@ -218,6 +218,10 @@
     line-height: 1;
 }
 
+.voting-modal-close-btn:hover {
+    color: var(--text-primary);
+}
+
 .voting-modal-content {
     display: flex;
     flex-direction: column;
@@ -296,6 +300,6 @@
 }
 
 .voting-modal-story-content::-webkit-scrollbar-thumb {
-    background-color: var(--text-secondary);
+    background-color: rgba(79, 40, 15, 0.5); /* 반투명 브라운 */
     border-radius: 10px;
 }

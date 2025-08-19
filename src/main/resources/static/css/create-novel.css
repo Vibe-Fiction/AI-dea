@@ -68,7 +68,7 @@
 .form-group textarea:focus {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+    box-shadow: 0 0 0 2px rgba(79, 40, 15, 0.2);
 }
 
 .form-group textarea {
@@ -189,7 +189,7 @@
 .chapter-block textarea:focus {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 2px rgba(79,70,229,0.2);
+    box-shadow: 0 0 0 2px rgba(79, 40, 15, 0.2);
 }
 
 .chapter-block textarea {
@@ -229,7 +229,7 @@
 
 .btn-ai-help {
     padding: 0.5rem 1rem;
-    background-color: #f87171;
+    background-color: #e07a5f;
     color: #fff;
     border: none;
     border-radius: 9999px;
@@ -240,7 +240,7 @@
 }
 
 .btn-ai-help:hover {
-    background-color: #ef4444;
+    background-color: #c8563c;
     transform: scale(1.05);
     box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }

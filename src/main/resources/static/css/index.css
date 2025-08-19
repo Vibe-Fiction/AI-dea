@@ -35,25 +35,27 @@
 .create-novel-btn {
     display: inline-block;
     padding: 1rem 2rem; /* py-4 px-8 */
-    background-color: #4f46e5; /* bg-indigo-600 */
-    color: white;
+    background-color: var(--primary-color); /* 메인 컬러 */
+    color: #fff;
     font-weight: 700; /* font-bold */
     font-size: 1.125rem; /* text-lg */
-    border-radius: 0.5rem; /* rounded-lg */
-    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); /* shadow-lg */
+    border-radius: 0.75rem; /* 둥글게 */
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15); /* 살짝 진한 그림자 */
     text-decoration: none;
-    transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    transition: transform 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
 }
 
 .create-novel-btn:hover {
-    background-color: #4338ca; /* hover:bg-indigo-700 */
-    transform: scale(1.05); /* hover:scale-105 */
+    background-color: var(--primary-hover); /* hover 시 어두운 톤 */
+    transform: translateY(-2px) scale(1.04); /* 살짝 튀어나오는 느낌 */
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
 }
 
 .create-novel-btn:focus {
     outline: none;
-    box-shadow: 0 0 0 4px rgba(165, 180, 252, 0.5); /* focus:ring-4 focus:ring-indigo-300 */
+    box-shadow: 0 0 0 4px rgba(105, 69, 48, 0.3); /* primary 색상 기반 focus ring */
 }
+
 
 /* Responsive font size for larger screens */
 @media (min-width: 768px) {

@@ -124,6 +124,9 @@ public class Novels {
         if (this.visibility == null) this.visibility = visibility.PUBLIC;
         if (this.status == null) this.status = status.ONGOING;
         if (this.viewCount == null) this.viewCount = 0L;
+        if (this.coverImageUrl == null || this.coverImageUrl.isBlank()) {
+            this.coverImageUrl = "/img/Relai-logo-400X550.png";
+        }
     }
 
     @PreUpdate

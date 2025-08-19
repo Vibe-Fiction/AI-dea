@@ -72,7 +72,7 @@
 .form-group input:focus {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+    box-shadow: 0 0 0 2px rgba(79, 40, 15, 0.2);
 }
 
 .btn-signup-submit {
@@ -112,11 +112,11 @@
 }
 
 .feedback-message.success {
-    color: #10b981; /* 초록색 (성공) */
+    color: var(--secondary-color); /* 초록색 (성공) */
 }
 
 .feedback-message.error {
-    color: #ef4444; /* 빨간색 (에러) */
+    color: #b91c1c; /* 빨간색 (에러) */
 }
 
 .form-group .password-rules {
@@ -130,7 +130,7 @@
 .password-rules li {
     display: none;
     margin-bottom: 0.25rem;
-    color: #ef4444;
+    color: #b91c1c;
     font-weight: 500;
     transition: all 0.3s;
 }

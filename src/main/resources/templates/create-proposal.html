@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--Thymeleaf를 사용하여 소설 제목을 동적으로 표시 -->
-    <title th:text="|Vibe Fiction ! ${novelData.title ?: '새 소설'} 이어쓰기|">
-        Vibe Fiction ! 다음 챕터 쓰기
+    <title th:text="|Relai ! ${novelData.title ?: '새 소설'} 이어쓰기|">
+        Relai ! 다음 챕터 쓰기
     </title>
+    <link rel="icon" href="/img/Relai-logo-favicon-no-bg.png" type="image/png"/>
     <!-- 외부 스타일시트 링크 -->
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/create-proposal.css">
@@ -32,7 +33,7 @@
         </div>
 
         <section class="chapter-form-section">
-            <h2>다음 이야기를 만들어주세요!</h2>
+            <h2>당신의 상상으로 다음 이야기를 이어가 보세요!</h2>
             <!-- 이 폼의 chapterId는 URL 경로를 통해 JavaScript에서 동적으로 인식합니다. -->
             <form id="createChapterForm">
                 <!-- 챕터 소제목 -->
@@ -44,11 +45,11 @@
                 <!-- 챕터 내용 -->
                 <div class="form-group">
                     <div class="chapter-content-header">
-                        <label for="chapter-content">내용</label>
+                        <label for="chapter-content">이야기 내용</label>
                         <div class="btn-group">
                             <button type="button" class="btn-prev-content">이전 내용 보기</button>
                             <button type="button" class="btn-ai-help">
-                                <i class="fas fa-magic"></i> AI 도움받기
+                                <i class="fas fa-magic"></i> AI와 함께 이어쓰기
                             </button>
                         </div>
                     </div>
