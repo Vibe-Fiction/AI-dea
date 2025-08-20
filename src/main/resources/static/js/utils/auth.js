@@ -1,9 +1,9 @@
 // js/auth.js
 
 import * as api from './api.js';
-import { saveToken, removeToken } from './token.js';
-import { updateHeaderUI, closeLoginModal } from './ui.js';
-import { PAGE_CONFIG } from '../config/routes-config.js'
+import {saveToken, removeToken} from './token.js';
+import {updateHeaderUI, closeLoginModal} from './ui.js';
+import {PAGE_CONFIG} from '../config/routes-config.js'
 
 // --- 유효성 검사 정규식 (백엔드와 일치) ---
 const REGEX = {
@@ -206,6 +206,11 @@ async function handleSignUp(e) {
     }
 }
 
+
+// 로그인 핸들러
+// 1. 기본적인 로그인 모달 기능
+// 2. 검증이 필요한 페이지 이동버튼 클릭시에는
+// 로그인을 요청하고, 성공하면 이동하려던 페이지로 이동
 async function handleLogin(e) {
     e.preventDefault();
     const form = e.target;
@@ -220,13 +225,25 @@ async function handleLogin(e) {
             updateHeaderUI();
             closeLoginModal();
             alert('로그인 되었습니다.');
-            window.location.href = '/';
+
+            // 로그인 후 리다이렉트할 페이지가 있는지 확인
+            const redirectUrl = localStorage.getItem('redirect_after_login');
+            if (redirectUrl) {
+                // 리다이렉트 URL 제거
+                localStorage.removeItem('redirect_after_login');
+                // 해당 페이지로 이동
+                window.location.href = redirectUrl;
+            } else {
+                // 기본적으로 메인 페이지로 이동
+                window.location.href = '/';
+            }
         }
     } catch (error) {
         console.error('로그인 실패:', error);
         feedbackEl.textContent = getErrorMessage(error);
     }
 }
+
 
 function handleLogout(e) {
     const currentPath = window.location.pathname;
@@ -235,12 +252,16 @@ function handleLogout(e) {
         removeToken();
         updateHeaderUI();
 
-        // 검증이 필요한 페이지라면 메인 페이지로 이동
-        if(PAGE_CONFIG[currentPath].requiresAuth)
-        window.location.href = '/';
-        // 필요없는 페이지라면 새로고침
-        else
-        window.location.reload();
+        // 인증이 필요한 페이지 목록
+        const authRequiredPaths = ['/my-page', '/novels/create', '/chapters/create'];
+        const isAuthRequired = authRequiredPaths.includes(currentPath) ||
+            currentPath.startsWith('/vote-page/');
+
+        if (isAuthRequired) {
+            window.location.href = '/';
+        } else {
+            window.location.reload();
+        }
     }
 }
 

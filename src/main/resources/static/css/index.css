@@ -65,17 +65,6 @@
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
 /* 소설 목록 헤더 및 검색/필터 영역 */
 .novel-list-header {
     display: flex;
@@ -239,19 +228,49 @@
         flex-direction: column;
         text-align: center;
     }
+
     .novel-list-header h2 {
         font-size: 1.5rem;
     }
+
     .filter-sort {
         justify-content: center;
         gap: 0.5rem;
     }
+
     .filter-sort input {
         width: 100%;
         margin-top: 0.5rem;
     }
+
     /* 소설 그리드를 모바일에서 1열로 변경 */
     .novel-grid {
         grid-template-columns: 1fr;
     }
 }
+
+
+.errortext {
+
+    width: 75rem;
+    text-align: center;
+    font-weight: 600;
+    font-size: 2rem;
+    padding-top: 10rem;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
