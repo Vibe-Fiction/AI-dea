@@ -8,6 +8,36 @@
 
 ---
 
+## **Quick Start (빠른 실행 가이드)**
+
+프로젝트를 바로 실행해보고 싶으신 경우, 아래 절차를 따라주세요.
+
+```bash
+# 1. 저장소 클론
+git clone https://github.com/Vibe-Fiction/AI-dea.git
+cd AI-dea
+
+# 2. 데이터베이스 생성 (MariaDB 실행 필요)
+CREATE DATABASE ai_dea
+DEFAULT CHARACTER SET utf8mb4
+DEFAULT COLLATE utf8mb4_unicode_ci;
+
+# 3. 실행 (Gradle Wrapper 사용)
+./gradlew bootRun   # Mac/Linux
+gradlew.bat bootRun # Windows
+
+# 4. 브라우저에서 접속
+http://localhost:9009
+```
+
+**사전 준비**
+
+* JDK 17 이상
+* MariaDB 설치 및 실행
+* Gemini API Key 발급 후 `application-template.yml` 생성
+
+---
+
 ## **1. 사전 준비 사항**
 
 프로젝트 설정을 시작하기 전에, 로컬 개발 환경에 아래 사항들이 먼저 준비되어야 합니다.
