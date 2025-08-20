@@ -161,15 +161,22 @@ public class VoteServiceMj {
             .orElseThrow(() -> new IllegalStateException("아직 회차가 없습니다. novelId=" + novelId));
     }
 
-    // 본 서비스에서는 등록날짜에서 3일 더하기지만 테스트를 위해 주석처리
-    //private LocalDateTime getVotingDeadline(Chapters lastChapter) {
-    //    return lastChapter.getCreatedAt().plusDays(3);
-    //}
+    //lastChapter의 생성일로부터 3일을 더하고, 시간을 23:59:58로 설정합니다.
+    private LocalDateTime getVotingDeadline(Chapters lastChapter) {
+            LocalDateTime deadline = lastChapter.getCreatedAt()
+                    .plusDays(3)
+                    .withHour(23)
+                    .withMinute(59)
+                    .withSecond(58)
+                    .withNano(0); // 나노초를 0으로 설정하여 일관성을 유지합니다.
+
+            return deadline;
+        }
 
     // 테스트 용으로 등록 시점에서 3분
-    private LocalDateTime getVotingDeadline(Chapters lastChapter) {
+    /*private LocalDateTime getVotingDeadline(Chapters lastChapter) {
             return lastChapter.getCreatedAt().plusMinutes(3);
-    }
+    }*/
 
     //JSOM안에 내용 담는 함수
     private List<VoteProposalResponseMj> getTopProposalsAndConvertToDto(Long chapterId, int page, int size) {
