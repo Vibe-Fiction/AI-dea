@@ -173,8 +173,8 @@ public class VoteServiceMj {
             return deadline;
         }*/
 
-    // 테스트 용으로 등록 시점에서 3분
-    private LocalDateTime getVotingDeadline(Chapters lastChapter) {
+    // 테스트 용으로 등록 시점에서 1분
+    LocalDateTime getVotingDeadline(Chapters lastChapter) {
             return lastChapter.getCreatedAt().plusMinutes(1);
     }
 

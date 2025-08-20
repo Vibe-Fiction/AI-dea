@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,7 +42,11 @@ public class ProposalServiceTj {
     private final UsersRepository usersRepository;
     /** 제안의 출처가 되는 AI 상호작용 로그({@link AiInteractionLogs})를 조회하고 연결하기 위해 사용됩니다. */
     private final AiInteractionLogsRepository aiInteractionLogsRepository;
-
+    /**
+     투표 마감일(voteDeadline) 설정 로직을 위해 VoteServiceMj 추가
+     @songeky06(송민재)
+     */
+    private final VoteServiceMj voteServiceMj;
     /**
      * 새로운 이어쓰기 제안을 생성하고, 필요 시 AI 상호작용 로그와 연결합니다.
      * <p>
@@ -72,6 +77,15 @@ public class ProposalServiceTj {
 
         // [2. 도메인 객체 생성 (DDD)] 엔티티 생성 책임을 각 도메인의 정적 팩토리 메서드에 위임
         Proposals proposal = Proposals.create(chapter, proposer, req.getTitle(), req.getContent(), aiLog);
+
+
+        /**
+         요청하신 투표 마감일(voteDeadline) 설정 로직 추가
+         @songkey06 (송민재)
+         */
+        int minutesToAdd = 1; // n을 1분으로 설정 (테스트 용)
+        LocalDateTime voteDeadline = LocalDateTime.now().plusMinutes(minutesToAdd);
+        proposal.setVoteDeadline(voteDeadline);
 
         // [3. 영속화] 생성된 제안 엔티티를 데이터베이스에 저장
         proposalsRepository.save(proposal);

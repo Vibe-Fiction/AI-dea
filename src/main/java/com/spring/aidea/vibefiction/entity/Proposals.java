@@ -86,6 +86,9 @@ public class Proposals {
         this.voteCount -= 1;
     }
 
+    public void setVoteDeadline(LocalDateTime voteDeadline) {
+    }
+
     // --- Enum ---
     public enum Status { VOTING, ADOPTED, REJECTED, DELETED, PENDING }
     /**
