@@ -79,7 +79,7 @@ const createProposalPage = () => {
             const result = await createProposalApi(chapterId, proposalData);
             alert(`새로운 제안(ID: ${result.proposalId})이 성공적으로 등록되었습니다!`);
             // ✅ [수정] 이동 URL을 쿼리 파라미터 방식으로 변경
-            window.location.href = `/vote-page?chapterId=${chapterId}`;
+            window.location.href = `/vote-page?novelId=${result.novelId}`;
         } catch (error) {
             console.error('제안 등록 오류:', error);
             alert(`오류가 발생했습니다: ${error.message}`);

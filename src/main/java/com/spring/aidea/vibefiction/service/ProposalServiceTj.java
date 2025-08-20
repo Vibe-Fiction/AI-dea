@@ -83,8 +83,12 @@ public class ProposalServiceTj {
             aiLog.setRelatedProposal(proposal);
         }
 
+        // ✅ [추가] chapter 엔티티에서 novelId를 가져옵니다.
+        Long novelId = chapter.getNovel().getNovelId();
+
+
         // [5. 결과 반환] 클라이언트에게 생성된 리소스의 고유 ID를 전달
-        return new ProposalCreateResponseTj(proposal.getProposalId());
+        return new ProposalCreateResponseTj(proposal.getProposalId(), novelId);
     }
 
     /**

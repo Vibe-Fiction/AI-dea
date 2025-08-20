@@ -89,23 +89,40 @@ const VotePage = () => {
             return;
         }
 
+        // ✅ [수정] getToken() 함수를 호출하여 토큰을 가져오고 token 변수에 할당합니다.
+        const token = getToken();
+
         try {
             // ✅ [수정] novelId를 사용하여 API 호출 경로를 동적으로 변경합니다.
             const apiUrl = `/api/vote/novels/${novelId}/proposals`;
-            const response = await fetch(apiUrl);
+            // ✅ [추가] 헤더에 Authorization을 포함시킵니다.
+            const headers = {
+                'Content-Type': 'application/json',
+            };
+            if (token) {
+                headers['Authorization'] = `Bearer ${token}`;
+            }
 
-            // API 응답이 성공적인지 확인
+            const response = await fetch(apiUrl, {
+                method: 'GET',
+                headers: headers
+            });
+
             if (!response.ok) {
+                // ✅ [추가] 403 에러일 경우 구체적인 메시지를 표시
+                if (response.status === 403) {
+                    alert('투표 제안을 불러올 권한이 없습니다. 로그인 상태를 확인해 주세요.');
+                }
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
 
             //  API 응답을 JSON 객체로 파싱합니다. 이 객체는 { data: { proposals: [...], deadlineInfo: {...} }, message: "..." } 형태입니다.
             const responseData = await response.json();
 
-            // ✅ [수정] 파싱한 JSON에서 'data' 필드를 추출하고, 그 안에서 'proposals'와 'latestChapterId'를 바로 추출합니다.
+            //  파싱한 JSON에서 'data' 필드를 추출하고, 그 안에서 'proposals'와 'latestChapterId'를 바로 추출합니다.
             const { proposals, deadlineInfo, latestChapterId: apiLatestChapterId } = responseData.data;
 
-            // ✅ [수정] apiLatestChapterId가 유효한 값인지 확인 후, 전역 변수인 latestChapterId에 할당합니다.
+            // apiLatestChapterId가 유효한 값인지 확인 후, 전역 변수인 latestChapterId에 할당합니다.
             if (apiLatestChapterId) {
                 latestChapterId = apiLatestChapterId;
             }
@@ -114,9 +131,7 @@ const VotePage = () => {
             // 투표 수(voteCount)를 기준으로 내림차순 정렬합니다.
             proposals.sort((a, b) => b.voteCount - a.voteCount);
 
-            // 정렬된 제안 목록의 첫 번째 항목(1위)에서 chapterId를 가져와 저장합니다.
-            // ✅ [수정] 백엔드에서 받은 최신 챕터 ID를 변수에 할당합니다.
-            latestChapterId = apiLatestChapterId;
+
 
             // 기존에 표시된 내용을 지웁니다. 이 코드를 제안을 렌더링하기 전에 위치시키는 것이 중요합니다.
             proposalsContainer.innerHTML = '';
@@ -282,10 +297,10 @@ const VotePage = () => {
     const handleContinueWriting = (event) => {
         event.preventDefault();
         if (latestChapterId) {
-            // ✅ [수정] 경로를 '/proposals/create'로 고정하고, chapterId를 쿼리 파라미터로 전달
+            // 경로를 '/proposals/create'로 고정하고, chapterId를 쿼리 파라미터로 전달
             /*
-            원본 주소: /proposals/create/22
-            바꾼 주솔: /proposals/create?chapterId=22*/
+            * 원본 주소: /proposals/create/22
+            바꾼 주소: /proposals/create?chapterId=22*/
             history.pushState({}, '', `/proposals/create?chapterId=${latestChapterId}`);
             window.location.reload(); // 페이지 강제 새로고침
         } else {

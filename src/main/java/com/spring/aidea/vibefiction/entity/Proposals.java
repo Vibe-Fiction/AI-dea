@@ -88,7 +88,9 @@ public class Proposals {
 
     // --- Enum ---
     public enum Status { VOTING, ADOPTED, REJECTED, DELETED }
-
+    /**
+     * [리팩토링-TO-BE] enum의 속성 한개 더 추가할 예정
+     */
     /**
      * 새로운 '이어쓰기 제안(Proposal)' 엔티티를 생성하고 초기화하는 정적 팩토리 메서드입니다.
      *
