@@ -9,16 +9,16 @@
 
 ## 문서 바로가기
 
-*   ### [1. 코드 스타일 및 주석 규칙](docs/code-style.md)
+*   ### [1. 코드 스타일 및 주석 규칙](docs/rules/code-style.md)
     > 네이밍, 코드 포맷팅(EditorConfig), 주석 작성법, 테스트 코드 스타일 등 코드 품질 규칙.
 
-*   ### [2. 프로젝트 구조 규칙](docs/project-structure.md)
+*   ### [2. 프로젝트 구조 규칙](docs/rules/project-structure.md)
     > 계층형 아키텍처 디렉토리 구조, 테스트 디렉토리 구조.
 
-*   ### [3. Git 워크플로우 규칙](docs/workflow.md)
+*   ### [3. Git 워크플로우 규칙](docs/rules/workflow.md)
     > 브랜치 전략, 커밋/PR 작성 규칙, 이슈 관리, 병합 전략(핵심).
 
-*   ### [4. Advanced Git 가이드](docs/advanced-git-guide.md)
+*   ### [4. Advanced Git 가이드](docs/rules/advanced-git-guide.md)
     > Rebase/Hotfix/Cherry-pick 등 심화 Git 절차와 주의 사항.
 
 *   ### [PR 템플릿](.github/PULL_REQUEST_TEMPLATE.md)

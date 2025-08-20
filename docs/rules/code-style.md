@@ -1,6 +1,6 @@
 # 코드 스타일 가이드
 
-> [↩ 규칙 허브로 돌아가기](../CONTRIBUTING.md)
+> [↩ 규칙 허브로 돌아가기](../../CONTRIBUTING.md)
 
 본 문서는 **Team Ai-dea**의 Vibe Fiction 프로젝트에서 코드의 가독성, 일관성, 유지보수성을 높이기 위해 적용하는 스타일 규칙을 정의합니다.
 
@@ -232,4 +232,4 @@ class UserServiceTestTj {
 }
 ```
 
-> 🔗 테스트 폴더 구조(초성/이니셜 규칙)는 **[프로젝트 구조 규칙](./project-structure.md)** 을 참고하세요.
+> 🔗 테스트 폴더 구조(초성/이니셜 규칙)는 **[프로젝트 구조 규칙](project-structure.md)** 을 참고하세요.

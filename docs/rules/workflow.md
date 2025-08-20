@@ -1,6 +1,6 @@
 # Git 워크플로우 규칙
 
-> [↩ 규칙 허브로 돌아가기](../CONTRIBUTING.md)
+> [↩ 규칙 허브로 돌아가기](../../CONTRIBUTING.md)
 
 본 문서는 **Team Ai-dea**의 Vibe Fiction 프로젝트에서 Git 브랜치 전략, 커밋/PR 작성 규칙, 이슈 관리 규칙을 정의합니다.
 
@@ -408,4 +408,4 @@ Refs #31, #32
 ---
 
 ## 7. 참고
-- 심화 Git 사용법(Rebase, Hotfix 등)은 [심화 Git 가이드](./advanced-git-guide.md) 참고
+- 심화 Git 사용법(Rebase, Hotfix 등)은 [심화 Git 가이드](advanced-git-guide.md) 참고

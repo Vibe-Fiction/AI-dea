@@ -60,6 +60,8 @@ const ChaptersPage = () => {
         document.querySelector('.author-info').innerHTML = `<i class="fas fa-user-circle"></i> ${novel.authorName}`;
         document.querySelector('.synopsis p').textContent = novel.synopsis;
         document.querySelector('.novel-detail-cover').src = novel.coverImageUrl || 'https://placehold.co/400x550/e2e8f0/64748b?text=No+Image';
+        const continueButton = document.querySelector('.btn-continue-writing');
+        continueButton.dataset.novelId = `${novel.novelId}`;
 
         const hashtagList = document.querySelector('.hashtag-list');
         hashtagList.innerHTML = '';
