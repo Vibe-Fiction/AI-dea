@@ -5,8 +5,8 @@
  * @since 2025.08.19
  */
 
-// API 호출을 위한 유틸리티 함수를 import할 수 있습니다.
-// 예: import { getProposals, voteApi } from '../utils/api.js';
+// ✅ [추가] utils/token.js에서 getToken 함수를 가져옵니다.
+import { getToken } from '../utils/token.js';
 
 const VotePage = () => {
 
@@ -14,27 +14,69 @@ const VotePage = () => {
     const proposalsContainer = document.querySelector('.proposal-grid');
     const countdownDisplay = document.getElementById('countdown-display');
 
-    // ✅ [추가] 모달 관련 DOM 요소를 참조합니다.
+    // 모달 관련 DOM 요소를 참조합니다.
     const votingModalContainer = document.querySelector('.voting-modal-container');
     const votingModalOverlay = document.querySelector('.voting-modal-overlay');
     const votingModalCloseBtn = document.querySelector('.voting-modal-close-btn');
 
-    // ✅ [추가] 이어쓰기 버튼 DOM 요소 참조
+    // 이어쓰기 버튼 DOM 요소 참조
     const continueWritingBtn = document.querySelector('.btn-continue-writing');
 
     // --- 페이지 상태 관리 ---
     let timerInterval = null;
-    // ✅ [추가] 제안 데이터를 proposalId로 빠르게 찾기 위해 Map에 저장합니다.
+    // 제안 데이터를 proposalId로 빠르게 찾기 위해 Map에 저장합니다.
     const proposalsMap = new Map();
-    // ✅ [추가] 1위 제안의 chapterId를 저장할 변수
+    //  1위 제안의 chapterId를 저장할 변수
     let topProposalChapterId = null;
 
-    // ✅ [추가] URL 경로에서 novelId를 추출하는 로직
+    // URL 경로에서 novelId를 추출하는 로직
     const novelId = (() => {
         const urlParams = new URLSearchParams(window.location.search);
         const id = urlParams.get('novelId');
         return id && !isNaN(parseInt(id)) ? id : null;
     })();
+
+    /**
+     * @description 투표 API를 호출하여 투표를 처리합니다.
+     * @param {number} proposalId 투표할 제안의 ID
+     */
+    async function doVote(proposalId) {
+        // ✅ [추가] 로컬 스토리지 등에서 JWT 토큰을 가져옵니다.
+        const token = getToken();
+
+        // 토큰이 없으면 투표를 진행하지 않고 알림을 띄웁니다.
+        if (!token) {
+            alert('로그인이 필요합니다.');
+            return;
+        }
+
+        try {
+            const response = await fetch('/api/vote/do', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // ✅ [추가] Authorization 헤더에 Bearer 토큰을 추가합니다.
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({ proposalId: proposalId })
+            });
+
+            console.log('API 응답 객체:', response);
+
+            if (response.ok) {
+                alert('투표가 성공적으로 완료되었습니다!');
+                window.location.reload();
+            } else {
+                const errorText = await response.text();
+                console.log('API 오류 응답 본문:', errorText);
+
+                alert(`투표 실패: ${errorText}`);
+            }
+        } catch (error) {
+            console.error('투표 요청 중 오류 발생:', error);
+            alert('투표 요청 중 문제가 발생했습니다.');
+        }
+    }
 
     /**
      * @description 투표 제안 데이터를 가져와 화면에 렌더링합니다.
@@ -200,20 +242,26 @@ const VotePage = () => {
     const openVotingModal = (proposalData) => {
         // 1. 모달 제목을 '다음 챕터에 투표하기'로 설정
         votingModalContainer.querySelector('.voting-modal-novel-title').textContent = proposalData.novelName;
-
         // 2. API에서 받은 'proposalTitle'을 챕터 제목에 설정
         votingModalContainer.querySelector('.voting-chapter-title').textContent = proposalData.proposalTitle;
-
         // 3. API에서 받은 'proposalAuthor'를 참여자 이름에 설정
         votingModalContainer.querySelector('.voting-author-name').textContent = `by ${proposalData.proposalAuthor}`;
-
         // 4. API에서 받은 'voteCount'를 득표수에 설정
         votingModalContainer.querySelector('.voting-score').textContent = `현재 득표수: ${proposalData.voteCount}`;
-
         // 5. API에서 받은 'ProposalContent'를 내용에 설정
         votingModalContainer.querySelector('.voting-modal-story-content').textContent = proposalData.proposalContent;
+        // ✅ [수정] 모달이 열릴 때 투표 완료 버튼을 찾고 이벤트 리스너를 추가
+        const voteConfirmBtn = votingModalContainer.querySelector('.btn-vote');
 
-        // 6. 모달을 화면에 표시하고, 배경 스크롤을 막음
+        if (voteConfirmBtn) {
+            voteConfirmBtn.onclick = () => {
+                console.log('투표 완료 버튼 클릭됨'); // ✅ [추가] 디버깅을 위한 로그
+                doVote(proposalData.proposalId);
+            };
+        } else {
+            console.error("투표 완료 버튼을 찾을 수 없습니다.");
+        }
+
         votingModalContainer.style.display = 'flex';
         document.body.style.overflow = 'hidden';
     };
@@ -231,7 +279,7 @@ const VotePage = () => {
     const handleContinueWriting = (event) => {
         event.preventDefault();
         if (topProposalChapterId) {
-            // ✅ [수정] History API를 사용하여 페이지를 이동합니다.
+            // History API를 사용하여 페이지를 이동합니다.
             // URL에 1위 제안의 chapterId를 포함하여 전달합니다.
             history.pushState({}, '', `/create-proposal/${topProposalChapterId}`);
             window.location.reload(); // 페이지 강제 새로고침
@@ -250,6 +298,7 @@ const VotePage = () => {
         // 투표 모달 닫기
         votingModalCloseBtn.addEventListener('click', closeModal);
         votingModalOverlay.addEventListener('click', closeModal);
+
 
         // 이어쓰기 버튼 이벤트 리스너 추가
         if(continueWritingBtn) {

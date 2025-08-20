@@ -50,6 +50,6 @@ export const PAGE_CONFIG = {
     },
     '/vote-page': {
         module: 'vote-page',
-        requiresAuth: false,
+        requiresAuth: true,
     }
 };
