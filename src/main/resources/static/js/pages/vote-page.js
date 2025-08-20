@@ -20,7 +20,7 @@ const VotePage = () => {
     const votingModalCloseBtn = document.querySelector('.voting-modal-close-btn');
 
     // 이어쓰기 버튼 DOM 요소 참조
-    const continueWritingBtn = document.querySelector('.btn-continue-writing');
+    const continueWritingBtn = document.querySelector('.btn-continue-writing-start');
 
     // --- 페이지 상태 관리 ---
     let timerInterval = null;
@@ -297,12 +297,8 @@ const VotePage = () => {
     const handleContinueWriting = (event) => {
         event.preventDefault();
         if (latestChapterId) {
-            // 경로를 '/proposals/create'로 고정하고, chapterId를 쿼리 파라미터로 전달
-            /*
-            * 원본 주소: /proposals/create/22
-            바꾼 주소: /proposals/create?chapterId=22*/
             history.pushState({}, '', `/proposals/create?chapterId=${latestChapterId}`);
-            window.location.reload(); // 페이지 강제 새로고침
+            window.location.reload();
         } else {
             console.error('1위 제안의 chapterId를 찾을 수 없습니다.');
             alert('이어쓸 챕터를 찾을 수 없습니다.');
