@@ -23,8 +23,16 @@ const createProposalPage = () => {
     // --- 페이지 상태 관리 ---
     /** @type {string|null} URL 경로에서 추출한 현재 회차의 ID. 유효하지 않으면 null. */
     const chapterId = (() => {
+        // ✅ [수정] URLSearchParams를 사용하여 쿼리 파라미터에서 chapterId를 가져옵니다.
+        /*
+        원본 주소: /proposals/create/22
+        바꾼 주솔: /proposals/create?chapterId=22
+        작성자: @songkey06(송민재)
+        원본 코드
         const pathParts = window.location.pathname.split('/');
-        const id = pathParts[pathParts.length - 1];
+        const id = pathParts[pathParts.length - 1];*/
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('chapterId');
         return id && !isNaN(parseInt(id)) ? id : null;
     })();
 
@@ -70,7 +78,8 @@ const createProposalPage = () => {
         try {
             const result = await createProposalApi(chapterId, proposalData);
             alert(`새로운 제안(ID: ${result.proposalId})이 성공적으로 등록되었습니다!`);
-            window.location.href = `/vote-page/${chapterId}`;
+            // ✅ [수정] 이동 URL을 쿼리 파라미터 방식으로 변경
+            window.location.href = `/vote-page?chapterId=${chapterId}`;
         } catch (error) {
             console.error('제안 등록 오류:', error);
             alert(`오류가 발생했습니다: ${error.message}`);

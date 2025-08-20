@@ -31,10 +31,7 @@ public class VoteControllerMj {
 
         VoteListAndClosingResponseMj response = voteServiceMj.getVoteDataForNovel(novelId, page, size);
 
-        // 제안 목록이 비어 있으면 "더 이상 투표 제안이 없습니다." 메시지를 반환
-        if (response.getProposals().isEmpty()) {
-            return ApiResponse.failure("더 이상 투표 제안이 없습니다.");
-        }
+
 
         return ApiResponse.success("투표 제안 목록을 성공적으로 조회했습니다.", response);
     }

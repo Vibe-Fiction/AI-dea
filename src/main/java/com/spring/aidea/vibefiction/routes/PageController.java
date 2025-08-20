@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import java.util.NoSuchElementException;
 
 @Controller
@@ -57,16 +59,21 @@ public class PageController {
 
     /**
      * 특정 회차에 대한 '이어쓰기 제안' 페이지로 이동합니다.
+     * URL 쿼리 파라미터로 chapterId를 전달받습니다.
      * @param chapterId 이어쓰기를 제안할 대상 회차의 ID.
      * @param model     Thymeleaf에 데이터를 전달할 모델 객체.
      * @return "create-proposal" 템플릿 이름
      */
-    @GetMapping("/proposals/create/{chapterId}")
-    public String proposalCreatePage(@PathVariable Long chapterId, Model model) {
+    // ✅ [수정] URL 경로에서 chapterId를 제거하고 @RequestParam으로 받도록 변경
+    @GetMapping("/proposals/create")
+    public String proposalCreatePage(@RequestParam Long chapterId, Model model) {
         log.info("이어쓰기 페이지 요청. Chapter ID: {}", chapterId);
+
         Chapters chapter = chaptersRepository.findById(chapterId)
             .orElseThrow(() -> new NoSuchElementException("ID가 " + chapterId + "인 회차를 찾을 수 없습니다."));
+
         model.addAttribute("novelData", chapter.getNovel());
+
         return "create-proposal";
     }
 

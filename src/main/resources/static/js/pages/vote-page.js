@@ -5,7 +5,7 @@
  * @since 2025.08.19
  */
 
-// ✅ [추가] utils/token.js에서 getToken 함수를 가져옵니다.
+//  utils/token.js에서 getToken 함수를 가져옵니다.
 import { getToken } from '../utils/token.js';
 
 const VotePage = () => {
@@ -26,8 +26,8 @@ const VotePage = () => {
     let timerInterval = null;
     // 제안 데이터를 proposalId로 빠르게 찾기 위해 Map에 저장합니다.
     const proposalsMap = new Map();
-    //  1위 제안의 chapterId를 저장할 변수
-    let topProposalChapterId = null;
+    // ✅ [수정] 1위 제안의 chapterId 대신 소설의 최신 chapterId를 저장할 변수
+    let latestChapterId = null;
 
     // URL 경로에서 novelId를 추출하는 로직
     const novelId = (() => {
@@ -102,18 +102,21 @@ const VotePage = () => {
             //  API 응답을 JSON 객체로 파싱합니다. 이 객체는 { data: { proposals: [...], deadlineInfo: {...} }, message: "..." } 형태입니다.
             const responseData = await response.json();
 
-            // 파싱한 JSON에서 실제 제안 데이터 배열과 마감 시간 정보를 추출합니다.
-            // 'proposals'와 'deadlineInfo'는 응답 객체의 'data' 필드 안에 있습니다.
-            const proposals = responseData.data.proposals;
-            const deadlineInfo = responseData.data.deadlineInfo;
+            // ✅ [수정] 파싱한 JSON에서 'data' 필드를 추출하고, 그 안에서 'proposals'와 'latestChapterId'를 바로 추출합니다.
+            const { proposals, deadlineInfo, latestChapterId: apiLatestChapterId } = responseData.data;
+
+            // ✅ [수정] apiLatestChapterId가 유효한 값인지 확인 후, 전역 변수인 latestChapterId에 할당합니다.
+            if (apiLatestChapterId) {
+                latestChapterId = apiLatestChapterId;
+            }
 
 
             // 투표 수(voteCount)를 기준으로 내림차순 정렬합니다.
             proposals.sort((a, b) => b.voteCount - a.voteCount);
 
             // 정렬된 제안 목록의 첫 번째 항목(1위)에서 chapterId를 가져와 저장합니다.
-            // 목록이 비어있으면 null을 할당합니다.
-            topProposalChapterId = proposals.length > 0 ? proposals[0].chapterId : null;
+            // ✅ [수정] 백엔드에서 받은 최신 챕터 ID를 변수에 할당합니다.
+            latestChapterId = apiLatestChapterId;
 
             // 기존에 표시된 내용을 지웁니다. 이 코드를 제안을 렌더링하기 전에 위치시키는 것이 중요합니다.
             proposalsContainer.innerHTML = '';
@@ -278,10 +281,12 @@ const VotePage = () => {
      */
     const handleContinueWriting = (event) => {
         event.preventDefault();
-        if (topProposalChapterId) {
-            // History API를 사용하여 페이지를 이동합니다.
-            // URL에 1위 제안의 chapterId를 포함하여 전달합니다.
-            history.pushState({}, '', `/proposals/create/${topProposalChapterId}`);
+        if (latestChapterId) {
+            // ✅ [수정] 경로를 '/proposals/create'로 고정하고, chapterId를 쿼리 파라미터로 전달
+            /*
+            원본 주소: /proposals/create/22
+            바꾼 주솔: /proposals/create?chapterId=22*/
+            history.pushState({}, '', `/proposals/create?chapterId=${latestChapterId}`);
             window.location.reload(); // 페이지 강제 새로고침
         } else {
             console.error('1위 제안의 chapterId를 찾을 수 없습니다.');
@@ -292,7 +297,7 @@ const VotePage = () => {
 
     // 초기화 함수
     const init = () => {
-        // ✅ [수정] URL에서 novelId를 가져온 후 loadProposals를 호출합니다.
+        // URL에서 novelId를 가져온 후 loadProposals를 호출합니다.
         loadProposals();
 
         // 투표 모달 닫기

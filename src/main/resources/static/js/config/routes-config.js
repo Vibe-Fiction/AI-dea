@@ -48,6 +48,10 @@ export const PAGE_CONFIG = {
         module: 'create-proposal',
         requiresAuth: true,
     },
+    '/proposals/create': {
+        module: 'create-proposal',
+        requiresAuth: true,
+    },
     '/vote-page': {
         module: 'vote-page',
         requiresAuth: true,

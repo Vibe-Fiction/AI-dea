@@ -36,29 +36,37 @@ public class VoteServiceMj {
      * @return 투표 목록 및 마감 시간 응답 DTO
      */
     public VoteListAndClosingResponseMj getVoteDataForNovel(Long novelId, int page, int size) {
-        Chapters lastChapter = validateNovelAndGetLastChapter(novelId);
+        // 소설의 마지막 챕터를 조회. 챕터가 없는 경우에도 null이 아닌 Optional.empty()를 반환하도록 수정
+        Chapters lastChapter = chaptersRepository.findTopByNovel_NovelIdOrderByChapterNumberDesc(novelId)
+            .orElse(null); // ✅ [수정] 챕터가 없을 경우 예외 대신 null을 반환
 
         // 페이지네이션된 제안 조회
         List<VoteProposalResponseMj> proposals = getTopProposalsAndConvertToDto(lastChapter.getChapterId(), page, size);
 
-        // 제안 목록이 비어 있으면(더 이상 데이터가 없으면) 빈 리스트를 포함한 응답을 반환
-        if (proposals.isEmpty()) {
-            return VoteListAndClosingResponseMj.builder()
-                .proposals(Collections.emptyList())
-                .deadlineInfo(null) // 제안이 없으면 마감 시간 정보도 null로 설정
-                .build();
+        VoteClosingResponseMj deadlineResponse = null;
+
+        // 마지막 챕터 아이디
+        Long latestChapterId = null;
+
+        if (lastChapter != null) {
+            proposals = getTopProposalsAndConvertToDto(lastChapter.getChapterId(), page, size);
+            LocalDateTime deadline = getVotingDeadline(lastChapter);
+            latestChapterId = lastChapter.getChapterId();
+
+            // ✅ [수정] 제안이 있을 경우에만 마감 시간 정보를 설정
+            if (!proposals.isEmpty()) {
+                deadlineResponse = VoteClosingResponseMj.builder()
+                    .chapterId(lastChapter.getChapterId())
+                    .closingTime(deadline.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                    .build();
+            }
         }
 
-        LocalDateTime deadline = getVotingDeadline(lastChapter);
-
-        VoteClosingResponseMj deadlineResponse = VoteClosingResponseMj.builder()
-            .chapterId(lastChapter.getChapterId())
-            .closingTime(deadline.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
-            .build();
-
+        // ✅ [수정] 제안 목록이 비어있더라도 latestChapterId는 항상 포함하여 반환
         return VoteListAndClosingResponseMj.builder()
             .proposals(proposals)
             .deadlineInfo(deadlineResponse)
+            .latestChapterId(latestChapterId) // ✅ [수정] 최신 챕터 ID를 항상 포함
             .build();
     }
 
@@ -97,6 +105,11 @@ public class VoteServiceMj {
         boolean hasVotedInThisChapter = votesRepository.existsByUser_UserIdAndProposal_Chapter_ChapterId(user.getUserId(), chapter.getChapterId());
         if (hasVotedInThisChapter) {
             throw new IllegalStateException("해당 챕터의 다른 제안에 이미 투표했습니다.");
+        }
+
+        // ✅ [추가] 자신의 제안에 투표하는 것을 방지
+        if (proposal.getProposer().getUserId().equals(user.getUserId())) {
+            throw new IllegalStateException("자신의 제안에는 투표할 수 없습니다.");
         }
 
         Votes newVote = Votes.builder()
