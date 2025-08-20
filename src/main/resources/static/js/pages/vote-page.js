@@ -49,67 +49,100 @@ const VotePage = () => {
 
         try {
             // ✅ [수정] novelId를 사용하여 API 호출 경로를 동적으로 변경합니다.
-            // fetch(`/api/proposals/${novelId}`)
+            const apiUrl = `/api/vote/novels/${novelId}/proposals`;
+            const response = await fetch(apiUrl);
 
-            // 현재는 임시 데이터로 구현합니다.
-            const response = await new Promise(resolve => setTimeout(() => {
-                resolve({
-                    ok: true,
-                    json: () => Promise.resolve([
-                        {
-                            proposalId: 101,
-                            chapterTitle: '미래에서 온 편지',
-                            authorName: '김민준',
-                            voteCount: 15,
-                            chapterId: 'chap101',
-                            content: '빛의 속도로 달려가는 기차 안에서...'
-                        },
-                        {
-                            proposalId: 102,
-                            chapterTitle: '시간의 틈새',
-                            authorName: '이서연',
-                            voteCount: 12,
-                            chapterId: 'chap102',
-                            content: '고대 유적지에서 발견된 이상한 거울은...'
-                        },
-                        {
-                            proposalId: 103,
-                            chapterTitle: '다른 차원의 문',
-                            authorName: '박지훈',
-                            voteCount: 8,
-                            chapterId: 'chap103',
-                            content: '낡은 도서관의 비밀 통로를 열자...'
-                        },
-                    ])
-                });
-            }, 500));
-
+            // API 응답이 성공적인지 확인
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
 
-            const proposals = await response.json();
-            proposals.sort((a, b) => b.voteCount - a.voteCount); // 투표 수 기준으로 정렬
+            //  API 응답을 JSON 객체로 파싱합니다. 이 객체는 { data: { proposals: [...], deadlineInfo: {...} }, message: "..." } 형태입니다.
+            const responseData = await response.json();
+
+            // 파싱한 JSON에서 실제 제안 데이터 배열과 마감 시간 정보를 추출합니다.
+            // 'proposals'와 'deadlineInfo'는 응답 객체의 'data' 필드 안에 있습니다.
+            const proposals = responseData.data.proposals;
+            const deadlineInfo = responseData.data.deadlineInfo;
+
+
+            // 투표 수(voteCount)를 기준으로 내림차순 정렬합니다.
+            proposals.sort((a, b) => b.voteCount - a.voteCount);
+
+            // 정렬된 제안 목록의 첫 번째 항목(1위)에서 chapterId를 가져와 저장합니다.
+            // 목록이 비어있으면 null을 할당합니다.
             topProposalChapterId = proposals.length > 0 ? proposals[0].chapterId : null;
 
-            // ✅ [수정] 이 코드가 먼저 실행되어 기존 콘텐츠를 비웁니다.
+            // 기존에 표시된 내용을 지웁니다. 이 코드를 제안을 렌더링하기 전에 위치시키는 것이 중요합니다.
             proposalsContainer.innerHTML = '';
 
+            // 제안 목록이 비어있는 경우, 사용자에게 안내 메시지를 표시합니다.
             if (proposals.length === 0) {
                 proposalsContainer.innerHTML = '<p>아직 등록된 투표 제안이 없습니다.</p>';
                 return;
             }
 
+            // 제안 목록을 순회하며 각 항목을 HTML 요소로 생성하고 DOM에 추가합니다.
             proposals.forEach((proposal, index) => {
                 const proposalItem = createProposalElement(proposal, index + 1);
                 proposalsContainer.appendChild(proposalItem);
                 proposalsMap.set(proposal.proposalId, proposal);
             });
 
+            // 11. 마감 시간이 존재하는 경우, 카운트다운 타이머를 시작합니다.
+            const deadlineTime = deadlineInfo.closingTime;
+            if (deadlineTime) {
+                startCountdown(deadlineTime);
+            } else {
+                console.error('마감 시간 정보를 찾을 수 없습니다.');
+            }
+
         } catch (error) {
+            // API 호출이나 데이터 처리 중 오류가 발생하면, 사용자에게 알리고 콘솔에 에러를 기록합니다.
             console.error('제안 데이터를 로드하는 데 실패했습니다:', error);
             proposalsContainer.innerHTML = '<p>제안을 불러오는 중 오류가 발생했습니다. 다시 시도해 주세요.</p>';
         }
+    }
+
+    /**
+     * @description 마감 시간을 기준으로 카운트다운 타이머를 시작합니다.
+     * @param {string} deadlineTime - ISO 8601 형식의 마감 시간 문자열 (예: '2025-08-23T10:00:00Z')
+     */
+    function startCountdown(deadlineTime) {
+        // 1. 마감 시간 문자열을 Date 객체로 변환합니다.
+        const deadline = new Date(deadlineTime);
+        let timerInterval = null;
+
+        // 2. 1초마다 타이머를 업데이트하는 함수를 정의합니다.
+        const updateTimer = () => {
+            const now = new Date();
+            const distance = deadline.getTime() - now.getTime();
+
+            // 3. 남은 시간이 0보다 작으면 타이머를 멈추고 '마감' 메시지를 표시합니다.
+            if (distance < 0) {
+                clearInterval(timerInterval);
+                countdownDisplay.textContent = "투표가 마감되었습니다.";
+                return;
+            }
+
+            // 4. 남은 시간을 시, 분, 초로 계산합니다.
+            const hours = Math.floor(distance / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // 5. 계산된 시간을 '00:00:00' 형식으로 포맷팅하여 화면에 표시합니다.
+            const formattedTime = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            countdownDisplay.textContent = formattedTime;
+        };
+
+        // 6. 1초마다 `updateTimer` 함수를 실행하여 타이머를 갱신합니다.
+        if (timerInterval) {
+            clearInterval(timerInterval);
+        }
+        timerInterval = setInterval(updateTimer, 1000);
+
+        // 페이지 로드 시 즉시 타이머를 업데이트하여 초기 깜빡임을 방지합니다.
+        updateTimer();
     }
 
     /**
@@ -119,37 +152,30 @@ const VotePage = () => {
      * @returns {HTMLElement} 생성된 제안 항목 DOM 요소
      */
     function createProposalElement(proposal, rank) {
-        // 1. article 요소를 생성하고, CSS에 정의된 'proposal-card' 클래스를 추가합니다.
         const proposalArticle = document.createElement('article');
         proposalArticle.classList.add('proposal-card');
-
-        // 2. data-proposal-id 속성을 추가하여 나중에 클릭 이벤트에서 해당 제안을 식별할 수 있도록 합니다.
         proposalArticle.dataset.proposalId = proposal.proposalId;
 
-        // 3. 템플릿 리터럴을 사용하여 카드의 전체 HTML 구조를 작성합니다.
+        // ✅ [수정] 새로운 HTML 구조로 템플릿 리터럴을 변경합니다.
         proposalArticle.innerHTML = `
-        <div class="proposal-card-header">
-            <h4 class="proposal-title">${proposal.chapterTitle}</h4>
-            <span class="proposal-rank">${rank <= 3 ? `${rank}위` : ''}</span>
-
-            <div class="proposal-meta">
-                <span><i class="fas fa-user-circle"></i> ${proposal.authorName}</span>
+        <div class="card-content">
+            <h3 class="proposal-title">${proposal.chapterTitle}</h3>
+            <div class="rank-container">
+                <span class="rank-large">${rank <= 3 ? `${rank}위` : ''}</span>
             </div>
-        </div>
-        <div class="proposal-content-snippet">
-            <p>${proposal.content.substring(0, 100)}...</p>
-        </div>
-        <div class="proposal-card-footer">
-            <div class="proposal-info">
-                <span class="proposal-score"><i class="fas fa-vote-yea"></i> ${proposal.voteCount}</span>
+            <div class="proposal-actions-row">
+                <div class="vote-info">
+                    <i class="fas fa-vote-yea"></i>
+                    <span class="vote-count">${proposal.voteCount}</span>
+                </div>
+                <button class="btn-vote">투표하기</button>
             </div>
-            <button class="btn-vote">투표하기</button>
         </div>
     `;
 
         // 4. `proposalArticle` 전체에 클릭 이벤트를 추가하여 모달을 엽니다.
-        //    이벤트 버블링을 이용하여 `btn-vote` 클릭 시 중복 실행을 막습니다.
         proposalArticle.addEventListener('click', (event) => {
+            // 투표 버튼 클릭 시에는 모달을 열지 않습니다.
             if (event.target.closest('.btn-vote')) {
                 return;
             }
@@ -158,7 +184,8 @@ const VotePage = () => {
 
         // 5. 투표하기 버튼에 대한 별도의 클릭 이벤트 리스너를 추가합니다.
         const voteButton = proposalArticle.querySelector('.btn-vote');
-        voteButton.addEventListener('click', () => {
+        voteButton.addEventListener('click', (event) => {
+            event.stopPropagation(); // 부모 요소로의 이벤트 전파를 막습니다.
             openVotingModal(proposal);
         });
 
