@@ -251,26 +251,23 @@
 
 
 .errortext {
+    /* [Layout] 그리드의 모든 컬럼을 차지하도록 설정하여 중앙에 위치시킵니다. */
+    grid-column: 1 / -1;
 
-    width: 75rem;
+    /* [Style] 다른 카드들과 통일감 있는 디자인으로 변경합니다. */
+    background-color: var(--bg-card);
+    border: 2px dashed var(--border-color); /* 비어있다는 느낌을 주는 점선 테두리 */
+    border-radius: 1rem;                    /* 다른 카드와 통일감 있는 둥근 모서리 */
+    padding: 4rem 2rem;                     /* 넉넉한 내부 여백 */
+    margin-top: 2rem;                       /* 위쪽과 약간의 간격 */
+
+    /* [Typography] 텍스트 스타일을 다듬습니다. */
     text-align: center;
-    font-weight: 600;
-    font-size: 2rem;
-    padding-top: 10rem;
+    color: var(--text-secondary);
+    font-size: 1.25rem;                     /* 폰트 크기 조정 */
+    font-weight: 500;                       /* 폰트 두께 조정 */
+    line-height: 1.8;                       /* 줄 간격 추가 */
 
+    /* [Reset] 불필요한 고정 너비를 제거하여 반응형으로 만듭니다. */
+    width: auto;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

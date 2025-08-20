@@ -1,6 +1,6 @@
-![Vibe Fiction 로고](assets/img/vibe-fiction-logo.png)
+![Relai 로고](src/main/resources/static/img/Relai-logo-no-bg.png)
 
-# Vibe Fiction : AI 기반 소설 릴레이 플랫폼
+# Relai : AI 기반 소설 릴레이 플랫폼
 
 ---
 
@@ -13,8 +13,6 @@
 | **플랫폼명**  | Relai (릴레이)                  |
 | **버전**      | v1.0.0                        |
 | **Base URL** | `http://localhost:9009/api`   |
-| **인증 방식** | JWT Bearer Token              |
-| **응답 형식** | JSON                          |
 
 ---
 
@@ -39,19 +37,28 @@ Relai는 **AI와 사용자가 협업하여 소설을 창작하고, 릴레이 방
 - AI 협업 (Vibe Coding)
 - PR / Merge 방식의 창작 흐름
 - 이어쓰기 + 투표 + 채택 구조
-- Public / Private 접근 권한
+- Public / Private / Friend 접근 권한
 
 ---
 
 ## 기술 스택
 
-| 구분 | 기술 |
-|------|------|
-| **프론트엔드** | HTML, CSS, JavaScript, Thymeleaf |
-| **백엔드** | Java 17, Spring Boot |
-| **데이터베이스** | MariaDB (Spring JDBC, JPA) |
-| **협업 도구** | GitHub, Discord |
-| **개발 도구** | IntelliJ IDEA |
+| 구분            | 기술 및 버전                                                                           |
+| ------------- |-----------------------------------------------------------------------------------|
+| **언어**        | Java 17                                                                           |
+| **프레임워크**     | Spring Boot **3.5.4**                                                             |
+| **프론트엔드**     | HTML5, CSS3, JavaScript (ES6+), Thymeleaf                                         |
+| **보안/인증**     | Spring Security, JWT (JJWT **0.12.3**)                                            |
+| **AI 연동**     | Google Gemini API                                                                 |
+| **데이터베이스**    | MariaDB (JDBC 드라이버), Spring Data JPA, Hibernate ORM, QueryDSL **5.0.0 (Jakarta)** |
+| **빌드/의존성 관리** | Gradle (Spring Dependency Management Plugin **1.1.7**)                            |
+| **테스트 프레임워크** | JUnit 5, Mockito (mockito-core, mockito-junit-jupiter), H2 Database               |
+| **개발 편의 도구**  | Lombok, Spring Boot DevTools                                                      |
+| **로깅**        | Spring Boot Logging, Hibernate SQL Debug/Trace                                    |
+| **파일 업로드**    | 로컬 파일 업로드 (`~/aidea/uploads/`)                                             |
+| **협업 도구**     | Git, GitHub, Discord                                                              |
+| **개발 환경**     | IntelliJ IDEA, Windows 11                                                         |
+| **테스트 환경**    | Chrome, Postman                                                                   |
 
 ---
 
