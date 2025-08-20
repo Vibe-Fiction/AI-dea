@@ -64,4 +64,21 @@ public class VoteControllerMj {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
+
+    /**
+     * 투표 취소 API
+     * DELETE /api/vote/do
+     */
+    @DeleteMapping("/do")
+    public ResponseEntity<String> cancelVote(@RequestBody VoteRequestMj request, @AuthenticationPrincipal User currentUser) {
+        String loginId = currentUser.getUsername();
+
+        try {
+            voteServiceMj.cancelVote(request.getProposalId(), loginId);
+            return ResponseEntity.ok("투표가 성공적으로 취소되었습니다.");
+        } catch (IllegalArgumentException e) {
+            // 유효하지 않은 제안 ID 또는 투표 기록이 없는 경우
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
 }

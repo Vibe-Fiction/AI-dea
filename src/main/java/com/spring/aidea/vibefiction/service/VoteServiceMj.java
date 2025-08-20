@@ -75,18 +75,28 @@ public class VoteServiceMj {
         Proposals proposal = proposalsRepository.findById(proposalId)
             .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 제안입니다."));
 
-        // 중복 투표 방지
-        boolean hasVoted = votesRepository.existsByUserAndProposal(user, proposal);
-        if (hasVoted) {
-            throw new IllegalStateException("이미 투표에 참여했습니다.");
-        }
-
         Chapters chapter = proposal.getChapter();
         LocalDateTime deadline = getVotingDeadline(chapter);
+
 
         // 투표마감 시간 후 투표 방지
         if (LocalDateTime.now().isAfter(deadline)) {
             throw new IllegalStateException("투표 기간이 마감되었습니다.");
+        }
+
+        // 1. 중복 투표 방지 (동일 제안에 대한 재투표 방지)
+        boolean hasVotedOnThisProposal = votesRepository.existsByUserAndProposal(user, proposal);
+        if (hasVotedOnThisProposal) {
+            throw new IllegalStateException("이미 투표에 참여했습니다.");
+        }
+
+        // 2. 해당 챕터 내 다른 제안에 투표했는지 확인
+        // 이 기능을 구현하려면 Vote 엔티티에 chapter 필드를 추가하거나,
+        // VotesRepository에 사용자 ID와 챕터 ID로 투표 기록을 찾는 커스텀 쿼리를 추가해야 합니다.
+        // 예를 들어, votesRepository.existsByUserIdAndChapterId(user.getUserId(), chapter.getChapterId()) 와 같은 메서드가 필요합니다.
+        boolean hasVotedInThisChapter = votesRepository.existsByUser_UserIdAndProposal_Chapter_ChapterId(user.getUserId(), chapter.getChapterId());
+        if (hasVotedInThisChapter) {
+            throw new IllegalStateException("해당 챕터의 다른 제안에 이미 투표했습니다.");
         }
 
         Votes newVote = Votes.builder()
@@ -96,6 +106,30 @@ public class VoteServiceMj {
         votesRepository.save(newVote);
 
         proposal.incrementVoteCount();
+    }
+
+    /**
+     * 투표 취소 기능: 투표 기록 삭제 및 제안 투표 수 감소
+     * @param proposalId 투표를 취소할 제안 ID
+     * @param loginId 현재 로그인한 사용자의 ID
+     */
+    @Transactional
+    public void cancelVote(Long proposalId, String loginId) {
+        Users user = usersRepository.findByLoginId(loginId)
+            .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+
+        Proposals proposal = proposalsRepository.findById(proposalId)
+            .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 제안입니다."));
+
+        // 1. 해당 사용자의 해당 제안에 대한 투표 기록을 찾습니다.
+        Votes vote = votesRepository.findByUserAndProposal(user, proposal)
+            .orElseThrow(() -> new IllegalArgumentException("취소할 투표 기록이 존재하지 않습니다."));
+
+        // 2. 투표 기록을 삭제합니다.
+        votesRepository.delete(vote);
+
+        // 3. 해당 제안의 투표 수를 1 감소시킵니다.
+        proposal.decrementVoteCount();
     }
 
     private Chapters validateNovelAndGetLastChapter(Long novelId) {

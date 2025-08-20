@@ -82,6 +82,10 @@ public class Proposals {
         this.voteCount += 1;
     }
 
+    public void decrementVoteCount() {
+        this.voteCount -= 1;
+    }
+
     // --- Enum ---
     public enum Status { VOTING, ADOPTED, REJECTED, DELETED }
 
