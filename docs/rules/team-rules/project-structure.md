@@ -1,6 +1,6 @@
 # 프로젝트 구조 규칙 (Vibe Fiction)
 
-> [↩ 규칙 허브로 돌아가기](../../CONTRIBUTING.md)
+> [↩ 규칙 허브로 돌아가기](../../../CONTRIBUTING.md)
 
 본 문서는 **Team Ai-dea**가 개발하는 **Vibe Fiction** 프로젝트에서 사용하는 디렉토리 구조, 클래스 분리 등 일관된 개발 구조를 정의합니다.
 
@@ -87,8 +87,8 @@ Ai-dea
 
 > ❗ **핵심 작업 원칙**:
 >
-> *   **새로운 기능을 만들 때**: 해당 기능에 필요한 `Controller`, `Service`, `DTO` 등을 각각의 역할에 맞는 패키지에 추가합니다.
-> *   **파일 이름**: `도메인 + 역할` 형식으로 명명하여 가독성을 높입니다. (예: `UserController`, `NovelService`)
+> * **새로운 기능을 만들 때**: 해당 기능에 필요한 `Controller`, `Service`, `DTO` 등을 각각의 역할에 맞는 패키지에 추가합니다.
+> * **파일 이름**: `도메인 + 역할` 형식으로 명명하여 가독성을 높입니다. (예: `UserController`, `NovelService`)
 
 ---
 

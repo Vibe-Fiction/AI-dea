@@ -6,24 +6,24 @@
 
 ## 프로젝트 정보
 
-| 항목        | 내용                         |
-|-------------|----------------------------|
-| **팀명**      | Ai-dea (에이아이-디어)         |
-| **프로젝트명** | Vibe Fiction (바이브 픽션)      |
-| **플랫폼명**  | Relai (릴레이)                |
-| **버전**      | v1.0.0                     |
-| **Base URL** | `http://localhost:9009/`   |
+| 항목           | 내용                       |
+|--------------|--------------------------|
+| **팀명**       | Ai-dea (에이아이-디어)         |
+| **프로젝트명**    | Vibe Fiction (바이브 픽션)    |
+| **플랫폼명**     | Relai (릴레이)              |
+| **버전**       | v1.0.0                   |
+| **Base URL** | `http://localhost:9009/` |
 
 ---
 
 ## 팀 구성
 
-| 역할 | 이름       | 주요 기술 및 담당 기능   | 회고록 링크       |
-|------|--------------------------------------|---------------------------------------|---------------|
-| 팀장 | [송민재](https://github.com/songkey06) |  | [송민재 회고록]() |
-| 팀원 | [고동현](https://github.com/rhehdgus8831) |  | [고동현 회고록]()|
-| 팀원 | [백승현](https://github.com/Sirosho) |  | [백승현 회고록]()|
-| 팀원 | [왕택준](https://github.com/TJK98) |  | [왕택준 회고록]()|
+| 역할 | 이름                                     | 주요 기술 및 담당 기능 | 회고록 링크      |
+|----|----------------------------------------|---------------|-------------|
+| 팀장 | [송민재](https://github.com/songkey06)    |               | [송민재 회고록]() |
+| 팀원 | [고동현](https://github.com/rhehdgus8831) |               | [고동현 회고록]() |
+| 팀원 | [백승현](https://github.com/Sirosho)      |               | [백승현 회고록]() |
+| 팀원 | [왕택준](https://github.com/TJK98)        |               | [왕택준 회고록]() |
 
 ---
 
@@ -33,6 +33,7 @@ Relai는 **AI와 사용자가 함께 소설을 창작하고, 릴레이 방식으
 사용자는 인물 관계와 세계관을 직접 설계하거나, AI의 제안을 바탕으로 새로운 흐름을 만들어갈 수 있습니다.
 
 Relai는 “**소설계의 GitHub**”을 지향합니다.
+
 - 누구나 쉽게 참여할 수 있는 **낮은 진입장벽**
 - 집단 창작을 가능하게 하는 **협업 구조**
 - AI와 사람이 함께하는 **공존적 창작 모델** 실험
@@ -45,41 +46,48 @@ Relai는 단순한 이어쓰기를 넘어, **'하나의 완성도 높은 작품'
 
 기존 플랫폼들이 즉흥적인 재미나 다양한 가능성 탐험에 중점을 둔다면, Relai는 **'GitHub의 협업 철학'**과 **'AI 파트너십'**을 통해 다음과 같은 근본적인 차별점을 제공합니다.
 
-| 구분 | 기존 릴레이 플랫폼 (선형/분기형) | **Relai**                                               |
-| :--- | :--- |:--------------------------------------------------------|
-| **협업 모델** | 짧은 문장 단위의 순차적 이어쓰기 | 아이디어 **제안(PR)** → 커뮤니티 **투표/합의** → 공식 스토리 **채택(Merge)** |
-| **서사 구조** | 단선적 흐름의 단순 문자열 확장 | 시놉시스→챕터→릴레이로 진화하는 **체계적 빌드업**                           |
-| **AI의 역할** | 보조 기능 또는 부재 | 창작 과정에 깊이 관여하는 **핵심 창작 파트너(Vibe Partner)**              |
-| **운영 및 관리**| 대부분 수동 관리 및 제한된 기능 | **자동화된 정책**(휴면 처리 등)과 세분화된 권한 제어                        |
+| 구분          | 기존 릴레이 플랫폼 (선형/분기형) | **Relai**                                               |
+|:------------|:--------------------|:--------------------------------------------------------|
+| **협업 모델**   | 짧은 문장 단위의 순차적 이어쓰기  | 아이디어 **제안(PR)** → 커뮤니티 **투표/합의** → 공식 스토리 **채택(Merge)** |
+| **서사 구조**   | 단선적 흐름의 단순 문자열 확장   | 시놉시스→챕터→릴레이로 진화하는 **체계적 빌드업**                           |
+| **AI의 역할**  | 보조 기능 또는 부재         | 창작 과정에 깊이 관여하는 **핵심 창작 파트너(Vibe Partner)**              |
+| **운영 및 관리** | 대부분 수동 관리 및 제한된 기능  | **자동화된 정책**(휴면 처리 등)과 세분화된 권한 제어                        |
 
 ### 핵심 차별점 요약
 
-1.  **협업의 차원: 재미를 넘어 '품질'로**
-    Relai에서 모든 이어쓰기는 단순 추가가 아닌 **'제안(Pull Request)'**입니다. 커뮤니티의 투표라는 '코드 리뷰'를 거쳐 가장 뛰어난 아이디어만이 공식적인 이야기('Master Branch')에 통합됩니다. 이는 이야기의 품질을 지속적으로 향상시키는 강력한 원동력입니다.
+1. **협업의 차원: 재미를 넘어 '품질'로**
+   Relai에서 모든 이어쓰기는 단순 추가가 아닌 **'제안(Pull Request)'**입니다. 커뮤니티의 투표라는 '코드 리뷰'를 거쳐 가장 뛰어난 아이디어만이 공식적인 이야기('Master Branch')에
+   통합됩니다. 이는 이야기의 품질을 지속적으로 향상시키는 강력한 원동력입니다.
 
-2.  **구조의 차원: 단편적 아이디어를 '완성된 작품'으로**
-    다른 플랫폼이 단편적인 문장 잇기에 머무른다면, Relai는 **'시놉시스 → 챕터 → 릴레이'**로 이어지는 체계적인 구조를 제공합니다. 이를 통해 작은 아이디어가 하나의 완성된 작품으로 성장(Build-up)하는 전 과정을 지원합니다.
+2. **구조의 차원: 단편적 아이디어를 '완성된 작품'으로**
+   다른 플랫폼이 단편적인 문장 잇기에 머무른다면, Relai는 **'시놉시스 → 챕터 → 릴레이'**로 이어지는 체계적인 구조를 제공합니다. 이를 통해 작은 아이디어가 하나의 완성된 작품으로 성장(
+   Build-up)하는 전 과정을 지원합니다.
 
-3.  **AI의 차원: 도구를 넘어 '핵심 파트너'로**
-    Relai의 AI는 글을 대신 써주는 보조 도구가 아닙니다. 기존 서사의 맥락과 톤을 이해하고, 창작의 막다른 길에서 새로운 가능성을 제시하는 **'창의적 조력자(Vibe Partner)'**로서 창작 과정 깊숙이 관여합니다.
+3. **AI의 차원: 도구를 넘어 '핵심 파트너'로**
+   Relai의 AI는 글을 대신 써주는 보조 도구가 아닙니다. 기존 서사의 맥락과 톤을 이해하고, 창작의 막다른 길에서 새로운 가능성을 제시하는 **'창의적 조력자(Vibe Partner)'**로서 창작 과정
+   깊숙이 관여합니다.
 
-**결론적으로 Relai는 일회성 재미를 넘어, 지속 가능한 집단 창작 생태계를 구축합니다. 체계적인 구조와 AI의 도움으로 누구나 아이디어를 제안하고, 커뮤니티의 힘으로 그 아이디어를 위대한 이야기로 발전시킬 수 있는 환경을 제공합니다.**
+**결론적으로 Relai는 일회성 재미를 넘어, 지속 가능한 집단 창작 생태계를 구축합니다. 체계적인 구조와 AI의 도움으로 누구나 아이디어를 제안하고, 커뮤니티의 힘으로 그 아이디어를 위대한 이야기로 발전시킬 수
+있는 환경을 제공합니다.**
 
 ---
 
 ## 주요 기능
 
 ### 사용자 관리
+
 - 회원가입 (프로필, 이메일, 비밀번호, 닉네임, 이미지 등)
 - 로그인 및 JWT 인증
 - 마이페이지 (작성작품, 참여작품)
 
 ### 소설 창작
+
 - 일반 창작 모드: 단독 작성
 - AI 보조 모드: 인물·장르·흐름 입력 → AI 이어쓰기 제안
 - 이어쓰기(PR) 제안 및 채택
 
 ### 릴레이 구조
+
 - 투표 기반 다음 화 채택
 - 원작자 우선권 및 비활성화 조건 처리
 
@@ -114,7 +122,7 @@ Relai는 단순한 이어쓰기를 넘어, **'하나의 완성도 높은 작품'
 ## 기술 스택
 
 | 구분            | 기술 및 버전                                                                           |
-| ------------- |-----------------------------------------------------------------------------------|
+|---------------|-----------------------------------------------------------------------------------|
 | **언어**        | Java 17                                                                           |
 | **프레임워크**     | Spring Boot **3.5.4**                                                             |
 | **프론트엔드**     | HTML5, CSS3, JavaScript (ES6+), Thymeleaf                                         |
@@ -122,10 +130,10 @@ Relai는 단순한 이어쓰기를 넘어, **'하나의 완성도 높은 작품'
 | **AI 연동**     | Google Gemini API                                                                 |
 | **데이터베이스**    | MariaDB (JDBC 드라이버), Spring Data JPA, Hibernate ORM, QueryDSL **5.0.0 (Jakarta)** |
 | **빌드/의존성 관리** | Gradle (Spring Dependency Management Plugin **1.1.7**)                            |
-| **테스트 프레임워크** | JUnit 5, Mockito, H2 Database                                                    |
+| **테스트 프레임워크** | JUnit 5, Mockito, H2 Database                                                     |
 | **개발 편의 도구**  | Lombok, Spring Boot DevTools                                                      |
 | **로깅**        | Spring Boot Logging, Hibernate SQL Debug/Trace                                    |
-| **파일 업로드**    | 로컬 파일 업로드 (`~/aidea/uploads/`)                                             |
+| **파일 업로드**    | 로컬 파일 업로드 (`~/aidea/uploads/`)                                                    |
 | **협업 도구**     | Git, GitHub, Discord                                                              |
 | **개발 환경**     | IntelliJ IDEA, Windows 11                                                         |
 | **테스트 환경**    | Chrome, Postman                                                                   |
@@ -135,29 +143,34 @@ Relai는 단순한 이어쓰기를 넘어, **'하나의 완성도 높은 작품'
 ## 대표 문서
 
 - [전체 문서 폴더](docs)
-- **프로젝트 기획 문서**
-    - [프로젝트 개요 및 기능](docs/planning/vibe-fiction-project-overview-and-features.md)
-    - [플랫폼 컨셉 정의서](docs/planning/relai-platform-overview.md)
-- **시스템 설계 문서**
-    - [시스템 설계 문서 폴더](docs/architecture)
-      - [API 명세서](docs/architecture/api-spec-vibe-fiction.md)
-      - [개념 ERD 명세서](docs/architecture/conceptual-erd-spec-vibe-fiction.md)
-      - [논리 ERD 명세서](docs/architecture/logical-erd-spec-vibe-fiction.md)
-      - [릴레이 시스템 운영 정책](docs/architecture/relay_automation_rules.md)
-- **팀 규칙**
-    - [팀 기여 허브 (CONTRIBUTING.md)](CONTRIBUTING.md)
-    - [팀 협업 규칙 폴더](docs/rules)
-- **가이드 문서**
-    - [팀 가이드 문서 폴더](docs/guides)
-      - [설치 및 실행 방법 문서](docs/guides/SETUP_GUIDE.md)
-      - [프로젝트 폴더 구조 문서](docs/guides/STRUCTURE_GUIDE.md)
-      - [트러블 슈팅 문서 폴더](docs/guides/troubleshooting)
-        - [팀 대표 트러블 슈팅 문서](docs/guides/troubleshooting/troubleshooting-git-revert-merge.md)
-- **회의록**
-    - [회의록 폴더](docs/meeting-notes)
-- **법률**
-    - [서비스 이용 약관](docs/TERMS.md)
-    - [라이센스](LICENSE)
+    - [플랫폼 시나리오 상세 명세서](docs/USER_FLOW.md)
+    - [API 스펙](docs/openapi-relai.yml)
+    - **프로젝트 기획 문서**
+        - [프로젝트 개요 및 기능](docs/planning/vibe-fiction-project-overview-and-features.md)
+        - [플랫폼 컨셉 정의서](docs/planning/relai-platform-overview.md)
+    - **시스템 설계 문서**
+        - [시스템 설계 문서 폴더](docs/architecture)
+            - [API 명세서](docs/architecture/api-spec-vibe-fiction.md)
+            - [개념 ERD 명세서](docs/architecture/conceptual-erd-spec-vibe-fiction.md)
+            - [논리 ERD 명세서](docs/architecture/logical-erd-spec-vibe-fiction.md)
+            - [시퀀스 다이어그램 문서](docs/architecture/sequence.md)
+            - [시스템 흐름 문서](docs/architecture/system-flow.md)
+    - **규칙 문서**
+        - [서비스 이용 약관](docs/rules/TERMS.md)
+        - [커뮤니티 가이드라인](docs/rules/COMMUNITY_GUIDELINES.md)
+        - [릴레이 연재 정책 문서](docs/rules/relay_automation_rules.md)
+        - [팀 기여 허브 (CONTRIBUTING.md)](CONTRIBUTING.md)
+            - [팀 협업 규칙 폴더](docs/rules/team-rules)
+    - **가이드 문서**
+        - [팀 가이드 문서 폴더](docs/guides)
+            - [설치 및 실행 방법 문서](docs/guides/SETUP_GUIDE.md)
+            - [프로젝트 폴더 구조 문서](docs/guides/STRUCTURE_GUIDE.md)
+            - [트러블 슈팅 문서 폴더](docs/guides/troubleshooting)
+                - [팀 대표 트러블 슈팅 문서](docs/guides/troubleshooting/troubleshooting-git-revert-merge.md)
+    - **회의록**
+        - [회의록 폴더](docs/meeting-notes)
+    - **법률**
+        - [라이센스](LICENSE)
 
 ---
 
@@ -218,6 +231,6 @@ Relai는 단순한 이어쓰기를 넘어, **'하나의 완성도 높은 작품'
 
 [AI-dea Repository](https://github.com/Vibe-Fiction/AI-dea)
 
-**문의:** [wtj1998@naver.com](mailto:wtj1998@naver.com)  
+**문의:** [wtj1998@naver.com](mailto:wtj1998@naver.com)
 
 **작성자:** [왕택준](https://github.com/TJK98)
