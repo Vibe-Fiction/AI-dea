@@ -1,5 +1,7 @@
 package com.spring.aidea.vibefiction.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.spring.aidea.vibefiction.dto.response.vote.VoteClosingResponseMj;
 import com.spring.aidea.vibefiction.dto.response.vote.VoteListAndClosingResponseMj;
 import com.spring.aidea.vibefiction.dto.response.vote.VoteProposalResponseMj;
@@ -36,39 +38,46 @@ public class VoteServiceMj {
      * @return 투표 목록 및 마감 시간 응답 DTO
      */
     public VoteListAndClosingResponseMj getVoteDataForNovel(Long novelId, int page, int size) {
-        // 소설의 마지막 챕터를 조회. 챕터가 없는 경우에도 null이 아닌 Optional.empty()를 반환하도록 수정
         Chapters lastChapter = chaptersRepository.findTopByNovel_NovelIdOrderByChapterNumberDesc(novelId)
-            .orElse(null); // ✅ [수정] 챕터가 없을 경우 예외 대신 null을 반환
+            .orElse(null);
 
-        // 페이지네이션된 제안 조회
-        List<VoteProposalResponseMj> proposals = getTopProposalsAndConvertToDto(lastChapter.getChapterId(), page, size);
-
+        List<VoteProposalResponseMj> proposals = Collections.emptyList();
         VoteClosingResponseMj deadlineResponse = null;
-
-        // 마지막 챕터 아이디
         Long latestChapterId = null;
 
         if (lastChapter != null) {
             proposals = getTopProposalsAndConvertToDto(lastChapter.getChapterId(), page, size);
-            LocalDateTime deadline = getVotingDeadline(lastChapter);
             latestChapterId = lastChapter.getChapterId();
 
-            // ✅ [수정] 제안이 있을 경우에만 마감 시간 정보를 설정
-            if (!proposals.isEmpty()) {
-                deadlineResponse = VoteClosingResponseMj.builder()
-                    .chapterId(lastChapter.getChapterId())
-                    .closingTime(deadline.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
-                    .build();
-            }
+            // 제안 유무와 관계없이 마감 시간 정보 생성
+            LocalDateTime deadline = getVotingDeadline(lastChapter);
+            deadlineResponse = VoteClosingResponseMj.builder()
+                .chapterId(lastChapter.getChapterId())
+                .closingTime(deadline.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")))
+                .build();
         }
 
-        // ✅ [수정] 제안 목록이 비어있더라도 latestChapterId는 항상 포함하여 반환
-        return VoteListAndClosingResponseMj.builder()
+        // ✅ [추가] JSON 객체를 콘솔에 출력하는 로깅
+        VoteListAndClosingResponseMj response = VoteListAndClosingResponseMj.builder()
             .proposals(proposals)
             .deadlineInfo(deadlineResponse)
-            .latestChapterId(latestChapterId) // ✅ [수정] 최신 챕터 ID를 항상 포함
+            .latestChapterId(latestChapterId)
             .build();
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.registerModule(new JavaTimeModule());
+            String jsonOutput = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(response);
+            System.out.println("### API Response JSON ###");
+            System.out.println(jsonOutput);
+            System.out.println("#########################");
+        } catch (Exception e) {
+            System.err.println("Error converting response to JSON: " + e.getMessage());
+        }
+
+        return response;
     }
+
+
 
     /**
      * 투표 기능: 로그인 확인, 중복 투표 방지 후 투표 기록
@@ -153,14 +162,14 @@ public class VoteServiceMj {
     }
 
     // 본 서비스에서는 등록날짜에서 3일 더하기지만 테스트를 위해 주석처리
-    private LocalDateTime getVotingDeadline(Chapters lastChapter) {
-        return lastChapter.getCreatedAt().plusDays(3);
-    }
+    //private LocalDateTime getVotingDeadline(Chapters lastChapter) {
+    //    return lastChapter.getCreatedAt().plusDays(3);
+    //}
 
     // 테스트 용으로 등록 시점에서 3분
-    /*private LocalDateTime getVotingDeadline(Chapters lastChapter) {
-            return lastChapter.getCreatedAt().plusMinutes(3);
-    }*/
+    private LocalDateTime getVotingDeadline(Chapters lastChapter) {
+            return lastChapter.getCreatedAt().plusMinutes(40);
+    }
 
     //JSOM안에 내용 담는 함수
     private List<VoteProposalResponseMj> getTopProposalsAndConvertToDto(Long chapterId, int page, int size) {

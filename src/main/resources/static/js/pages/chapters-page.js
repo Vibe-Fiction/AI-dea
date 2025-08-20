@@ -32,6 +32,7 @@ const ChaptersPage = () => {
             const continueWritingBtn = document.querySelector('.btn-continue-writing');
             if (continueWritingBtn) {
                 continueWritingBtn.addEventListener('click', () => {
+                    const novelId = urlParams.get('novelId');
                     // novelId를 사용하여 동적으로 URL을 생성합니다.
                     window.location.href = `/vote-page?novelId=${novelId}`;
                 });
