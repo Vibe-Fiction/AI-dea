@@ -31,8 +31,8 @@ const VotePage = () => {
 
     // ✅ [추가] URL 경로에서 novelId를 추출하는 로직
     const novelId = (() => {
-        const pathParts = window.location.pathname.split('/');
-        const id = pathParts[pathParts.length - 1];
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('novelId');
         return id && !isNaN(parseInt(id)) ? id : null;
     })();
 
