@@ -8,9 +8,8 @@
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/vote-page.css">
     <!--  로그인 모달 css 링크  -->
-    <link rel="stylesheet" href="/css/login-modal.css">
-    <!-- 투표 모달 css 링크 -->
-<!--    <link rel="stylesheet" href="/css/voting-modal.css">-->
+    <link rel="stylesheet" th:href="@{/css/login-modal.css}">
+
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,64 +26,176 @@
     <!-- 메인 헤더 -->
     <div th:replace="~{fragments/mainHeader :: mainHeader}"></div>
 
-    <main class="main-content">
-        <section class="vote-page-header">
-            <h2>다음 챕터 투표</h2>
-            <div class="countdown-timer">
-                <span class="timer-label">투표 마감까지 남은 시간</span>
-                <span id="countdown-display" class="timer-display"></span>
-            </div>
-            <div class="create-proposal">
-                <a href="/create-proposal" class="btn-create-proposal">
-                    <i class="fas fa-pen-nib"></i> 새 제안 쓰기
-                </a>
-            </div>
-        </section>
 
-        <!-- 투표 제안 목록 섹션 -->
-        <section class="proposal-list-section">
-            <div class="proposal-grid">
-                <!-- JS로 투표 제안 항목을 동적으로 추가 -->
-                <!-- 초기 로딩 상태를 표시하는 마크업 추가 -->
-                <div class="loading-state">
-                    <i class="fas fa-spinner fa-spin"></i>
-                    <p>투표 제안을 불러오는 중...</p>
-                </div>
-            </div>
-        </section>
 
-        <!-- 이어쓰기 버튼 -->
-        <div class="btn-continue-writing-wrapper">
-            <button class="btn-continue-writing">현재 진행 중인 이어쓰기</button>
-        </div>
-    </main>
-
-    <!-- 투표 모달 -->
-    <div class="voting-modal-container voting-modal-overlay">
+    <!-- ===== 투표 모달 ===== -->
+    <div class="voting-modal-container">
+        <div class="voting-modal-overlay"></div>
         <div class="voting-modal">
-            <button class="voting-modal-close-btn"><i class="fas fa-times"></i></button>
-            <h3 class="voting-modal-title"></h3>
-            <div class="voting-modal-chapter-info">
-                <div class="voting-chapter-details">
-                    <span class="voting-chapter-title"></span>
-                    <span class="voting-author-name"></span>
+            <button class="voting-modal-close-btn">&times;</button>
+            <div class="voting-modal-content">
+                <!-- 소설 제목 -->
+                <h2 class="voting-modal-novel-title"></h2>
+
+                <div class="voting-modal-chapter-info">
+                    <div class="voting-chapter-details">
+                        <!-- 챕터 제목 -->
+                        <span class="voting-chapter-title"></span>
+                        <!-- 참여자 이름 -->
+                        <span class="voting-author-name"></span>
+                        <!-- 득표수 -->
+                        <span class="voting-score"></span>
+                    </div>
+                    <!-- 투표하기 버튼 -->
+                    <button class="btn btn-vote">투표하기</button>
                 </div>
-                <div class="voting-score-container">
-                    <span class="voting-score"></span>
+
+                <!-- 소설 내용 (스크롤 가능) -->
+                <div class="voting-modal-story-content">
+                    <!-- 내용이 동적으로 채워질 곳 -->
                 </div>
-            </div>
-            <div class="voting-modal-vote-btn-container">
-                <button class="btn-vote-confirm">투표 완료</button>
             </div>
         </div>
     </div>
+    <!-- ================== -->
 
+
+
+
+
+    <!-- 메인 콘텐츠 영역 -->
+    <main class="container main-content">
+
+        <!-- 투표 페이지 헤더 및 이어쓰기 버튼 -->
+        <section class="vote-page-header">
+            <h2>다음 화의 이야기를 함께 만들어주세요!</h2>
+            <!-- 마감 시간 타이머 추가 -->
+            <div class="countdown-timer">
+                <span class="timer-label">투표 마감까지 남은 시간</span>
+                <span class="timer-display" id="countdown-display">00:00:00</span>
+            </div>
+            <div class="create-proposal">
+                <button class="btn-continue-writing">이어쓰기 시작하기</button>
+            </div>
+        </section>
+
+        <!-- 제안 카드 그리드 -->
+        <section class="proposal-grid">
+            <!-- 등수가 있는 제안 카드 예시 (1위~5위) -->
+            <!-- 1위 -->
+            <article class="proposal-card" data-proposal-id="1">
+                <div class="card-content">
+                    <h3 class="proposal-title">챕터 제목: 새로운 국면</h3>
+                    <div class="rank-container">
+                        <span class="rank-large">1위</span>
+                    </div>
+                    <div class="proposal-actions-row">
+                        <div class="vote-info">
+                            <i class="fas fa-vote-yea"></i>
+                            <span class="vote-count">152</span>
+                        </div>
+                        <button class="btn-vote">투표하기</button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 2위 -->
+            <article class="proposal-card" data-proposal-id="2">
+                <div class="card-content">
+                    <h3 class="proposal-title">챕터 제목: 운명의 재회</h3>
+                    <div class="rank-container">
+                        <span class="rank-large">2위</span>
+                    </div>
+                    <div class="proposal-actions-row">
+                        <div class="vote-info">
+                            <i class="fas fa-vote-yea"></i>
+                            <span class="vote-count">110</span>
+                        </div>
+                        <button class="btn-vote">투표하기</button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 3위 -->
+            <article class="proposal-card" data-proposal-id="3">
+                <div class="card-content">
+                    <h3 class="proposal-title">챕터 제목: 예상치 못한 반전</h3>
+                    <div class="rank-container">
+                        <span class="rank-large">3위</span>
+                    </div>
+                    <div class="proposal-actions-row">
+                        <div class="vote-info">
+                            <i class="fas fa-vote-yea"></i>
+                            <span class="vote-count">87</span>
+                        </div>
+                        <button class="btn-vote">투표하기</button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 등수가 없는 제안 카드 예시 (5위 이후) -->
+            <article class="proposal-card" data-proposal-id="4">
+                <div class="card-content">
+                    <h3 class="proposal-title">챕터 제목: 과거의 그림자</h3>
+                    <div class="rank-container">
+                        <!-- 등수가 없는 경우 빈문자열로 레이아웃 유지 -->
+                        <span class="rank-large empty-rank"></span>
+                    </div>
+                    <div class="proposal-actions-row">
+                        <div class="vote-info">
+                            <i class="fas fa-vote-yea"></i>
+                            <span class="vote-count">75</span>
+                        </div>
+                        <button class="btn-vote">투표하기</button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 등수가 없는 제안 카드 예시 2 -->
+            <article class="proposal-card" data-proposal-id="5">
+                <div class="card-content">
+                    <h3 class="proposal-title">챕터 제목: 새로운 국면2</h3>
+                    <div class="rank-container">
+                        <span class="rank-large empty-rank"></span>
+                    </div>
+                    <div class="proposal-actions-row">
+                        <div class="vote-info">
+                            <i class="fas fa-vote-yea"></i>
+                            <span class="vote-count">60</span>
+                        </div>
+                        <button class="btn-vote">투표하기</button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- 등수가 없는 제안 카드 예시 3 -->
+            <article class="proposal-card" data-proposal-id="6">
+                <div class="card-content">
+                    <h3 class="proposal-title">챕터 제목: 운명의 재회2</h3>
+                    <div class="rank-container">
+                        <span class="rank-large empty-rank"></span>
+                    </div>
+                    <div class="proposal-actions-row">
+                        <div class="vote-info">
+                            <i class="fas fa-vote-yea"></i>
+                            <span class="vote-count">55</span>
+                        </div>
+                        <button class="btn-vote">투표하기</button>
+                    </div>
+                </div>
+            </article>
+
+        </section>
+
+    </main>
 
     <!-- 메인 푸터 -->
     <div th:replace="~{fragments/mainFooter :: mainFooter}"></div>
 
-    <!-- JavaScript 파일 -->
     <script type="module" src="/js/app.js"></script>
-    <script type="module" src="/js/pages/vote-page.js"></script>
+
+
+
+
 </body>
 </html>

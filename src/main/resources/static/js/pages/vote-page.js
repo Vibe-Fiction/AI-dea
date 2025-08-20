@@ -119,45 +119,51 @@ const VotePage = () => {
      * @returns {HTMLElement} 생성된 제안 항목 DOM 요소
      */
     function createProposalElement(proposal, rank) {
-        const proposalDiv = document.createElement('div');
-        proposalDiv.classList.add('proposal-item');
-        if (rank === 1) {
-            proposalDiv.classList.add('rank-1');
-        }
+        // 1. article 요소를 생성하고, CSS에 정의된 'proposal-card' 클래스를 추가합니다.
+        const proposalArticle = document.createElement('article');
+        proposalArticle.classList.add('proposal-card');
 
-        proposalDiv.innerHTML = `
-            <div class="proposal-rank">${rank}</div>
+        // 2. data-proposal-id 속성을 추가하여 나중에 클릭 이벤트에서 해당 제안을 식별할 수 있도록 합니다.
+        proposalArticle.dataset.proposalId = proposal.proposalId;
+
+        // 3. 템플릿 리터럴을 사용하여 카드의 전체 HTML 구조를 작성합니다.
+        proposalArticle.innerHTML = `
+        <div class="proposal-card-header">
             <h4 class="proposal-title">${proposal.chapterTitle}</h4>
+            <span class="proposal-rank">${rank <= 3 ? `${rank}위` : ''}</span>
+
             <div class="proposal-meta">
-                <span class="proposal-author"><i class="fas fa-user-circle"></i> ${proposal.authorName}</span>
-                <span class="proposal-votes"><i class="fas fa-heart"></i> ${proposal.voteCount}</span>
+                <span><i class="fas fa-user-circle"></i> ${proposal.authorName}</span>
             </div>
-            <button class="btn-vote" data-proposal-id="${proposal.proposalId}">투표하기</button>
-            <div class="proposal-actions">
-                <button class="btn-read" data-proposal-id="${proposal.proposalId}">
-                    <i class="fas fa-book-open"></i> 읽기
-                </button>
+        </div>
+        <div class="proposal-content-snippet">
+            <p>${proposal.content.substring(0, 100)}...</p>
+        </div>
+        <div class="proposal-card-footer">
+            <div class="proposal-info">
+                <span class="proposal-score"><i class="fas fa-vote-yea"></i> ${proposal.voteCount}</span>
             </div>
-        `;
+            <button class="btn-vote">투표하기</button>
+        </div>
+    `;
 
-        // ✅ [수정] 투표 버튼 클릭 이벤트 리스너 추가
-        proposalDiv.querySelector('.btn-vote').addEventListener('click', (event) => {
-            const proposalId = event.currentTarget.dataset.proposalId;
-            const proposalData = proposalsMap.get(parseInt(proposalId));
-            if (proposalData) {
-                openVotingModal(proposalData);
+        // 4. `proposalArticle` 전체에 클릭 이벤트를 추가하여 모달을 엽니다.
+        //    이벤트 버블링을 이용하여 `btn-vote` 클릭 시 중복 실행을 막습니다.
+        proposalArticle.addEventListener('click', (event) => {
+            if (event.target.closest('.btn-vote')) {
+                return;
             }
+            openVotingModal(proposal);
         });
 
-        // ✅ [수정] 읽기 버튼 클릭 이벤트 리스너 추가
-        proposalDiv.querySelector('.btn-read').addEventListener('click', () => {
-            alert('읽기 기능은 아직 개발 중입니다.');
+        // 5. 투표하기 버튼에 대한 별도의 클릭 이벤트 리스너를 추가합니다.
+        const voteButton = proposalArticle.querySelector('.btn-vote');
+        voteButton.addEventListener('click', () => {
+            openVotingModal(proposal);
         });
 
-
-        return proposalDiv;
+        return proposalArticle;
     }
-
 
     /**
      * @description 투표 모달을 열고 데이터를 채워 넣습니다.
