@@ -281,7 +281,7 @@ const VotePage = () => {
         if (topProposalChapterId) {
             // History API를 사용하여 페이지를 이동합니다.
             // URL에 1위 제안의 chapterId를 포함하여 전달합니다.
-            history.pushState({}, '', `/create-proposal/${topProposalChapterId}`);
+            history.pushState({}, '', `/proposals/create/${topProposalChapterId}`);
             window.location.reload(); // 페이지 강제 새로고침
         } else {
             console.error('1위 제안의 chapterId를 찾을 수 없습니다.');
