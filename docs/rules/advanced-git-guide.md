@@ -1,6 +1,6 @@
 # 고급 Git 가이드
 
-> [↩ 전체 규칙으로 돌아가기](../CONTRIBUTING.md)
+> [↩ 전체 규칙으로 돌아가기](../../CONTRIBUTING.md)
 
 이 문서는 **기본 워크플로우**(workflow.md)와 별도로, 숙련자 또는 특정 상황에서만 필요한 Git 심화 작업 방법을 설명합니다.
 
@@ -91,4 +91,4 @@ git push origin hotfix/버그명
 ### Squash and Merge 시 메시지 팁
 - 제목: **PR 제목 그대로 사용** → `[타입]: 상세 내용 (#이슈번호)`
 - 본문: PR의 `작업 내용 요약`에서 핵심 변경 2~3줄 bullet만 이관
-- 기본 플로우는 [Git 워크플로우 규칙](./workflow.md) 참고
+- 기본 플로우는 [Git 워크플로우 규칙](workflow.md) 참고

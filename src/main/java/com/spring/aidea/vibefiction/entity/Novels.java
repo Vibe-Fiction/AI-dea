@@ -5,10 +5,11 @@ import lombok.*;
 import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import java.util.List;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -35,7 +36,7 @@ public class Novels {
     private String title;
 
     @Lob
-    @Column(name = "synopsis")
+    @Column(name = "synopsis", columnDefinition = "TEXT")
     @Comment("소설 시놉시스(줄거리)")
     private String synopsis;
 
@@ -138,7 +139,7 @@ public class Novels {
 
     /**
      * 새로운 소설 엔티티를 생성하고, 연관된 장르들을 한 번에 연결하는 정적 팩토리 메서드입니다.
-     *
+     * <p>
      * 이 메서드는 복잡한 소설 생성 로직을 서비스 레이어에서 도메인 모델 자체로 옮겨와,
      * 도메인의 응집도를 높이고 비즈니스 로직을 중앙에서 관리하도록 돕습니다.
      * 내부적으로는 전달받은 각 {@code Genres} 엔티티에 대해 {@link NovelGenres} 매핑 엔티티를 생성하여
@@ -150,7 +151,7 @@ public class Novels {
      * @param visibility 소설의 공개 범위({@link NovelVisibility}).
      * @param genres     소설에 부여할 {@link Genres} 엔티티의 목록.
      * @return 모든 초기 정보와 장르 연관관계가 설정된 새로운 {@link Novels} 인스턴스.
-     *         (주의: 이 메서드는 객체를 생성만 할 뿐, 영속화(persist)하지는 않습니다.)
+     * (주의: 이 메서드는 객체를 생성만 할 뿐, 영속화(persist)하지는 않습니다.)
      * @author 왕택준
      * @since 2025.08
      */
