@@ -150,12 +150,43 @@ const createNovelPage = () => {
             const response = await createNovelApi(novelData);
             const resultData = response.data ? response.data : response;
             alert(`소설이 성공적으로 생성되었습니다!`);
+            // ✅ [추가] 소설 생성 성공 후 투표 시작 API 호출
+            await startVoteApi(resultData.novelId);
             window.location.href = `/chapters?novelId=${resultData.novelId}`;
         } catch (error) {
             console.error('소설 생성 기능 오류:', error);
             alert(`오류가 발생했습니다: ${error.message}`);
         } finally {
             toggleLoading(false, submitBtn, '소설 생성하기');
+        }
+    }
+
+
+    /**
+     * @description 새로운 소설의 투표를 시작하는 API를 호출합니다.
+     * @param {number} novelId 투표를 시작할 소설의 ID
+     */
+    async function startVoteApi(novelId) {
+        try {
+            const response = await fetch(`/api/vote/start`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${getToken()}`
+
+                },
+                body: JSON.stringify({ novelId: novelId })
+            });
+
+            if (!response.ok) {
+                throw new Error(`투표 시작 실패: ${response.status}`);
+            }
+
+            console.log('투표가 성공적으로 시작되었습니다.');
+        } catch (error) {
+            console.error('투표 시작 API 호출 오류:', error);
+            // 에러를 무시하거나 사용자에게 알릴 수 있습니다.
+            // 예를 들어: alert('투표 시작 중 오류가 발생했습니다.');
         }
     }
 
