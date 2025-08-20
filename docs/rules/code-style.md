@@ -4,7 +4,7 @@
 
 본 문서는 **Team Ai-dea**의 Vibe Fiction 프로젝트에서 코드의 가독성, 일관성, 유지보수성을 높이기 위해 적용하는 스타일 규칙을 정의합니다.
 
-작성자: [왕택준](https://github.com/TJK98)
+**작성자**: [왕택준](https://github.com/TJK98)
 
 ---
 

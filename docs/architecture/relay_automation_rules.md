@@ -1,6 +1,6 @@
 # Relai: 릴레이 연재 시스템 운영 정책
 
-작성자: [왕택준](https://github.com/TJK98)
+**작성자**: [왕택준](https://github.com/TJK98)
 
 **문서 버전: 1.0**
 

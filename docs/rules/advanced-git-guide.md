@@ -4,7 +4,7 @@
 
 이 문서는 **기본 워크플로우**(workflow.md)와 별도로, 숙련자 또는 특정 상황에서만 필요한 Git 심화 작업 방법을 설명합니다.
 
-작성자: [왕택준](https://github.com/TJK98)
+**작성자**: [왕택준](https://github.com/TJK98)
 
 ---
 

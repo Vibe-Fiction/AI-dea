@@ -4,7 +4,7 @@
 
 본 문서는 **Team Ai-dea**가 개발하는 **Vibe Fiction** 프로젝트에서 사용하는 디렉토리 구조, 클래스 분리 등 일관된 개발 구조를 정의합니다.
 
-작성자: [왕택준](https://github.com/TJK98)
+**작성자**: [왕택준](https://github.com/TJK98)
 
 ---
 
@@ -80,7 +80,7 @@ Ai-dea
  │
  ├── 📁 meeting-notes
  │
- ├── 📁 overview 
+ ├── 📁 planning 
  │
  └── 📁 rules
 ```
