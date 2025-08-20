@@ -210,6 +210,8 @@ const VotePage = () => {
         // 4. API에서 받은 'voteCount'를 득표수에 설정
         votingModalContainer.querySelector('.voting-score').textContent = `현재 득표수: ${proposalData.voteCount}`;
 
+        votingModalContainer.querySelector('.voting-modal-story-content').textContent = proposalData.proposalContent;
+
         // 5. 모달을 화면에 표시하고, 배경 스크롤을 막음
         votingModalContainer.style.display = 'flex';
         document.body.style.overflow = 'hidden';

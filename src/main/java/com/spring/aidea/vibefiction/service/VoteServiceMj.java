@@ -115,6 +115,7 @@ public class VoteServiceMj {
             return lastChapter.getCreatedAt().plusMinutes(3);
     }*/
 
+    //JSOM안에 내용 담는 함수
     private List<VoteProposalResponseMj> getTopProposalsAndConvertToDto(Long chapterId, int page, int size) {
         if (chapterId == null) {
             return Collections.emptyList();
@@ -133,6 +134,7 @@ public class VoteServiceMj {
                 .novelName(novel.getTitle())
                 .proposalTitle(p.getTitle())
                 .proposalAuthor(p.getProposer().getNickname())
+                .proposalContent(p.getContent())
                 .voteCount(p.getVoteCount())
                 .build())
             .collect(Collectors.toList());
