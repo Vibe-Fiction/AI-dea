@@ -108,5 +108,11 @@ export const PAGE_CONFIG = {
     '/vote-page/:id': {
         module: 'vote-page',
         requiresAuth: true,
+    },
+    '/signup': {
+        module: 'auth',
+        requiresAuth: false,
     }
+
+
 };
