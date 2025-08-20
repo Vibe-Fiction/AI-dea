@@ -123,7 +123,14 @@ public class Proposals {
             .title(title)
             .content(content)
             .aiGenerated(aiGenerated)
-            .voteDeadline(LocalDateTime.now().plusDays(3)) // create 메서드에서 초기화
+            .voteDeadline(chapter.getCreatedAt() // <- Chapters 엔티티의 생성일을 가져와서
+                // 테스트 용으로 1분 뒤로 생성
+                .plusDays(0)
+                .withHour(0)
+                .withMinute(1)
+                .withSecond(0)
+                .withNano(0) // 마감일 계산 로직을 통합) // create 메서드에서 초기화
+            )
             .build();
     }
 

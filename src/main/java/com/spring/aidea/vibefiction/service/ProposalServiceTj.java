@@ -79,13 +79,6 @@ public class ProposalServiceTj {
         Proposals proposal = Proposals.create(chapter, proposer, req.getTitle(), req.getContent(), aiLog);
 
 
-        /**
-         요청하신 투표 마감일(voteDeadline) 설정 로직 추가
-         @songkey06 (송민재)
-         */
-        int minutesToAdd = 1; // n을 1분으로 설정 (테스트 용)
-        LocalDateTime voteDeadline = LocalDateTime.now().plusMinutes(minutesToAdd);
-        proposal.setVoteDeadline(voteDeadline);
 
         // [3. 영속화] 생성된 제안 엔티티를 데이터베이스에 저장
         proposalsRepository.save(proposal);
