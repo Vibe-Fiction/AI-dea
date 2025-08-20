@@ -87,7 +87,7 @@ public class Proposals {
     }
 
     // --- Enum ---
-    public enum Status { VOTING, ADOPTED, REJECTED, DELETED }
+    public enum Status { VOTING, ADOPTED, REJECTED, DELETED, PENDING }
     /**
      * [리팩토링-TO-BE] enum의 속성 한개 더 추가할 예정
      */

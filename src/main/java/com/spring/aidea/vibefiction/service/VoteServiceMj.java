@@ -162,7 +162,7 @@ public class VoteServiceMj {
     }
 
     //lastChapter의 생성일로부터 3일을 더하고, 시간을 23:59:58로 설정합니다.
-    private LocalDateTime getVotingDeadline(Chapters lastChapter) {
+    /*private LocalDateTime getVotingDeadline(Chapters lastChapter) {
             LocalDateTime deadline = lastChapter.getCreatedAt()
                     .plusDays(3)
                     .withHour(23)
@@ -171,12 +171,12 @@ public class VoteServiceMj {
                     .withNano(0); // 나노초를 0으로 설정하여 일관성을 유지합니다.
 
             return deadline;
-        }
+        }*/
 
     // 테스트 용으로 등록 시점에서 3분
-    /*private LocalDateTime getVotingDeadline(Chapters lastChapter) {
-            return lastChapter.getCreatedAt().plusMinutes(3);
-    }*/
+    private LocalDateTime getVotingDeadline(Chapters lastChapter) {
+            return lastChapter.getCreatedAt().plusMinutes(1);
+    }
 
     //JSOM안에 내용 담는 함수
     private List<VoteProposalResponseMj> getTopProposalsAndConvertToDto(Long chapterId, int page, int size) {
