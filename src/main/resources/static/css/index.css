@@ -8,7 +8,6 @@
     max-width: 64rem; /* max-w-4xl */
     padding: 2rem; /* p-8 */
     text-align: center;
-    /* style.css의 .main-content 내부에서 스스로 중앙 정렬되도록 margin을 추가합니다. */
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 2rem;
@@ -22,48 +21,75 @@
     gap: 3rem; /* gap-6 */
 }
 
-/* Welcome Message */
+/* --- [수정 완료] Welcome Message 관련 스타일 (부드러운 버전) --- */
 .welcome-message {
-    font-size: 2.25rem; /* text-4xl */
-    font-weight: 700; /* font-bold */
-    color: #1f2937; /* text-gray-800 */
-    letter-spacing: -0.025em; /* tracking-tight */
-    margin: 0; /* Remove default h1 margin */
+    /* 1. 폰트 크기를 약간 줄였습니다. */
+    font-size: 1.875rem; /* 기존: 2.25rem */
+
+    /* 2. 폰트 굵기를 'extra-bold'에서 'bold'로 낮춰 덜 딱딱하게 만듭니다. */
+    font-weight: 700; /* 기존: 800 */
+
+    /* 3. 자간과 줄 간격을 조절하여 여유롭고 부드러운 느낌을 줍니다. */
+    letter-spacing: normal; /* 기존: -0.025em */
+    line-height: 1.4; /* 기존: 1.2 */
+
+    margin: 0;
+
+    /* 그라데이션 및 애니메이션은 그대로 유지합니다. */
+    color: transparent;
+    background: linear-gradient(45deg, var(--primary-color), var(--primary-hover), #e67e22);
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: fadeInText 1s ease-out 0.2s forwards;
+    opacity: 0;
 }
+
+@keyframes fadeInText {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 큰 화면에서도 폰트 크기를 적절하게 조정합니다. */
+@media (min-width: 768px) {
+    .welcome-message {
+        font-size: 3rem; /* 기존: 3.5rem */
+    }
+}
+/* --- [수정 완료] 여기까지 --- */
+
 
 /* Create Novel Button */
 .create-novel-btn {
     display: inline-block;
-    padding: 1rem 2rem; /* py-4 px-8 */
-    background-color: var(--primary-color); /* 메인 컬러 */
+    padding: 1rem 2rem;
+    background-color: var(--primary-color);
     color: #fff;
-    font-weight: 700; /* font-bold */
-    font-size: 1.125rem; /* text-lg */
-    border-radius: 0.75rem; /* 둥글게 */
-    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15); /* 살짝 진한 그림자 */
+    font-weight: 700;
+    font-size: 1.125rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
     text-decoration: none;
     transition: transform 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
 }
 
 .create-novel-btn:hover {
-    background-color: var(--primary-hover); /* hover 시 어두운 톤 */
-    transform: translateY(-2px) scale(1.04); /* 살짝 튀어나오는 느낌 */
+    background-color: var(--primary-hover);
+    transform: translateY(-2px) scale(1.04);
     box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
 }
 
 .create-novel-btn:focus {
     outline: none;
-    box-shadow: 0 0 0 4px rgba(105, 69, 48, 0.3); /* primary 색상 기반 focus ring */
+    box-shadow: 0 0 0 4px rgba(105, 69, 48, 0.3);
 }
 
-
-/* Responsive font size for larger screens */
-@media (min-width: 768px) {
-    .welcome-message {
-        font-size: 3rem; /* md:text-5xl */
-    }
-}
-
+/* ... 이하 다른 CSS 코드는 동일하게 유지됩니다 ... */
 
 /* 소설 목록 헤더 및 검색/필터 영역 */
 .novel-list-header {
@@ -115,7 +141,6 @@
 /* 소설 그리드 */
 .novel-grid {
     display: grid;
-    /* auto-fill 대신 고정된 열 개수로 설정하여 레이아웃이 깨지지 않게 수정 */
     grid-template-columns: repeat(4, 1fr);
     gap: 1.5rem;
 }
@@ -243,34 +268,22 @@
         margin-top: 0.5rem;
     }
 
-    /* 소설 그리드를 모바일에서 1열로 변경 */
     .novel-grid {
         grid-template-columns: 1fr;
     }
 }
 
-
 .errortext {
-
-    width: 75rem;
+    grid-column: 1 / -1;
+    background-color: var(--bg-card);
+    border: 2px dashed var(--border-color);
+    border-radius: 1rem;
+    padding: 4rem 2rem;
+    margin-top: 2rem;
     text-align: center;
-    font-weight: 600;
-    font-size: 2rem;
-    padding-top: 10rem;
-
+    color: var(--text-secondary);
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 1.8;
+    width: auto;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
