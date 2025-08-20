@@ -46,6 +46,12 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    visibility: hidden;
+}
+
+/* 인증 완료 후 보이기 */
+body.auth-checked {
+    visibility: visible;
 }
 
 .container {

@@ -41,12 +41,24 @@ export function initLoginModal() {
     // '닫기' 버튼 클릭 시 모달 닫기
     $loginModalCloseBtn.addEventListener('click', () => {
         $loginModalOverlay.classList.remove('open');
+
+        const redirectUrl = localStorage.getItem('redirect_after_login');
+        if (redirectUrl) {
+            // 리다이렉트 URL 제거
+            localStorage.removeItem('redirect_after_login');
+        }
     });
 
     // 모달 바깥의 어두운 영역 클릭 시 모달 닫기
     $loginModalOverlay.addEventListener('click', (e) => {
+        const redirectUrl = localStorage.getItem('redirect_after_login');
+
         if (e.target === $loginModalOverlay) {
             $loginModalOverlay.classList.remove('open');
+        if (redirectUrl) {
+            // 리다이렉트 URL 제거
+            localStorage.removeItem('redirect_after_login');
+        }
         }
     });
 }

@@ -6,10 +6,56 @@ import { initRouter,PAGE_CONFIG } from './config/routes-config.js';
 import {updateHeaderUI, initLoginModal,} from './utils/ui.js';
 import { getToken } from './utils/token.js';
 
+
+
+
 // 현재 페이지 확인 함수
 const getCurrentPage = () => {
     const path = window.location.pathname;
-    return PAGE_CONFIG[path];
+
+    // 먼저 정확히 일치하는 정적 라우트 확인
+    if (PAGE_CONFIG[path]) {
+        return PAGE_CONFIG[path];
+    }
+
+    // /vote-page/{id} 형태만 체크 (유일한 동적 라우트)
+    if (path.startsWith('/vote-page/')) {
+        return PAGE_CONFIG['/vote-page/:id'] || null;
+    }
+
+    console.log("매칭되는 라우트가 없음")
+    return null; // 매칭되는 라우트가 없음
+};
+
+/**
+ * 라우트 가드 함수
+ * 페이지 접근 권한을 체크하고 필요시 리다이렉트
+ */
+const routeGuard = (pageConfig) => {
+    // 페이지 설정이 없는 경우 (404)
+    if (!pageConfig) {
+        console.warn('페이지를 찾을 수 없습니다.');
+        window.location.href = '/';
+        return false;
+    }
+
+    // 인증이 필요한 페이지인지 확인
+    if (pageConfig.requiresAuth) {
+        const token = getToken();
+
+        if (!token) {
+
+            // 로그인이 필요하다는 알림
+            alert('로그인이 필요한 페이지입니다.');
+
+            window.location.href = '/';
+            return false;
+        }
+
+
+    }
+
+    return true;
 };
 
 
@@ -21,10 +67,21 @@ const getCurrentPage = () => {
 function main() {
 
     // 1. 외부 모듈들을 로드합니다.
-
     const currentPage = getCurrentPage();
+
+            // 라우트가드 체크
+            if (!routeGuard(currentPage)) {
+                console.log("라우트가드에서 막힘")
+                return; // 가드에서 막히면 여기서 중단
+            }
+
+    document.body.classList.add('auth-checked');
+
     const init = async () => {
         try {
+
+
+
             // 2. 페이지 로드 시, 먼저 로그인 상태에 따라 헤더 UI를 즉시 업데이트합니다.
             //    이렇게 해야 사용자가 로그인 상태인지 아닌지 바로 알 수 있습니다.
             updateHeaderUI();
