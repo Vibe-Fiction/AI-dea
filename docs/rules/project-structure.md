@@ -4,7 +4,7 @@
 
 본 문서는 **Team Ai-dea**가 개발하는 **Vibe Fiction** 프로젝트에서 사용하는 디렉토리 구조, 클래스 분리 등 일관된 개발 구조를 정의합니다.
 
-작성자: [왕택준](https://github.com/TJK98)
+**작성자**: [왕택준](https://github.com/TJK98)
 
 ---
 
@@ -26,41 +26,63 @@
 ### 1.2 전체 구조 예시
 
 ```
-📦 com.spring.aidea.vibefiction
-│
-├── 📁 controller             # 모든 도메인의 Controller
-│   ├── 📄 UserController.java
-│   ├── 📄 NovelController.java
-│   └── 📄 ChapterController.java
-│
-├── 📁 service                # 모든 도메인의 Service
-│   ├── 📄 UserService.java
-│   ├── 📄 NovelService.java
-│   └── 📄 ChapterService.java
-│
-├── 📁 dto                    # 모든 도메인의 DTO
-│   ├── 📄 UserRegistrationRequest.java
-│   ├── 📄 NovelCreateRequest.java
-│   └── 📄 ChapterResponse.java
-│
-├── 📁 entity                 # 모든 도메인의 Entity
-│   ├── 📄 User.java
-│   ├── 📄 Novel.java
-│   └── 📄 Chapter.java
-│
-├── 📁 repository             # 모든 도메인의 Repository
-│   ├── 📄 UserRepository.java
-│   ├── 📄 NovelRepository.java
-│   └── 📄 ChapterRepository.java
-│
-└── 📁 global                 # 전역 설정 및 유틸리티
-    ├── 📁 config
-    │   └── 📄 SecurityConfig.java
-    ├── 📁 exception
-    │   ├── 📄 GlobalExceptionHandler.java
-    │   └── 📄 CustomException.java
-    └── 📁 jwt
-        └── 📄 JwtUtil.java
+Ai-dea
+📄 build.gradle  
+📄 settings.gradle  
+📄 gradlew  
+📄 gradlew.bat  
+📄 .gitignore  
+📄 README.md  
+📄 LICENSE  
+📄 CONTRIBUTING.md  
+
+📁 src
+ └── 📁 main
+      ├── 📁 java
+      │    └── 📦 com.spring.aidea.vibefiction
+      │         ├── 📁 controller
+      │         ├── 📁 dto
+      │         │    ├── 📁 request
+      │         │    └── 📁 response
+      │         ├── 📁 entity
+      │         ├── 📁 global
+      │         │    ├── 📁 common
+      │         │    ├── 📁 config
+      │         │    ├── 📁 exception
+      │         │    └── 📁 jwt
+      │         ├── 📁 repository
+      │         │    ├── 📁 custom
+      │         │    └── 📁 impl
+      │         ├── 📁 routes
+      │         └── 📁 service
+      │              └── 📁 impl
+      │
+      └── 📁 resources
+           📄 application.yml  
+           📄 application-template.yml  
+           📁 static
+           │    ├── 📁 css
+           │    ├── 📁 img
+           │    └── 📁 js
+           │         ├── 📁 config
+           │         ├── 📁 pages
+           │         └── 📁 utils
+           📁 templates
+                └── 📁 fragments
+
+📁 docs
+ ├── 📄 TERMS.md  
+ ├── 📄 COMMUNITY_GUIDELINES.md  
+ ├── 📁 architecture
+ │
+ ├── 📁 guides
+ │    └── 📁 troubleshooting
+ │
+ ├── 📁 meeting-notes
+ │
+ ├── 📁 planning 
+ │
+ └── 📁 rules
 ```
 
 > ❗ **핵심 작업 원칙**:
@@ -88,10 +110,13 @@
 │   ├── 📄 UserServiceTestTj.java
 │   └── 📄 NovelControllerTestTj.java
 │
-├── 📁 bsh                     # 백승현 개발자 테스트 공간
-│   └── 📄 ChapterServiceTestSh.java
+├── 📁 sh                     # 백승현 개발자 테스트 공간
+│   └── ...
 │
 ├── 📁 mj                     # 송민재 개발자 테스트 공간
+│   └── ...
+│
+├── 📁 dh                     # 고동현 개발자 테스트 공간
 │   └── ...
 │
 ├── 📄 AiDeaApplicationTests.java  # 공용 통합 테스트 (필요 시 사용)

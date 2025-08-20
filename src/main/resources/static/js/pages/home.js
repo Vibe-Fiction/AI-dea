@@ -90,7 +90,7 @@ const HomePage = () => {
             } catch (error) {
                 // ✅ [수정] 오류 발생 시 더 이상 데이터를 요청하지 않도록 상태를 변경하여 무한 루프를 방지합니다.
                 state.hasMoreData = false;
-                if (!append) novelGrid.innerHTML = '<div class="errortext">아직 등록된 소설이 없습니다.<br> 새로운 소설을 만들어주세요!</div>';
+                if (!append) novelGrid.innerHTML = '<div class="errortext">아직 등록된 소설이 없습니다.<br> 우리의 첫 번째 작가가 되어 주세요!</div>';
             } finally {
                 state.isLoading = false;
                 if (loadingIndicator) loadingIndicator.style.display = 'none';
