@@ -32,7 +32,7 @@ export function initRouter() {
             const novelId = document.querySelector('.btn-continue-writing').dataset.novelId;
 
 
-            const targetUrl=`/vote-page/${novelId}`;
+            const targetUrl=`/vote-page?novelId=${novelId}`;
             e.preventDefault();
             handleCreateNovelClick(targetUrl);
         }
