@@ -168,7 +168,7 @@ public class VoteServiceMj {
 
     // 테스트 용으로 등록 시점에서 3분
     private LocalDateTime getVotingDeadline(Chapters lastChapter) {
-            return lastChapter.getCreatedAt().plusMinutes(40);
+            return lastChapter.getCreatedAt().plusMinutes(3);
     }
 
     //JSOM안에 내용 담는 함수

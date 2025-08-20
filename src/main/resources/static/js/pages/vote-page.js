@@ -139,7 +139,6 @@ const VotePage = () => {
             // 제안 목록이 비어있는 경우, 사용자에게 안내 메시지를 표시합니다.
             if (proposals.length === 0) {
                 proposalsContainer.innerHTML = '<p>아직 등록된 투표 제안이 없습니다.</p>';
-                return;
             }
 
             // 제안 목록을 순회하며 각 항목을 HTML 요소로 생성하고 DOM에 추가합니다.
@@ -150,6 +149,7 @@ const VotePage = () => {
             });
 
             // 11. 마감 시간이 존재하는 경우, 카운트다운 타이머를 시작합니다.
+            // ✅ [수정] 제안 목록의 유무와 관계없이 마감 시간이 존재하면 타이머를 시작합니다.
             const deadlineTime = deadlineInfo.closingTime;
             if (deadlineTime) {
                 startCountdown(deadlineTime);
@@ -169,39 +169,42 @@ const VotePage = () => {
      * @param {string} deadlineTime - ISO 8601 형식의 마감 시간 문자열 (예: '2025-08-23T10:00:00Z')
      */
     function startCountdown(deadlineTime) {
-        // 1. 마감 시간 문자열을 Date 객체로 변환합니다.
-        const deadline = new Date(deadlineTime);
-        let timerInterval = null;
+        // ✅ [수정] 문자열을 수동으로 파싱하여 안정적인 Date 객체 생성
+        const parts = deadlineTime.split(/[- :]/);
+        const deadline = new Date(
+          parts[0], // Year
+          parts[1] - 1, // Month (0부터 시작하므로 1을 빼줍니다)
+          parts[2], // Day
+          parts[3], // Hour
+          parts[4], // Minute
+          parts[5]  // Second
+        );
 
-        // 2. 1초마다 타이머를 업데이트하는 함수를 정의합니다.
+        // let timerInterval = null;
+
         const updateTimer = () => {
             const now = new Date();
             const distance = deadline.getTime() - now.getTime();
 
-            // 3. 남은 시간이 0보다 작으면 타이머를 멈추고 '마감' 메시지를 표시합니다.
             if (distance < 0) {
                 clearInterval(timerInterval);
                 countdownDisplay.textContent = "투표가 마감되었습니다.";
                 return;
             }
 
-            // 4. 남은 시간을 시, 분, 초로 계산합니다.
             const hours = Math.floor(distance / (1000 * 60 * 60));
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            // 5. 계산된 시간을 '00:00:00' 형식으로 포맷팅하여 화면에 표시합니다.
             const formattedTime = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
             countdownDisplay.textContent = formattedTime;
         };
 
-        // 6. 1초마다 `updateTimer` 함수를 실행하여 타이머를 갱신합니다.
         if (timerInterval) {
             clearInterval(timerInterval);
         }
         timerInterval = setInterval(updateTimer, 1000);
 
-        // 페이지 로드 시 즉시 타이머를 업데이트하여 초기 깜빡임을 방지합니다.
         updateTimer();
     }
 
