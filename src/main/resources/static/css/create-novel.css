@@ -156,7 +156,7 @@
     margin-top: 1.5rem;
     border: 1px solid var(--border-color);
     border-radius: 0.75rem;
-    background-color: #f9fafb; /* 밝은 배경 */
+    background-color: #fff; /* 밝은 배경 */
 }
 
 .chapter-block h3 {
