@@ -159,7 +159,7 @@ const VotePage = () => {
         // ✅ [수정] 새로운 HTML 구조로 템플릿 리터럴을 변경합니다.
         proposalArticle.innerHTML = `
         <div class="card-content">
-            <h3 class="proposal-title">${proposal.chapterTitle}</h3>
+            <h3 class="proposal-title">${proposal.proposalTitle}</h3>
             <div class="rank-container">
                 <span class="rank-large">${rank <= 3 ? `${rank}위` : ''}</span>
             </div>
@@ -171,7 +171,7 @@ const VotePage = () => {
                 <button class="btn-vote">투표하기</button>
             </div>
         </div>
-    `;
+        `;
 
         // 4. `proposalArticle` 전체에 클릭 이벤트를 추가하여 모달을 엽니다.
         proposalArticle.addEventListener('click', (event) => {

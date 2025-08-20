@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/vote")
 public class VoteControllerMj {
 
-    private final VoteServiceMj voteService;
+    private final VoteServiceMj voteServiceMj;
 
     /**
      * 특정 소설의 투표 제안 목록을 페이지네이션하여 조회합니다.
@@ -29,7 +29,7 @@ public class VoteControllerMj {
         @RequestParam(name = "page", defaultValue = "0") int page,
         @RequestParam(name = "size", defaultValue = "6") int size) {
 
-        VoteListAndClosingResponseMj response = voteService.getVoteDataForNovel(novelId, page, size);
+        VoteListAndClosingResponseMj response = voteServiceMj.getVoteDataForNovel(novelId, page, size);
 
         // 제안 목록이 비어 있으면 "더 이상 투표 제안이 없습니다." 메시지를 반환
         if (response.getProposals().isEmpty()) {
@@ -48,7 +48,7 @@ public class VoteControllerMj {
         String loginId = currentUser.getUsername();
 
         try {
-            voteService.createVote(request.getProposalId(), loginId);
+            voteServiceMj.createVote(request.getProposalId(), loginId);
             return ResponseEntity.ok("투표가 성공적으로 완료되었습니다.");
         } catch (IllegalArgumentException e) {
             // 유효하지 않은 제안 ID 등

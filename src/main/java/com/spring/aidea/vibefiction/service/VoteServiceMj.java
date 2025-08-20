@@ -75,9 +75,18 @@ public class VoteServiceMj {
         Proposals proposal = proposalsRepository.findById(proposalId)
             .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 제안입니다."));
 
+        // 중복 투표 방지
         boolean hasVoted = votesRepository.existsByUserAndProposal(user, proposal);
         if (hasVoted) {
             throw new IllegalStateException("이미 투표에 참여했습니다.");
+        }
+
+        Chapters chapter = proposal.getChapter();
+        LocalDateTime deadline = getVotingDeadline(chapter);
+
+        // 투표마감 시간 후 투표 방지
+        if (LocalDateTime.now().isAfter(deadline)) {
+            throw new IllegalStateException("투표 기간이 마감되었습니다.");
         }
 
         Votes newVote = Votes.builder()
@@ -96,9 +105,15 @@ public class VoteServiceMj {
             .orElseThrow(() -> new IllegalStateException("아직 회차가 없습니다. novelId=" + novelId));
     }
 
+    // 본 서비스에서는 등록날짜에서 3일 더하기지만 테스트를 위해 주석처리
     private LocalDateTime getVotingDeadline(Chapters lastChapter) {
         return lastChapter.getCreatedAt().plusDays(3);
     }
+
+    // 테스트 용으로 등록 시점에서 3분
+    /*private LocalDateTime getVotingDeadline(Chapters lastChapter) {
+            return lastChapter.getCreatedAt().plusMinutes(3);
+    }*/
 
     private List<VoteProposalResponseMj> getTopProposalsAndConvertToDto(Long chapterId, int page, int size) {
         if (chapterId == null) {
