@@ -156,6 +156,7 @@ const VotePage = () => {
         proposalArticle.classList.add('proposal-card');
         proposalArticle.dataset.proposalId = proposal.proposalId;
 
+
         // ✅ [수정] 새로운 HTML 구조로 템플릿 리터럴을 변경합니다.
         proposalArticle.innerHTML = `
         <div class="card-content">
@@ -197,10 +198,19 @@ const VotePage = () => {
      * @param {object} proposalData - 투표 제안 데이터
      */
     const openVotingModal = (proposalData) => {
-        votingModalContainer.querySelector('.voting-modal-title').textContent = '다음 챕터에 투표하기';
-        votingModalContainer.querySelector('.voting-chapter-title').textContent = proposalData.chapterTitle;
-        votingModalContainer.querySelector('.voting-author-name').textContent = `by ${proposalData.authorName}`;
-        votingModalContainer.querySelector('.voting-score').textContent = `현재 점수: ${proposalData.voteCount}`;
+        // 1. 모달 제목을 '다음 챕터에 투표하기'로 설정
+        votingModalContainer.querySelector('.voting-modal-novel-title').textContent = proposalData.novelName;
+
+        // 2. API에서 받은 'proposalTitle'을 챕터 제목에 설정
+        votingModalContainer.querySelector('.voting-chapter-title').textContent = proposalData.proposalTitle;
+
+        // 3. API에서 받은 'proposalAuthor'를 참여자 이름에 설정
+        votingModalContainer.querySelector('.voting-author-name').textContent = `by ${proposalData.proposalAuthor}`;
+
+        // 4. API에서 받은 'voteCount'를 득표수에 설정
+        votingModalContainer.querySelector('.voting-score').textContent = `현재 득표수: ${proposalData.voteCount}`;
+
+        // 5. 모달을 화면에 표시하고, 배경 스크롤을 막음
         votingModalContainer.style.display = 'flex';
         document.body.style.overflow = 'hidden';
     };
