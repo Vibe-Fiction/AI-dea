@@ -127,7 +127,7 @@ public class Proposals {
                 // 테스트 용으로 1분 뒤로 생성
                 .plusDays(0)
                 .withHour(0)
-                .withMinute(1)
+                .withMinute(2)
                 .withSecond(0)
                 .withNano(0) // 마감일 계산 로직을 통합) // create 메서드에서 초기화
             )
