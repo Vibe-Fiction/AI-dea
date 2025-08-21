@@ -18,12 +18,19 @@
 
 ## 팀 구성
 
-| 역할 | 이름                                     | 주요 기술 및 담당 기능 | 회고록 링크      |
-|----|----------------------------------------|---------------|-------------|
-| 팀장 | [송민재](https://github.com/songkey06)    |               | [송민재 회고록]() |
-| 팀원 | [고동현](https://github.com/rhehdgus8831) |               | [고동현 회고록]() |
-| 팀원 | [백승현](https://github.com/Sirosho)      |               | [백승현 회고록]() |
-| 팀원 | [왕택준](https://github.com/TJK98)        |               | [왕택준 회고록]() |
+| 역할 | 이름 | 주요 기술 및 담당 기능                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | 회고록 링크 |
+| -- | -- |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| -- |
+| 팀장 | [송민재](https://github.com/songkey06) |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | [송민재 회고록]() |
+| 팀원 | [고동현](https://github.com/rhehdgus8831) | <b>Backend (Spring Boot)</b><br>• JWT 기반 인증·인가 시스템 설계 및 구축<br>• Spring Security 설정 및 최적화<br>• 인증/비인증 경로 분리 보안 정책 적용<br>• 회원가입 및 로그인 핵심 API 개발 및 연동<br>• 실시간 데이터 처리 및 예외 처리 로직 구현<br><br><b>Frontend (JS/HTML/CSS)</b><br>• 로그인 및 회원가입 UI/UX 설계 및 기능 구현<br><br><b>문서 & 산출물</b><br>• 개념 및 논리 ERD 작성<br>• 발표 자료(PPT) 제작                                                                                                                                                                                                                         | [고동현 회고록](https://github.com/rhehdgus8831/Project-SYNCUP-retrospective/blob/main/Ai_dea.md) |
+| 팀원 | [백승현](https://github.com/Sirosho) | <b>Backend (Spring Boot)</b><br>• 메인 페이지, 마이 페이지, 소설 상세 페이지 API 구현 및 연동<br>• 예외 처리 및 데이터 검증 로직 일부 지원<br><br> <b>Frontend (JS/HTML/CSS)</b><br>• 플랫폼 전반적인 페이지 디자인 및 스타일링<br>• 메인 페이지 UI/UX 설계 및 기능 구현<br>• 마이 페이지 UI/UX 설계 및 기능 구현<br>• 소설 상세 페이지 UI/UX 설계 및 기능 구현<br><br> <b>문서 & 산출물</b><br>• API 명세서 작성<br>• 발표 자료(PPT) 제작                                                                                                                                                                                                                 | [백승현 회고록](https://github.com/Sirosho/study-with-me/blob/main/ai_dea.md) |
+| 팀원 | [왕택준](https://github.com/TJK98) | <b>Backend (Spring Boot)</b><br>• AI 기반 소설 추천 API 및 연동, 이어쓰기 API 개발 및 연동<br>• 소설/회차/이어쓰기 제안 CRUD 컨트롤러 개발<br>• 장르 관리 API 및 연동<br><br><b>Frontend (JS/HTML/CSS)</b><br>• ‘새로운 소설 쓰기’ 페이지 UI/UX 설계 및 기능 구현 (장르 선택, AI 추천, 소설 생성)<br>• ‘소설 이어쓰기 제안’ 페이지 UI/UX 설계 및 기능 구현 (AI 이어쓰기, 제안 등록)<br>• 플랫폼 사이트 CSS 리팩토링 및 UI 개선<br><br><b>문서 & 산출물</b><br> • 프로젝트 아이디어 제안 및 초기 방향성 설정<br>• 프로젝트 규칙/정책 문서 작성 (팀 규칙, 자동화 규칙, 커뮤니티 가이드라인, AI 활용 가이드 등)<br>• 프로젝트 운영 문서 작성 (README, CONTRIBUTING, GitHub Issue/PR 템플릿 등)<br>• 플랫폼/프로젝트 개요 및 구조 문서 작성 (Setup Guide, Structure Guide, User Flow 등) | [왕택준 회고록](https://velog.io/@wtj1998/Vibe-Fiction-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%ED%9A%8C%EA%B3%A0%EB%A1%9D) |
+
+---
+
+### 팀 공통 성과
+- 데이터베이스 및 시스템 설계
+- 회차 자동 요약 테이블 구조 기획 및 업데이트 정책 수립
+- 저작권/수익화/운영 정책 수립
 
 ---
 
@@ -158,8 +165,10 @@ Relai는 단순한 이어쓰기를 넘어, **'하나의 완성도 높은 작품'
     - **규칙 문서**
         - [서비스 이용 약관](docs/rules/TERMS.md)
         - [커뮤니티 가이드라인](docs/rules/COMMUNITY_GUIDELINES.md)
+        - [저작권 및 지적재산권 정책](docs/rules/COPYRIGHT_POLICY.md)
+        - [AI 저작권 및 수익화 정책](docs/rules/AI_COPYRIGHT_COMPANY_POLICY.md)
         - [릴레이 연재 정책 문서](docs/rules/relay_automation_rules.md)
-        - [팀 기여 허브 (CONTRIBUTING.md)](CONTRIBUTING.md)
+        - [팀 기여 허브](CONTRIBUTING.md)
             - [팀 협업 규칙 폴더](docs/rules/team-rules)
     - **가이드 문서**
         - [팀 가이드 문서 폴더](docs/guides)
@@ -190,6 +199,7 @@ Relai는 단순한 이어쓰기를 넘어, **'하나의 완성도 높은 작품'
     * 친구 전용 연재방(비공개 연재방)
     * 비밀번호 기반 수정 권한
     * 비공개 연재작 → 공개/릴레이 모드 전환 가능
+    * 소설 상태 관리 (연재 중, 완결, 숨김)
 
 ### 2차 기능 확장
 
