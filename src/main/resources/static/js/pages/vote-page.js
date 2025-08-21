@@ -26,7 +26,7 @@ const VotePage = () => {
     let timerInterval = null;
     // 제안 데이터를 proposalId로 빠르게 찾기 위해 Map에 저장합니다.
     const proposalsMap = new Map();
-    // ✅ [수정] 1위 제안의 chapterId 대신 소설의 최신 chapterId를 저장할 변수
+    // 1위 제안의 chapterId 대신 소설의 최신 chapterId를 저장할 변수
     let latestChapterId = null;
 
     // URL 경로에서 novelId를 추출하는 로직
@@ -41,7 +41,7 @@ const VotePage = () => {
      * @param {number} proposalId 투표할 제안의 ID
      */
     async function doVote(proposalId) {
-        // ✅ [추가] 로컬 스토리지 등에서 JWT 토큰을 가져옵니다.
+        // 로컬 스토리지 등에서 JWT 토큰을 가져옵니다.
         const token = getToken();
 
         // 토큰이 없으면 투표를 진행하지 않고 알림을 띄웁니다.
@@ -55,7 +55,7 @@ const VotePage = () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    // ✅ [추가] Authorization 헤더에 Bearer 토큰을 추가합니다.
+                    // Authorization 헤더에 Bearer 토큰을 추가합니다.
                     'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({ proposalId: proposalId })
@@ -78,6 +78,8 @@ const VotePage = () => {
         }
     }
 
+    let initialChapterCount = 0;
+
     /**
      * @description 투표 제안 데이터를 가져와 화면에 렌더링합니다.
      * 실제로는 fetch API를 통해 서버와 통신합니다.
@@ -89,13 +91,13 @@ const VotePage = () => {
             return;
         }
 
-        // ✅ [수정] getToken() 함수를 호출하여 토큰을 가져오고 token 변수에 할당합니다.
+        // getToken() 함수를 호출하여 토큰을 가져오고 token 변수에 할당합니다.
         const token = getToken();
 
         try {
-            // ✅ [수정] novelId를 사용하여 API 호출 경로를 동적으로 변경합니다.
+            // novelId를 사용하여 API 호출 경로를 동적으로 변경합니다.
             const apiUrl = `/api/vote/novels/${novelId}/proposals`;
-            // ✅ [추가] 헤더에 Authorization을 포함시킵니다.
+            // [추가] 헤더에 Authorization을 포함시킵니다.
             const headers = {
                 'Content-Type': 'application/json',
             };
@@ -109,7 +111,7 @@ const VotePage = () => {
             });
 
             if (!response.ok) {
-                // ✅ [추가] 403 에러일 경우 구체적인 메시지를 표시
+                //  403 에러일 경우 구체적인 메시지를 표시
                 if (response.status === 403) {
                     alert('투표 제안을 불러올 권한이 없습니다. 로그인 상태를 확인해 주세요.');
                 }
@@ -149,7 +151,7 @@ const VotePage = () => {
             });
 
             // 11. 마감 시간이 존재하는 경우, 카운트다운 타이머를 시작합니다.
-            // ✅ [수정] 제안 목록의 유무와 관계없이 마감 시간이 존재하면 타이머를 시작합니다.
+            // 제안 목록의 유무와 관계없이 마감 시간이 존재하면 타이머를 시작합니다.
             const deadlineTime = deadlineInfo.closingTime;
             if (deadlineTime) {
                 startCountdown(deadlineTime);
@@ -164,6 +166,7 @@ const VotePage = () => {
         }
     }
 
+
     /**
      * @description 마감 시간을 기준으로 카운트다운 타이머를 시작합니다.
      * @param {string} deadlineTime - ISO 8601 형식의 마감 시간 문자열 (예: '2025-08-23T10:00:00Z')
@@ -172,12 +175,12 @@ const VotePage = () => {
         // ✅ [수정] 문자열을 수동으로 파싱하여 안정적인 Date 객체 생성
         const parts = deadlineTime.split(/[- :]/);
         const deadline = new Date(
-          parts[0], // Year
-          parts[1] - 1, // Month (0부터 시작하므로 1을 빼줍니다)
-          parts[2], // Day
-          parts[3], // Hour
-          parts[4], // Minute
-          parts[5]  // Second
+            parts[0], // Year
+            parts[1] - 1, // Month (0부터 시작하므로 1을 빼줍니다)
+            parts[2], // Day
+            parts[3], // Hour
+            parts[4], // Minute
+            parts[5]  // Second
         );
 
         // let timerInterval = null;
@@ -189,6 +192,8 @@ const VotePage = () => {
             if (distance < 0) {
                 clearInterval(timerInterval);
                 countdownDisplay.textContent = "투표가 마감되었습니다.";
+                // ✅ [추가] 마감 시 이어쓰기 버튼을 비활성화하고 스타일을 변경
+                handleVotingEnd();
                 return;
             }
 
@@ -200,12 +205,114 @@ const VotePage = () => {
             countdownDisplay.textContent = formattedTime;
         };
 
+        /**
+        * 투표 마감 시 실행되는 함수.
+        * 새로운 챕터가 생성되었는지 폴링 방식으로 확인합니다.
+        */
+        const handleVotingEnd = () => {
+            countdownDisplay.textContent = "투표가 마감되었습니다. 새로운 챕터 생성 중...";
+
+            // 투표 버튼 및 이어쓰기 버튼 비활성화
+            document.querySelectorAll('.btn-vote').forEach(btn => btn.disabled = true);
+            if (continueWritingBtn) {
+                continueWritingBtn.disabled = true;
+            }
+
+            const novelId = new URLSearchParams(window.location.search).get('novelId');
+
+            // 10초마다 새로운 챕터가 생성되었는지 확인하는 폴링 시작
+            const pollingInterval = setInterval(async () => {
+                try {
+                    // 소설 상세 정보를 다시 호출하여 최신 챕터 목록을 가져옵니다.
+                    const response = await fetch(`/api/novels/${novelId}`);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    const result = await response.json();
+                    const newChapters = result.chapters;
+
+                    // 새로운 챕터가 추가되었는지 확인
+                    if (newChapters && newChapters.length > (initialChapterCount || 0)) {
+                        clearInterval(pollingInterval); // 폴링 중단
+                        alert('새로운 챕터가 성공적으로 생성되었습니다! 챕터 목록 페이지로 이동합니다.');
+                        // 새로운 챕터의 ID를 포함한 페이지로 이동
+                        window.location.href = `/chapters?novelId=${novelId}`;
+                    }
+
+                } catch (error) {
+                    console.error('새 챕터 상태 확인 중 오류:', error);
+                }
+            }, 10000); // 10초마다 확인
+        };
+
+        /**
+         * @description 새로운 챕터가 시작될 때 이어쓰기 버튼을 활성화하고 클릭 이벤트를 추가하는 함수
+         */
+            // ✅ [추가] 새로운 챕터가 시작될 때 버튼을 활성화하는 함수
+        const handleNewChapterStart = () => {
+                if (continueWritingBtn) {
+                    // 버튼의 비활성화 상태와 스타일을 원래대로 되돌립니다.
+                    continueWritingBtn.disabled = false;
+                    continueWritingBtn.style.opacity = '1';
+                    continueWritingBtn.style.cursor = 'pointer';
+
+                    // 이전에 추가되었을 수 있는 경고 핸들러를 제거합니다.
+                    const alertHandler = () => {
+                        alert('투표가 마감되어 새로운 챕터를 작성할 수 없습니다.');
+                    };
+                    continueWritingBtn.removeEventListener('click', alertHandler);
+
+                    // 원래의 이어쓰기 로직을 다시 연결합니다.
+                    // (init 함수에서 이미 한 번 추가하므로, 여기서는 한 번만 추가하도록 로직을 조정해야 중복 추가를 방지할 수 있습니다.)
+                    // 안전하게 이벤트를 재연결하는 방법:
+                    continueWritingBtn.removeEventListener('click', handleContinueWriting);
+                    continueWritingBtn.addEventListener('click', handleContinueWriting);
+                }
+            };
+
         if (timerInterval) {
             clearInterval(timerInterval);
         }
         timerInterval = setInterval(updateTimer, 1000);
 
         updateTimer();
+    }
+    /**
+     * 서버에 새로운 챕터 생성 상태를 확인하는 API를 호출하는 함수.
+     * @param {string} novelId - 현재 소설 ID
+     * @returns {Promise<boolean>} 새로운 챕터가 생성되었는지 여부
+     */
+    async function checkNewChapterStatus(novelId) {
+        // 1. 토큰 가져오기
+        const token = getToken();
+        if (!token) {
+            // 토큰이 없으면 권한 에러를 발생시킬 수 있습니다.
+            console.error('인증 토큰이 없습니다. 로그인이 필요합니다.');
+            return false;
+        }
+        try {
+            const apiUrl = `/api/novel/${novelId}`;
+
+            // 2. 요청 헤더에 Authorization 토큰 추가
+            const response = await fetch(apiUrl, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (!response.ok) {
+                // 서버 응답이 200번대가 아닐 경우 에러 발생
+                const errorText = await response.text();
+                throw new Error(`챕터 상태 확인 실패: ${response.status} - ${errorText}`);
+            }
+
+            const data = await response.json();
+            return data.hasNewChapter;
+        } catch (error) {
+            console.error('새 챕터 상태 확인 중 오류 발생:', error);
+            return false;
+        }
     }
 
     /**
@@ -220,7 +327,7 @@ const VotePage = () => {
         proposalArticle.dataset.proposalId = proposal.proposalId;
 
 
-        // ✅ [수정] 새로운 HTML 구조로 템플릿 리터럴을 변경합니다.
+        // 새로운 HTML 구조로 템플릿 리터럴을 변경합니다.
         proposalArticle.innerHTML = `
         <div class="card-content">
             <h3 class="proposal-title">${proposal.proposalTitle}</h3>
@@ -271,12 +378,12 @@ const VotePage = () => {
         votingModalContainer.querySelector('.voting-score').textContent = `현재 득표수: ${proposalData.voteCount}`;
         // 5. API에서 받은 'ProposalContent'를 내용에 설정
         votingModalContainer.querySelector('.voting-modal-story-content').textContent = proposalData.proposalContent;
-        // ✅ [수정] 모달이 열릴 때 투표 완료 버튼을 찾고 이벤트 리스너를 추가
+        // 모달이 열릴 때 투표 완료 버튼을 찾고 이벤트 리스너를 추가
         const voteConfirmBtn = votingModalContainer.querySelector('.btn-vote');
 
         if (voteConfirmBtn) {
             voteConfirmBtn.onclick = () => {
-                console.log('투표 완료 버튼 클릭됨'); // ✅ [추가] 디버깅을 위한 로그
+                console.log('투표 완료 버튼 클릭됨'); // 디버깅을 위한 로그
                 doVote(proposalData.proposalId);
             };
         } else {
@@ -310,9 +417,31 @@ const VotePage = () => {
 
 
     // 초기화 함수
-    const init = () => {
-        // URL에서 novelId를 가져온 후 loadProposals를 호출합니다.
+    const init = async () => {
+        // URL에서 novelId를 가져온 후 loadProposals를 호출
         loadProposals();
+
+        // 페이지 로드 시 최신 챕터 ID를 가져옴
+        const novelId = (() => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = urlParams.get('novelId');
+            return id && !isNaN(parseInt(id)) ? id : null;
+        })();
+
+        if (novelId) {
+            try {
+                const response = await fetch(`/api/novels/${novelId}`);
+                if (response.ok) {
+                    const novelData = await response.json();
+                    const chapters = novelData.chapters;
+                    if (chapters && chapters.length > 0) {
+                        latestChapterId = chapters[chapters.length - 1].chapterId;
+                    }
+                }
+            } catch (error) {
+                console.error("최신 챕터 ID를 가져오는 중 오류 발생:", error);
+            }
+        }
 
         // 투표 모달 닫기
         votingModalCloseBtn.addEventListener('click', closeModal);

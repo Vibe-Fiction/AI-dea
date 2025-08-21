@@ -2,12 +2,14 @@
 
 package com.spring.aidea.vibefiction.service;
 
+import com.spring.aidea.vibefiction.dto.request.chapter.ChapterCreateRequestTj;
 import com.spring.aidea.vibefiction.entity.Proposals;
 import com.spring.aidea.vibefiction.repository.ProposalsRepository; // ProposalsRepository 임포트
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
@@ -21,9 +23,11 @@ public class VoteScheduler {
 
     // VotesRepository 대신 ProposalsRepository를 사용
     private final ProposalsRepository proposalsRepository;
+    private final ChapterServiceTj chapterServiceTj;
 
     // 매일 자정(23:59:59)에 실행
     @Scheduled(cron = "5 * * * * *")
+    @Transactional // 트랜잭션 추가
     public void updateExpiredProposalStatus() {
         log.info("만료된 제안 상태 업데이트 스케줄러 시작");
 
@@ -67,7 +71,28 @@ public class VoteScheduler {
         }
         // 4-4. 제안이 투표수가 최다 득표가 한개인 경우 ADOPTED
         else { // topProposals.size() == 1
-            topProposals.get(0).setStatus(Proposals.Status.ADOPTED);
+            // 4-4. 최다 득표 제안이 1개인 경우, ADOPTED로 변경하고 새로운 챕터를 생성하는 로직 추가
+            Proposals adoptedProposal = topProposals.get(0);
+            adoptedProposal.setStatus(Proposals.Status.ADOPTED);
+
+            // 새로운 챕터 생성을 위한 데이터 준비
+            Long novelId = adoptedProposal.getChapter().getNovel().getNovelId();
+            Long authorId = adoptedProposal.getProposer().getUserId();
+            ChapterCreateRequestTj createRequest = ChapterCreateRequestTj.builder()
+                .title(adoptedProposal.getTitle())
+                .content(adoptedProposal.getContent())
+                .build();
+
+            // ChapterServiceTj를 사용하여 새로운 챕터 생성
+            try {
+                // 수정된 부분: 주입받은 인스턴스로 메서드 호출
+                chapterServiceTj.create(novelId, authorId, createRequest, adoptedProposal.getProposalId());
+                log.info("새로운 챕터가 성공적으로 생성되었습니다. 채택된 제안 ID: {}", adoptedProposal.getProposalId());
+
+            } catch (Exception e) {
+                log.error("새로운 챕터 생성 중 오류 발생: {}", e.getMessage());
+            }
+
             rejectedProposals.forEach(p -> p.setStatus(Proposals.Status.REJECTED));
             log.info("최다 득표 제안 1개를 ADOPTED로, 나머지를 REJECTED로 업데이트 완료.");
         }
@@ -77,4 +102,6 @@ public class VoteScheduler {
 
         log.info("만료된 제안 상태 업데이트 스케줄러 종료. {}개의 제안이 업데이트되었습니다.", expiredProposals.size());
     }
+
+
 }
