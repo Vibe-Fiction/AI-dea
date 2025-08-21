@@ -50,8 +50,9 @@ const VotePage = () => {
 
         try {
             const response = await fetch(`/api/vote/finalize/${novelId}`, {
-                method: 'GET',
+                method: 'POST',
                 headers: {
+                    'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 }
             });
