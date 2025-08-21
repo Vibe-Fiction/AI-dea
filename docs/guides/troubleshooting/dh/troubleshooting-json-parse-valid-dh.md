@@ -1,10 +1,12 @@
 # 트러블슈팅 가이드 – JSON 파싱 예외 미처리
 
-본 문서는**Team Ai-dea**의 **Vibe Fiction 프로젝트**(Relai 플랫폼)에서 **JSON 파싱 예외 미처리 문제**를 해결하는 과정에서의 시도, 실패, 그리고 최종 의사결정을 정리한 트러블슈팅 사례입니다.
+본 문서는 **Team Ai-dea**의 **Vibe Fiction 프로젝트**(Relai 플랫폼) 개발 과정에서 **JSON 파싱 예외 미처리 문제**를 해결하는 과정에서의 시도, 실패, 그리고 최종 의사결정을 정리한 트러블슈팅 사례입니다.
 
 **작성자:** [고동현](https://github.com/rhehdgus8831)
 
 **작성일:** 2025년 8월 15일
+
+**문서 버전:** v1.0
 
 ---
 
@@ -53,7 +55,3 @@ public ResponseEntity<ErrorResponse> handleHttpMessageNotReadableException(HttpM
 
 * 예외는 **발생 레이어와 시점**이 다르므로 각각 맞춤 핸들러 필요.
 * 응답 형식을 일관되게 맞추려면 파싱 오류까지 커스텀 핸들러에서 처리해야 함.
-
----
-
-> 본 문서는 Vibe Fiction 프로젝트에서 **JSON 파싱 예외 미처리 문제**를 해결하는 과정에서의 시도, 실패, 그리고 최종 의사결정을 정리한 트러블슈팅 사례입니다.

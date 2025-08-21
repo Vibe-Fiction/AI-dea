@@ -1,10 +1,46 @@
 # **Vibe-Fiction 프로젝트 클론 및 환경설정 가이드**
 
+본 문서는 Vibe-Fiction 프로젝트를 로컬 환경에 클론하여 정상적으로 개발 및 실행하기 위한 환경 설정 방법과 필수 유의사항을 안내합니다.
+
 **작성자:** [왕택준](https://github.com/TJK98)
 
-**문서 버전:** 1.0
+**문서 버전:** v1.0
 
-본 문서는 Vibe-Fiction 프로젝트를 로컬 환경에 클론하여 정상적으로 개발 및 실행하기 위한 환경 설정 방법과 필수 유의사항을 안내합니다.
+**대상 독자:**
+- **백엔드/프론트엔드 개발자**: 개발 환경 세팅 및 실행 방법 숙지
+- **QA/테스터**: 테스트 환경 구축 및 재현 환경 설정
+- **신규 합류자**: 빠른 온보딩을 위해 로컬에서 프로젝트 실행이 필요한 인원
+- **운영자**: 배포 전 로컬 환경 확인 및 기본 실행 점검
+
+---
+
+## **Quick Start (빠른 실행 가이드)**
+
+프로젝트를 바로 실행해보고 싶으신 경우, 아래 절차를 따라주세요.
+
+```bash
+# 1. 저장소 클론
+git clone https://github.com/Vibe-Fiction/AI-dea.git
+cd AI-dea
+
+# 2. 데이터베이스 생성 (MariaDB 실행 필요)
+CREATE DATABASE ai_dea
+DEFAULT CHARACTER SET utf8mb4
+DEFAULT COLLATE utf8mb4_unicode_ci;
+
+# 3. 실행 (Gradle Wrapper 사용)
+./gradlew bootRun   # Mac/Linux
+gradlew.bat bootRun # Windows
+
+# 4. 브라우저에서 접속
+http://localhost:9009
+```
+
+**사전 준비**
+
+* JDK 17 이상
+* MariaDB 설치 및 실행
+* Gemini API Key 발급 후 `application-template.yml` 생성
 
 ---
 

@@ -1,10 +1,12 @@
 # 트러블슈팅 가이드 – Spring Security 기본 차단 문제
 
-본 문서는 **Team Ai-dea**의 **Vibe Fiction 프로젝트**에서 개발 중인 **Relai(릴레이) 플랫폼**에서 **Spring Security 기본 차단 문제**를 해결하는 과정에서의 시도, 실패, 그리고 최종 의사결정을 정리한 트러블슈팅 사례입니다.
+본 문서는 **Team Ai-dea**의 **Vibe Fiction 프로젝트**(Relai 플랫폼) 개발 과정에서 **Spring Security 기본 차단 문제**를 해결하는 과정에서의 시도, 실패, 그리고 최종 의사결정을 정리한 트러블슈팅 사례입니다.
 
 **작성자:** [고동현](https://github.com/rhehdgus8831)
 
 **작성일:** 2025년 8월 11일
+
+**문서 버전:** v1.0
 
 ---
 
@@ -57,7 +59,3 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
 * Spring Security는 **보안 우선 기본값**을 제공하므로, 반드시 인증 예외 경로를 명확히 지정해야 함.
 * 초기 설정 단계에서 **열린 API vs 인증이 필요한 API**를 명확히 구분하면 이후 유지보수 비용이 줄어듦.
 * 보안 정책은 기능 구현보다 **선제적으로 설계**해야 안정성과 생산성을 동시에 확보할 수 있음.
-
----
-
-> 본 문서는 Vibe Fiction 프로젝트에서 **Spring Security 기본 차단 문제**를 해결하는 과정에서의 시도, 실패, 그리고 최종 의사결정을 정리한 트러블슈팅 사례입니다.

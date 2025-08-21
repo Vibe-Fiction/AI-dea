@@ -39,35 +39,26 @@ public class Genres {
     @Getter
     @RequiredArgsConstructor
     public enum GenreType {
-        // --- 대중적인 메인 장르 ---
+        // --- 메인 장르 ---
         FANTASY("판타지"),
         ROMANCE("로맨스"),
-        MODERN_FANTASY("현대판타지"),
+        MODERN("현대물"),
         MARTIAL_ARTS("무협"),
         MYSTERY("미스터리"),
-        HORROR("호러"),
         SCI_FI("SF"),
         THRILLER("스릴러"),
         ACTION("액션"),
         COMEDY("코미디"),
         DRAMA("드라마"),
-        HISTORICAL("시대극/역사"),
-
-        // --- 웹소설 인기 하위 장르/설정 ---
-        ROMANCE_FANTASY("로맨스판타지"),
-        GAME_FANTASY("게임판타지"),
-        REGRESSION("회귀"),
-        REINCARNATION("빙의/환생"),
-        ACADEMY("아카데미"),
-        APOCALYPSE("아포칼립스"),
-
-        // --- 팬덤/특정 취향 장르 ---
-        BL("BL"),
-        GL("GL"),
-
-        // --- 기타 ---
+        HISTORICAL("역사/시대극"),
         SLICE_OF_LIFE("일상"),
-        SHORT_STORY("단편");
+        ISEKAI("이세계물"),
+        ACADEMY("학원/학교물"),
+        RETURN("회귀/환생"),
+
+        // --- 팬덤/특정 취향 ---
+        BL("BL"),
+        GL("GL");
 
         private final String description;
     }
