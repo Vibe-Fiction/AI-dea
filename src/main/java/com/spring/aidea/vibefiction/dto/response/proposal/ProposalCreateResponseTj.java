@@ -25,4 +25,5 @@ public class ProposalCreateResponseTj {
      * 향후 이 제안에 대해 투표를 하거나, 상세 내용을 조회하는 등 모든 후속 작업의 기준이 되는 핵심 키입니다.
      */
     private Long proposalId;
+    private Long novelId;
 }

@@ -82,9 +82,18 @@ public class Proposals {
         this.voteCount += 1;
     }
 
-    // --- Enum ---
-    public enum Status { VOTING, ADOPTED, REJECTED, DELETED }
+    public void decrementVoteCount() {
+        this.voteCount -= 1;
+    }
 
+    public void setVoteDeadline(LocalDateTime voteDeadline) {
+    }
+
+    // --- Enum ---
+    public enum Status { VOTING, ADOPTED, REJECTED, DELETED, PENDING }
+    /**
+     * [리팩토링-TO-BE] enum의 속성 한개 더 추가할 예정
+     */
     /**
      * 새로운 '이어쓰기 제안(Proposal)' 엔티티를 생성하고 초기화하는 정적 팩토리 메서드입니다.
      *
@@ -114,7 +123,15 @@ public class Proposals {
             .title(title)
             .content(content)
             .aiGenerated(aiGenerated)
-            .voteDeadline(LocalDateTime.now().plusDays(3)) // create 메서드에서 초기화
+            .voteDeadline(chapter.getCreatedAt() // <- Chapters 엔티티의 생성일을 가져와서
+                // 테스트 용으로 1분 뒤로 생성
+                /*.plusDays(0)
+                .withHour(0)
+                .withMinute(1)
+                .withSecond(0)*/
+                .plusMinutes(1)
+                .withNano(0) // 마감일 계산 로직을 통합) // create 메서드에서 초기화
+            )
             .build();
     }
 

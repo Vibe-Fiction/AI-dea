@@ -42,7 +42,7 @@
     margin-top: 1rem;
 }
 
-.btn-continue-writing {
+.btn-continue-writing-start {
     background-color: var(--primary-color);
     color: #fff;
     padding: 0.75rem 2rem;
@@ -55,7 +55,7 @@
     transition: background-color 0.3s;
 }
 
-.btn-continue-writing:hover {
+.btn-continue-writing-start:hover {
     background-color: var(--primary-hover);
 }
 

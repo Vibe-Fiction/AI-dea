@@ -27,16 +27,6 @@ export function initRouter() {
             handleCreateNovelClick(targetUrl);
         }
 
-        if(target.matches('.btn-continue-writing')|| target.closest('.btn-continue-writing')){
-
-            const novelId = document.querySelector('.btn-continue-writing').dataset.novelId;
-
-
-            const targetUrl=`/vote-page?novelId=${novelId}`;
-            e.preventDefault();
-            handleCreateNovelClick(targetUrl);
-        }
-
 
     });
 }
@@ -105,8 +95,12 @@ export const PAGE_CONFIG = {
         module: 'create-proposal',
         requiresAuth: true,
     },
-    '/vote-page/:id': {
+    '/vote-page': {
         module: 'vote-page',
+        requiresAuth: true,
+    },
+    '/proposals/create': {
+        module: 'create-proposal',
         requiresAuth: true,
     },
     '/signup': {

@@ -63,7 +63,7 @@ public class SecurityConfig {
         "/chapters/**",
         "/vote",
     // feature/novel-editor-ai
-        "/vote-page/**",
+        "/vote-page",
         //"/novel",
         //"/proposal",
         "/novels/create",              // '새 소설 쓰기' 페이지
