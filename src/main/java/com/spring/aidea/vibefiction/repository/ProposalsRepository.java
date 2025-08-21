@@ -37,4 +37,6 @@ public interface ProposalsRepository extends JpaRepository<Proposals, Long> {
     List<Proposals> findByVoteDeadlineBeforeAndStatus(LocalDateTime now, Proposals.Status status);
 
     List<Proposals> findByChapter_ChapterIdAndProposalIdNotInOrderByVoteCountDesc(Long chapterId, List<Long> excludedProposalIds, PageRequest of);
+
+    List<Proposals> findByChapter_ChapterId(Long chapterId);
 }

@@ -51,6 +51,7 @@ public class SecurityConfig {
         "/api/auth/**",
         "/api/my-page/**",
         "/api/chapters/**",
+        "/api/vote/finalize/**"
 
     };
     // 검증 제외 할 정적소스 (html,css,image,js) URL

@@ -1,10 +1,12 @@
 package com.spring.aidea.vibefiction.controller;
 
+import com.spring.aidea.vibefiction.dto.request.vote.VoteFinalizeRequestMj;
 import com.spring.aidea.vibefiction.dto.request.vote.VoteRequestMj;
 import com.spring.aidea.vibefiction.dto.response.vote.VoteListAndClosingResponseMj;
 import com.spring.aidea.vibefiction.global.common.ApiResponse;
 import com.spring.aidea.vibefiction.service.VoteServiceMj;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 @RequestMapping("/api/vote")
 public class VoteControllerMj {
 
@@ -76,6 +79,31 @@ public class VoteControllerMj {
         } catch (IllegalArgumentException e) {
             // 유효하지 않은 제안 ID 또는 투표 기록이 없는 경우
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    /**
+     * ✅ [수정] 투표 마감 처리 API
+     * POST /api/vote/finalize
+     * 클라이언트(vote-page.js)의 타이머 마감 시점에서 호출
+     */
+    /**
+     * ✅ [수정] 투표 마감 처리 API
+     * POST /api/vote/finalize
+     * 클라이언트(vote-page.js)의 타이머 마감 시점에서 호출
+     */
+    @PostMapping("/finalize") // GET -> POST로 변경
+    public ResponseEntity<String> finalizeVoting(@RequestBody VoteFinalizeRequestMj request, @AuthenticationPrincipal User currentUser) {
+        log.info("투표 마감 처리 요청: novelId={}, 로그인 사용자={}", request.getNovelId(), currentUser.getUsername());
+        try {
+            // VoteFinalizeRequestMj에서 novelId를 추출
+            voteServiceMj.finalizeVoting(request.getNovelId(), currentUser.getUsername());
+            return ResponseEntity.ok("투표 결과가 성공적으로 반영되었습니다.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
+            log.error("투표 마감 처리 중 오류 발생: {}", e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("투표 마감 처리 중 서버 오류가 발생했습니다.");
         }
     }
 }

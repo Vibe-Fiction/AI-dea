@@ -1,7 +1,7 @@
 /**
  * @file '투표 페이지'(vote-page.html)의 모든 UI 상호작용과 API 연동을 처리하는 모듈입니다.
  * @module pages/vote-page
- * @author Gemini
+ * @author 송민재
  * @since 2025.08.19
  */
 
@@ -35,6 +35,41 @@ const VotePage = () => {
         const id = urlParams.get('novelId');
         return id && !isNaN(parseInt(id)) ? id : null;
     })();
+
+    /**
+     * 투표 마감 처리 API
+     * @param {number} novelId 투표를 마감할 소설의 ID
+     */
+    const finalizeVoting = async (novelId) => {
+        const token = getToken();
+
+        if (!token) {
+            console.error('인증 토큰이 없습니다. 로그인 상태를 확인해 주세요.');
+            return;
+        }
+
+        try {
+            const response = await fetch(`/api/vote/finalize/${novelId}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (response.ok) {
+                console.log('투표 마감 처리가 성공적으로 완료되었습니다.');
+                alert('투표가 마감되었습니다. 다음 챕터가 곧 생성됩니다.');
+                // 성공적으로 마감 처리 후 페이지를 새로고침하거나 필요한 UI 업데이트를 진행할 수 있습니다.
+            } else {
+                const errorMessage = await response.text();
+                console.error('투표 마감 처리 실패:', errorMessage);
+                alert(`투표 마감 처리 중 오류가 발생했습니다: ${errorMessage}`);
+            }
+        } catch (error) {
+            console.error('API 호출 중 오류 발생:', error);
+            alert('투표 마감 처리 중 네트워크 오류가 발생했습니다.');
+        }
+    };
 
     /**
      * @description 투표 API를 호출하여 투표를 처리합니다.
@@ -205,44 +240,54 @@ const VotePage = () => {
             countdownDisplay.textContent = formattedTime;
         };
 
+
+
         /**
         * 투표 마감 시 실행되는 함수.
         * 새로운 챕터가 생성되었는지 폴링 방식으로 확인합니다.
         */
-        const handleVotingEnd = () => {
-            countdownDisplay.textContent = "투표가 마감되었습니다. 새로운 챕터 생성 중...";
+        const handleVotingEnd = async () => {
+            countdownDisplay.textContent = "투표가 마감되었습니다. 결과를 반영하고 있습니다...";
 
-            // 투표 버튼 및 이어쓰기 버튼 비활성화
+            // 모든 투표 버튼과 이어쓰기 버튼 비활성화
             document.querySelectorAll('.btn-vote').forEach(btn => btn.disabled = true);
             if (continueWritingBtn) {
                 continueWritingBtn.disabled = true;
+                continueWritingBtn.style.opacity = '0.5';
+                continueWritingBtn.style.cursor = 'not-allowed';
             }
 
-            const novelId = new URLSearchParams(window.location.search).get('novelId');
-
-            // 10초마다 새로운 챕터가 생성되었는지 확인하는 폴링 시작
-            const pollingInterval = setInterval(async () => {
-                try {
-                    // 소설 상세 정보를 다시 호출하여 최신 챕터 목록을 가져옵니다.
-                    const response = await fetch(`/api/novels/${novelId}`);
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    const result = await response.json();
-                    const newChapters = result.chapters;
-
-                    // 새로운 챕터가 추가되었는지 확인
-                    if (newChapters && newChapters.length > (initialChapterCount || 0)) {
-                        clearInterval(pollingInterval); // 폴링 중단
-                        alert('새로운 챕터가 성공적으로 생성되었습니다! 챕터 목록 페이지로 이동합니다.');
-                        // 새로운 챕터의 ID를 포함한 페이지로 이동
-                        window.location.href = `/chapters?novelId=${novelId}`;
-                    }
-
-                } catch (error) {
-                    console.error('새 챕터 상태 확인 중 오류:', error);
+            // ✅ [추가] 투표 마감 API를 호출하여 백엔드에 결과 반영을 요청
+            try {
+                // API 엔드포인트는 백엔드에서 구현해야 합니다.
+                // 예: '/api/vote/finalize'
+                const token = getToken();
+                if (!token) {
+                    alert('로그인이 필요합니다. 투표 결과를 반영할 수 없습니다.');
+                    return;
                 }
-            }, 10000); // 10초마다 확인
+
+                const response = await fetch('/api/vote/finalize', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ novelId: novelId })
+                });
+
+                if (response.ok) {
+                    alert('투표 결과가 성공적으로 반영되었습니다. 페이지를 새로고침합니다.');
+                    window.location.reload();
+                } else {
+                    const errorText = await response.text();
+                    console.error('투표 결과 반영 실패:', errorText);
+                    alert(`투표 결과 반영 실패: ${errorText}`);
+                }
+            } catch (error) {
+                console.error('투표 결과 반영 요청 중 오류 발생:', error);
+                alert('투표 결과 반영 중 문제가 발생했습니다.');
+            }
         };
 
         /**
