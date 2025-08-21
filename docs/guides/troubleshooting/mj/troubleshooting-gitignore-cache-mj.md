@@ -1,10 +1,12 @@
 # 트러블슈팅 가이드 – Git `.gitignore` 미적용
 
-본 문서는 Vibe Fiction 프로젝트 개발 중 발생한 **`.gitignore` 미적용 문제**에 대한 원인과 해결 과정을 정리한 기록입니다.
+본 문서는 **Team Ai-dea**의 **Vibe Fiction 프로젝트**(Relai 플랫폼) 개발 과정에서 발생한 **`.gitignore` 미적용 문제**에 대한 원인과 해결 과정을 정리한 기록입니다.
 
 **작성자:** [송민재](https://github.com/songkey06)
 
 **작성일:** 2025년 8월 20일
+
+**문서 버전:** v1.0
 
 ---
 
@@ -26,5 +28,3 @@ git commit -m "gitignore update"
 
 * `.gitignore`는 **미추적 파일에만 동작**한다는 점을 반드시 기억해야 함.
 * 민감정보 유출 방지를 위해서는 프로젝트 초기부터 **ignore 정책을 선제적으로 적용**하는 습관이 필요함.
-
-> 본 문서는 Vibe Fiction 프로젝트 개발 중 발생한 **Git `.gitignore` 미적용 문제**에 대한 트러블슈팅 기록입니다.

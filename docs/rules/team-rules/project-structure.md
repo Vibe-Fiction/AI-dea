@@ -4,7 +4,14 @@
 
 본 문서는 **Team Ai-dea**가 개발하는 **Vibe Fiction** 프로젝트에서 사용하는 디렉토리 구조, 클래스 분리 등 일관된 개발 구조를 정의합니다.
 
-**작성자**: [왕택준](https://github.com/TJK98)
+**작성자:** [왕택준](https://github.com/TJK98)
+
+**문서 버전:** v1.0
+
+**대상 독자:**
+- **개발자(프론트엔드/백엔드)**: 디렉토리 구조와 클래스 설계를 일관되게 유지
+- **팀 리더/리뷰어**: 코드 리뷰 및 아키텍처 품질 관리 참고
+- **신규 합류자**: 프로젝트 구조를 빠르게 이해하기 위한 온보딩 자료
 
 ---
 
@@ -71,8 +78,8 @@ Ai-dea
                 └── 📁 fragments
 
 📁 docs
- ├── 📄 TERMS.md  
- ├── 📄 COMMUNITY_GUIDELINES.md  
+ ├── 📄 USER_FLOW.md  
+ ├── 📄 openapi-relai.yml
  ├── 📁 architecture
  │
  ├── 📁 guides
@@ -80,7 +87,9 @@ Ai-dea
  │
  ├── 📁 meeting-notes
  │
- ├── 📁 planning 
+ ├── 📁 planning
+ │
+ ├── 📁 presentations
  │
  └── 📁 rules
 ```
