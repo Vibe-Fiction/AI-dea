@@ -4,14 +4,12 @@
   <img src="src/main/resources/static/img/Relai-logo-small.png" alt="Relai 로고" width="140" />
 </p>
 
-<p align="center">
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg"></a>
-  <img src="https://img.shields.io/badge/Version-v1.0.0-6DB33F">
-  <img src="https://img.shields.io/badge/Status-Active-success">
-</p>
-
 <p align="center"><b>Relai - 소설계의 GitHub, 오픈소설(Open-Novel) 플랫폼</b></p>
 <p align="center">AI와 함께하는 협업 소설 창작 플랫폼 — GitHub처럼 이어 쓰고, 투표로 최고의 스토리를 완성합니다.</p>
+
+<p align="center">
+  <b>TEAM</b> Ai-dea
+</p>
 
 ---
 
