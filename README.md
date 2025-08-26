@@ -10,7 +10,7 @@
   <img src="https://img.shields.io/badge/Status-Active-success">
 </p>
 
-<p align="center"><b>“Relai - 소설계의 GitHub, 오픈소설(Open-Novel) 플랫폼”</b></p>
+<p align="center"><b>Relai - 소설계의 GitHub, 오픈소설(Open-Novel) 플랫폼</b></p>
 <p align="center">AI와 함께하는 협업 소설 창작 플랫폼 — GitHub처럼 이어 쓰고, 투표로 최고의 스토리를 완성합니다.</p>
 
 ---
