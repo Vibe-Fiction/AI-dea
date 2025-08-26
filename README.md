@@ -4,14 +4,12 @@
   <img src="src/main/resources/static/img/Relai-logo-small.png" alt="Relai 로고" width="140" />
 </p>
 
-<p align="center">
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg"></a>
-  <img src="https://img.shields.io/badge/Version-v1.0.0-6DB33F">
-  <img src="https://img.shields.io/badge/Status-Active-success">
-</p>
-
-<p align="center"><b>“Relai - 소설계의 GitHub, 오픈소설(Open-Novel) 플랫폼”</b></p>
+<p align="center"><b>Relai - 소설계의 GitHub, 오픈소설(Open-Novel) 플랫폼</b></p>
 <p align="center">AI와 함께하는 협업 소설 창작 플랫폼 — GitHub처럼 이어 쓰고, 투표로 최고의 스토리를 완성합니다.</p>
+
+<p align="center">
+  <b>TEAM</b> Ai-dea
+</p>
 
 ---
 
@@ -42,13 +40,14 @@
 
 ## 프로젝트 정보
 
-| 항목           | 내용                       |
-|--------------|--------------------------|
-| **팀명**       | Ai-dea (에이아이-디어)         |
-| **프로젝트명**    | Vibe Fiction (바이브 픽션)    |
-| **플랫폼명**     | Relai (릴레이)              |
-| **버전**       | v1.0.0                   |
-| **Base URL** | `http://localhost:9009/` |
+| 항목           | 내용                                                                       |
+| ------------ | ------------------------------------------------------------------------ |
+| **팀명**       | **Ai-dea (에이아이디어)** — *AI + Idea의 합성어. AI와 인간의 아이디어를 결합해 창의적 가치를 창출하는 팀* |
+| **프로젝트명**    | **Vibe Fiction (바이브 픽션)** — *팀 Ai-dea가 추진하는 AI 기반 협업 소설 창작 프로젝트*         |
+| **플랫폼명**     | **Relai (릴레이)** — *Relay + AI. 사용자와 AI가 함께 이어쓰며 완결성 있는 작품을 만들어가는 플랫폼*    |
+| **버전**       | v1.0.0                                                                   |
+| **Base URL** | `http://localhost:9009/`                                                 |
+
 
 ---
 
