@@ -45,6 +45,7 @@ const VotePage = () => {
 
         if (!token) {
             console.error('인증 토큰이 없습니다. 로그인 상태를 확인해 주세요.');
+            alert('로그인이 필요합니다. 페이지를 새로고침하거나 다시 로그인해 주세요.');
             return;
         }
 
@@ -59,16 +60,16 @@ const VotePage = () => {
 
             if (response.ok) {
                 console.log('투표 마감 처리가 성공적으로 완료되었습니다.');
-                alert('투표가 마감되었습니다. 다음 챕터가 곧 생성됩니다.');
+                alert('투표가 마감되었습니다! ✨ 가장 많은 표를 받은 제안으로 새로운 챕터가 생성됩니다.');
                 // 성공적으로 마감 처리 후 페이지를 새로고침하거나 필요한 UI 업데이트를 진행할 수 있습니다.
             } else {
                 const errorMessage = await response.text();
                 console.error('투표 마감 처리 실패:', errorMessage);
-                alert(`투표 마감 처리 중 오류가 발생했습니다: ${errorMessage}`);
+                alert(`투표 마감 처리 중 오류가 발생했습니다.\n\n오류: ${errorMessage}`);
             }
         } catch (error) {
             console.error('API 호출 중 오류 발생:', error);
-            alert('투표 마감 처리 중 네트워크 오류가 발생했습니다.');
+            alert('네트워크 연결에 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.');
         }
     };
 
@@ -258,7 +259,7 @@ const VotePage = () => {
                 continueWritingBtn.style.cursor = 'not-allowed';
             }
 
-            // ✅ [추가] 투표 마감 API를 호출하여 백엔드에 결과 반영을 요청
+            // 투표 마감 API를 호출하여 백엔드에 결과 반영을 요청
             try {
                 // API 엔드포인트는 백엔드에서 구현해야 합니다.
                 // 예: '/api/vote/finalize'
@@ -277,13 +278,26 @@ const VotePage = () => {
                     body: JSON.stringify({ novelId: novelId })
                 });
 
+                // 응답 본문을 JSON으로 파싱
+                const data = await response.json();
+
                 if (response.ok) {
-                    alert('투표 결과가 성공적으로 반영되었습니다. 페이지를 새로고침합니다.');
-                    window.location.reload();
+                    // 성공 응답일 경우
+                    if (data.redirectUrl) {
+                        // redirectUrl이 있을 경우 해당 URL로 이동
+                        alert(data.message);
+                        window.location.href = data.redirectUrl;
+                    } else {
+                        // redirectUrl이 없을 경우 (동률 등), 메시지만 표시
+                        alert(data.message);
+                        // 새로고침 대신, 원하는 다른 동작을 수행하거나 아무것도 하지 않아도 됨.
+                    }
                 } else {
-                    const errorText = await response.text();
-                    console.error('투표 결과 반영 실패:', errorText);
-                    alert(`투표 결과 반영 실패: ${errorText}`);
+                    // 실패 응답일 경우
+                    // 에러 메시지 필드를 확인하여 사용자에게 알림
+                    const errorMessage = data.message || '알 수 없는 오류가 발생했습니다.';
+                    console.error('투표 결과 반영 실패:', errorMessage);
+                    alert(`투표 결과 반영 실패: ${errorMessage}`);
                 }
             } catch (error) {
                 console.error('투표 결과 반영 요청 중 오류 발생:', error);
@@ -294,7 +308,7 @@ const VotePage = () => {
         /**
          * @description 새로운 챕터가 시작될 때 이어쓰기 버튼을 활성화하고 클릭 이벤트를 추가하는 함수
          */
-            // ✅ [추가] 새로운 챕터가 시작될 때 버튼을 활성화하는 함수
+            // 새로운 챕터가 시작될 때 버튼을 활성화하는 함수
         const handleNewChapterStart = () => {
                 if (continueWritingBtn) {
                     // 버튼의 비활성화 상태와 스타일을 원래대로 되돌립니다.

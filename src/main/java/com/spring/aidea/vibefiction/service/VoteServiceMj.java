@@ -1,7 +1,5 @@
 package com.spring.aidea.vibefiction.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.spring.aidea.vibefiction.dto.request.chapter.ChapterCreateRequestTj;
 import com.spring.aidea.vibefiction.dto.response.vote.VoteClosingResponseMj;
 import com.spring.aidea.vibefiction.dto.response.vote.VoteListAndClosingResponseMj;
@@ -11,7 +9,6 @@ import com.spring.aidea.vibefiction.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -61,6 +58,7 @@ public class VoteServiceMj {
             if (!isVotingClosed) {
                 proposals = getTopProposalsAndConvertToDto(lastChapter.getChapterId(), page, size);
             }
+
 
             // 제안 유무와 관계없이 마감 시간 정보 생성
             LocalDateTime deadline = getVotingDeadline(lastChapter);
@@ -121,7 +119,7 @@ public class VoteServiceMj {
             throw new IllegalStateException("해당 챕터의 다른 제안에 이미 투표했습니다.");
         }
 
-        // ✅ [추가] 자신의 제안에 투표하는 것을 방지
+        // 자신의 제안에 투표하는 것을 방지
         if (proposal.getProposer().getUserId().equals(user.getUserId())) {
             throw new IllegalStateException("자신의 제안에는 투표할 수 없습니다.");
         }
@@ -160,37 +158,30 @@ public class VoteServiceMj {
         proposal.decrementVoteCount();
     }
 
-    /*private Chapters validateNovelAndGetLastChapter(Long novelId) {
-        novelsRepository.findById(novelId)
-            .orElseThrow(() -> new IllegalArgumentException("소설이 존재하지 않습니다. novelId=" + novelId));
-        return chaptersRepository.findTopByNovel_NovelIdOrderByChapterNumberDesc(novelId)
-            .orElseThrow(() -> new IllegalStateException("아직 회차가 없습니다. novelId=" + novelId));
-    }*/
 
-    //lastChapter의 생성일로부터 3일을 더하고, 시간을 23:59:58로 설정합니다.
-    /*private LocalDateTime getVotingDeadline(Chapters lastChapter) {
-            LocalDateTime deadline = lastChapter.getCreatedAt()
-                    .plusDays(3)
-                    .withHour(23)
-                    .withMinute(59)
-                    .withSecond(58)
-                    .withNano(0); // 나노초를 0으로 설정하여 일관성을 유지합니다.
+    //lastChapter의 생성일로부터 2일을 더하고, 시간을 23:59:58로 설정합니다.
+    private LocalDateTime getVotingDeadline(Chapters lastChapter) {
+        LocalDateTime deadline = lastChapter.getCreatedAt()
+            .plusDays(3)
+            .withHour(0)
+            .withMinute(0)
+            .withSecond(0)
+            .withNano(0); // 나노초를 0으로 설정하여 일관성을 유지합니다.
 
-            return deadline;
-        }*/
-
-    // 테스트 용으로 등록 시점에서 1분
-    LocalDateTime getVotingDeadline(Chapters lastChapter) {
-            return lastChapter.getCreatedAt().plusMinutes(1);
+        return deadline;
     }
 
+    // 테스트 용으로 등록 시점에서 1분
+   /* LocalDateTime getVotingDeadline(Chapters lastChapter) {
+            return lastChapter.getCreatedAt().plusHours(1);
+    }*/
+
     /**
-     * @description 투표 마감 처리 및 새로운 챕터 생성 로직을 담당합니다.
-     * @param novelId 소설 ID
-     * @param loginId 현재 로그인한 사용자의 ID (여기서는 투표 마감 권한 확인용)
+     @param novelId 소설 ID
+     @description 투표 마감 처리 및 새로운 챕터 생성 로직을 담당합니다.
      */
     @Transactional
-    public void finalizeVoting(Long novelId, String loginId) {
+    public Long finalizeVoting(Long novelId) {
         log.info("소설 ID {}에 대한 투표 마감 처리 시작", novelId);
 
         // 1. 소설의 마지막 챕터 조회
@@ -205,7 +196,7 @@ public class VoteServiceMj {
         if (allProposals.isEmpty()) {
             log.warn("소설 ID {}의 마지막 챕터에 유효한(ONGOING) 제안이 없습니다. 투표 마감 로직을 종료합니다.", novelId);
             // 클라이언트에 마감 상태를 전달할 수 있도록 적절한 응답을 반환하도록 로직을 추가해야 합니다.
-            return;
+            return null;
         }
 
         // 3. 최다 득표 제안(들) 찾기
@@ -242,6 +233,8 @@ public class VoteServiceMj {
                 adoptedProposal.getProposalId()
             );
 
+            return novelId;
+
         } else if (topProposals.size() > 1) { // 4-2. 동률(복수 최다)
             topProposals.forEach(p -> p.setStatus(Proposals.Status.PENDING));
             log.info("최다 득표 동률 발생. 동률 제안 {}개를 PENDING 상태로 변경합니다.", topProposals.size());
@@ -249,11 +242,12 @@ public class VoteServiceMj {
             allProposals.stream()
                 .filter(p -> !topProposals.contains(p))
                 .forEach(p -> p.setStatus(Proposals.Status.REJECTED));
-
+            return null;
         } else { // 4-3. 무투표 동률 (모든 제안 투표수 0)
             // 이 경우, 모든 제안이 투표수 0으로 동률이므로 모든 제안을 PENDING으로 변경합니다.
             allProposals.forEach(p -> p.setStatus(Proposals.Status.PENDING));
             log.info("무투표 또는 모든 제안 투표수 0. 모든 제안을 PENDING 상태로 변경합니다.");
+            return null;
         }
     }
 
