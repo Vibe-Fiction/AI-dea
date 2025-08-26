@@ -50,10 +50,17 @@ public class VoteServiceMj {
         List<VoteProposalResponseMj> proposals = Collections.emptyList();
         VoteClosingResponseMj deadlineResponse = null;
         Long latestChapterId = null;
+        boolean isVotingClosed = false; // 기본값
 
         if (lastChapter != null) {
             proposals = getTopProposalsAndConvertToDto(lastChapter.getChapterId(), page, size);
             latestChapterId = lastChapter.getChapterId();
+
+
+            // 마감되지 않았을 때만 제안 목록을 조회
+            if (!isVotingClosed) {
+                proposals = getTopProposalsAndConvertToDto(lastChapter.getChapterId(), page, size);
+            }
 
             // 제안 유무와 관계없이 마감 시간 정보 생성
             LocalDateTime deadline = getVotingDeadline(lastChapter);
@@ -68,7 +75,9 @@ public class VoteServiceMj {
             .proposals(proposals)
             .deadlineInfo(deadlineResponse)
             .latestChapterId(latestChapterId)
+            .isVotingClosed(isVotingClosed) // 필드 추가
             .build();
+
 
         return response;
     }
@@ -188,10 +197,14 @@ public class VoteServiceMj {
         Chapters lastChapter = chaptersRepository.findTopByNovel_NovelIdOrderByChapterNumberDesc(novelId)
             .orElseThrow(() -> new IllegalArgumentException("소설의 마지막 챕터를 찾을 수 없습니다."));
 
-        // 2. 해당 챕터의 모든 제안 조회
-        List<Proposals> allProposals = proposalsRepository.findByChapter_ChapterId(lastChapter.getChapterId());
+        // 2. 해당 챕터의 모든 제안 조회 (ONGOING 상태 제안만 가져옵니다)
+        // 현재 투표 마감 시점에는 투표가 진행 중인 ONGOING 상태의 제안들만 존재해야 합니다.
+        List<Proposals> allProposals = proposalsRepository.findByChapter_ChapterIdAndStatus(lastChapter.getChapterId(), Proposals.Status.VOTING);
+
+        // 2-1. 투표 제안이 없을 경우 예외 처리
         if (allProposals.isEmpty()) {
-            log.warn("소설 ID {}의 마지막 챕터에 등록된 제안이 없습니다.", novelId);
+            log.warn("소설 ID {}의 마지막 챕터에 유효한(ONGOING) 제안이 없습니다. 투표 마감 로직을 종료합니다.", novelId);
+            // 클라이언트에 마감 상태를 전달할 수 있도록 적절한 응답을 반환하도록 로직을 추가해야 합니다.
             return;
         }
 
@@ -238,6 +251,7 @@ public class VoteServiceMj {
                 .forEach(p -> p.setStatus(Proposals.Status.REJECTED));
 
         } else { // 4-3. 무투표 동률 (모든 제안 투표수 0)
+            // 이 경우, 모든 제안이 투표수 0으로 동률이므로 모든 제안을 PENDING으로 변경합니다.
             allProposals.forEach(p -> p.setStatus(Proposals.Status.PENDING));
             log.info("무투표 또는 모든 제안 투표수 0. 모든 제안을 PENDING 상태로 변경합니다.");
         }
