@@ -1,4 +1,4 @@
-# **Vibe Fiction (Relai) 프로젝트 구조 정의서**
+# Vibe Fiction (Relai) 프로젝트 구조 정의서
 
 본 문서는 Vibe Fiction 프로젝트의 전체 디렉토리 구조와 각 폴더 및 주요 파일의 역할을 설명합니다.  
 프로젝트는 표준적인 Spring Boot 백엔드와 모듈화된 프론트엔드 구조를 따르며, 체계적인 문서 관리를 지향합니다.
