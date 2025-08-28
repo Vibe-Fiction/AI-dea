@@ -205,8 +205,9 @@ public class VoteServiceMj {
             .max(Comparator.naturalOrder())
             .orElse(0);
 
+        // 투표수가 0인 제안을 제외하고 최다 득표 제안을 찾습니다.
         List<Proposals> topProposals = allProposals.stream()
-            .filter(p -> p.getVoteCount().equals(maxVotes))
+            .filter(p -> p.getVoteCount().equals(maxVotes) && p.getVoteCount() > 0)
             .collect(Collectors.toList());
 
         // 4. `relay_automation_rules.md`의 규칙 적용
@@ -244,9 +245,9 @@ public class VoteServiceMj {
                 .forEach(p -> p.setStatus(Proposals.Status.REJECTED));
             return null;
         } else { // 4-3. 무투표 동률 (모든 제안 투표수 0)
-            // 이 경우, 모든 제안이 투표수 0으로 동률이므로 모든 제안을 PENDING으로 변경합니다.
+            // 이 경우, 모든 제안이 투표수 0이므로 모두 REJECTED 또는 PENDING으로 처리
             allProposals.forEach(p -> p.setStatus(Proposals.Status.PENDING));
-            log.info("무투표 또는 모든 제안 투표수 0. 모든 제안을 PENDING 상태로 변경합니다.");
+            log.info("채택할 제안이 없습니다. 모든 제안을 PENDING 상태로 변경합니다.");
             return null;
         }
     }
