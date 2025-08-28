@@ -100,7 +100,8 @@ public class VoteControllerMj {
                 return ResponseEntity.ok().body("{\"message\": \"투표 결과가 반영되어 새 챕터가 생성되었습니다.\\n소설 페이지로 이동합니다.\", \"redirectUrl\": \"" + redirectUrl + "\"}");
             } else {
                 // 실패 1: 동률 또는 무투표
-                return ResponseEntity.status(HttpStatus.OK).body("{\"message\": \"투표가 마감되었습니다.\\n\\n아쉽게도 이번 투표는 최다 득표작이 없어 새로운 챕터가 이어지지 않았습니다.다른 작품으로 이동해 주세요.\"}");
+                String redirectUrl = "http://localhost:9009/chapters?novelId=" + request.getNovelId();
+                return ResponseEntity.ok().body("{\"message\": \"투표가 마감되었습니다.\\n\\n아쉽게도 이번 투표는 최다 득표작이 없어 새로운 챕터가 이어지지 않았습니다\\n소설 페이지로 이동합니다.\", \"redirectUrl\": \"" + redirectUrl + "\"}");
             }
 
         } catch (IllegalArgumentException e) {
