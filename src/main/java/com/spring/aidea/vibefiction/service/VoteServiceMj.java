@@ -1,26 +1,27 @@
 package com.spring.aidea.vibefiction.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.spring.aidea.vibefiction.dto.request.chapter.ChapterCreateRequestTj;
 import com.spring.aidea.vibefiction.dto.response.vote.VoteClosingResponseMj;
 import com.spring.aidea.vibefiction.dto.response.vote.VoteListAndClosingResponseMj;
 import com.spring.aidea.vibefiction.dto.response.vote.VoteProposalResponseMj;
 import com.spring.aidea.vibefiction.entity.*;
 import com.spring.aidea.vibefiction.repository.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 @Transactional(readOnly = true)
 public class VoteServiceMj {
 
@@ -29,6 +30,8 @@ public class VoteServiceMj {
     private final ProposalsRepository proposalsRepository;
     private final UsersRepository usersRepository;
     private final VotesRepository votesRepository;
+    private final ChapterServiceTj chapterServiceTj;
+
 
     /**
      * 마지막 챕터에 대한 투표 데이터와 마감 시간을 조회하고 페이지네이션을 지원합니다.
@@ -44,10 +47,18 @@ public class VoteServiceMj {
         List<VoteProposalResponseMj> proposals = Collections.emptyList();
         VoteClosingResponseMj deadlineResponse = null;
         Long latestChapterId = null;
+        boolean isVotingClosed = false; // 기본값
 
         if (lastChapter != null) {
             proposals = getTopProposalsAndConvertToDto(lastChapter.getChapterId(), page, size);
             latestChapterId = lastChapter.getChapterId();
+
+
+            // 마감되지 않았을 때만 제안 목록을 조회
+            if (!isVotingClosed) {
+                proposals = getTopProposalsAndConvertToDto(lastChapter.getChapterId(), page, size);
+            }
+
 
             // 제안 유무와 관계없이 마감 시간 정보 생성
             LocalDateTime deadline = getVotingDeadline(lastChapter);
@@ -57,22 +68,14 @@ public class VoteServiceMj {
                 .build();
         }
 
-        // ✅ [추가] JSON 객체를 콘솔에 출력하는 로깅
+        // JSON 객체를 콘솔에 출력하는 로깅
         VoteListAndClosingResponseMj response = VoteListAndClosingResponseMj.builder()
             .proposals(proposals)
             .deadlineInfo(deadlineResponse)
             .latestChapterId(latestChapterId)
+            .isVotingClosed(isVotingClosed) // 필드 추가
             .build();
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.registerModule(new JavaTimeModule());
-            String jsonOutput = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(response);
-            System.out.println("### API Response JSON ###");
-            System.out.println(jsonOutput);
-            System.out.println("#########################");
-        } catch (Exception e) {
-            System.err.println("Error converting response to JSON: " + e.getMessage());
-        }
+
 
         return response;
     }
@@ -116,7 +119,7 @@ public class VoteServiceMj {
             throw new IllegalStateException("해당 챕터의 다른 제안에 이미 투표했습니다.");
         }
 
-        // ✅ [추가] 자신의 제안에 투표하는 것을 방지
+        // 자신의 제안에 투표하는 것을 방지
         if (proposal.getProposer().getUserId().equals(user.getUserId())) {
             throw new IllegalStateException("자신의 제안에는 투표할 수 없습니다.");
         }
@@ -129,6 +132,7 @@ public class VoteServiceMj {
 
         proposal.incrementVoteCount();
     }
+
 
     /**
      * 투표 취소 기능: 투표 기록 삭제 및 제안 투표 수 감소
@@ -154,29 +158,101 @@ public class VoteServiceMj {
         proposal.decrementVoteCount();
     }
 
-    private Chapters validateNovelAndGetLastChapter(Long novelId) {
-        novelsRepository.findById(novelId)
-            .orElseThrow(() -> new IllegalArgumentException("소설이 존재하지 않습니다. novelId=" + novelId));
-        return chaptersRepository.findTopByNovel_NovelIdOrderByChapterNumberDesc(novelId)
-            .orElseThrow(() -> new IllegalStateException("아직 회차가 없습니다. novelId=" + novelId));
+
+    //lastChapter의 생성일로부터 2일을 더하고, 시간을 23:59:58로 설정합니다.
+    private LocalDateTime getVotingDeadline(Chapters lastChapter) {
+        LocalDateTime deadline = lastChapter.getCreatedAt()
+            .plusDays(3)
+            .withHour(0)
+            .withMinute(0)
+            .withSecond(0)
+            .withNano(0); // 나노초를 0으로 설정하여 일관성을 유지합니다.
+
+        return deadline;
     }
-
-    //lastChapter의 생성일로부터 3일을 더하고, 시간을 23:59:58로 설정합니다.
-    /*private LocalDateTime getVotingDeadline(Chapters lastChapter) {
-            LocalDateTime deadline = lastChapter.getCreatedAt()
-                    .plusDays(3)
-                    .withHour(23)
-                    .withMinute(59)
-                    .withSecond(58)
-                    .withNano(0); // 나노초를 0으로 설정하여 일관성을 유지합니다.
-
-            return deadline;
-        }*/
 
     // 테스트 용으로 등록 시점에서 1분
-    LocalDateTime getVotingDeadline(Chapters lastChapter) {
-            return lastChapter.getCreatedAt().plusMinutes(1);
+   /* LocalDateTime getVotingDeadline(Chapters lastChapter) {
+            return lastChapter.getCreatedAt().plusHours(1);
+    }*/
+
+    /**
+     @param novelId 소설 ID
+     @description 투표 마감 처리 및 새로운 챕터 생성 로직을 담당합니다.
+     */
+    @Transactional
+    public Long finalizeVoting(Long novelId) {
+        log.info("소설 ID {}에 대한 투표 마감 처리 시작", novelId);
+
+        // 1. 소설의 마지막 챕터 조회
+        Chapters lastChapter = chaptersRepository.findTopByNovel_NovelIdOrderByChapterNumberDesc(novelId)
+            .orElseThrow(() -> new IllegalArgumentException("소설의 마지막 챕터를 찾을 수 없습니다."));
+
+        // 2. 해당 챕터의 모든 제안 조회 (ONGOING 상태 제안만 가져옵니다)
+        // 현재 투표 마감 시점에는 투표가 진행 중인 ONGOING 상태의 제안들만 존재해야 합니다.
+        List<Proposals> allProposals = proposalsRepository.findByChapter_ChapterIdAndStatus(lastChapter.getChapterId(), Proposals.Status.VOTING);
+
+        // 2-1. 투표 제안이 없을 경우 예외 처리
+        if (allProposals.isEmpty()) {
+            log.warn("소설 ID {}의 마지막 챕터에 유효한(ONGOING) 제안이 없습니다. 투표 마감 로직을 종료합니다.", novelId);
+            // 클라이언트에 마감 상태를 전달할 수 있도록 적절한 응답을 반환하도록 로직을 추가해야 합니다.
+            return null;
+        }
+
+        // 3. 최다 득표 제안(들) 찾기
+        Integer maxVotes = allProposals.stream()
+            .map(Proposals::getVoteCount)
+            .max(Comparator.naturalOrder())
+            .orElse(0);
+
+        // 투표수가 0인 제안을 제외하고 최다 득표 제안을 찾습니다.
+        List<Proposals> topProposals = allProposals.stream()
+            .filter(p -> p.getVoteCount().equals(maxVotes) && p.getVoteCount() > 0)
+            .collect(Collectors.toList());
+
+        // 4. `relay_automation_rules.md`의 규칙 적용
+        if (topProposals.size() == 1) { // 4-1. 단독 최다 득표
+            Proposals adoptedProposal = topProposals.get(0);
+            adoptedProposal.setStatus(Proposals.Status.ADOPTED);
+            log.info("단독 최다 득표 제안이 채택되었습니다. 제안 ID: {}", adoptedProposal.getProposalId());
+
+            // 나머지 제안은 REJECTED로 변경
+            allProposals.stream()
+                .filter(p -> !p.getProposalId().equals(adoptedProposal.getProposalId()))
+                .forEach(p -> p.setStatus(Proposals.Status.REJECTED));
+
+            // 5. 채택된 제안으로 새로운 챕터 생성
+            ChapterCreateRequestTj createRequest = ChapterCreateRequestTj.builder()
+                .title(adoptedProposal.getTitle())
+                .content(adoptedProposal.getContent())
+                .build();
+
+            chapterServiceTj.create(
+                adoptedProposal.getChapter().getNovel().getNovelId(),
+                adoptedProposal.getProposer().getUserId(),
+                createRequest,
+                adoptedProposal.getProposalId()
+            );
+
+            return novelId;
+
+        } else if (topProposals.size() > 1) { // 4-2. 동률(복수 최다)
+            topProposals.forEach(p -> p.setStatus(Proposals.Status.PENDING));
+            log.info("최다 득표 동률 발생. 동률 제안 {}개를 PENDING 상태로 변경합니다.", topProposals.size());
+            // 나머지 제안은 REJECTED로 변경
+            allProposals.stream()
+                .filter(p -> !topProposals.contains(p))
+                .forEach(p -> p.setStatus(Proposals.Status.REJECTED));
+            return null;
+        } else { // 4-3. 무투표 동률 (모든 제안 투표수 0)
+            // 이 경우, 모든 제안이 투표수 0이므로 모두 REJECTED 또는 PENDING으로 처리
+            allProposals.forEach(p -> p.setStatus(Proposals.Status.PENDING));
+            log.info("채택할 제안이 없습니다. 모든 제안을 PENDING 상태로 변경합니다.");
+            return null;
+        }
     }
+
+
 
     //JSOM안에 내용 담는 함수
     private List<VoteProposalResponseMj> getTopProposalsAndConvertToDto(Long chapterId, int page, int size) {
