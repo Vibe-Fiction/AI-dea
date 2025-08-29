@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relai | 소설 상세</title>
+    <link rel="icon" href="/img/Relai-logo-favicon-no-bg.png" type="image/png"/>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/chapters-page.css">
+    <!--  로그인 모달 css 링크  -->
+    <link rel="stylesheet" th:href="@{/css/login-modal.css}">
+    <!--  챕터 내용 모달 css 링크  -->
+    <link rel="stylesheet" th:href="@{/css/fiction-modal.css}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- 아이콘을 위한 Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!--  로그인 모달  -->
+    <div th:insert="~{fragments/loginModal :: loginModal}"></div>
+    <!--  로그인 모달 스크립트  -->
+    <div th:replace="~{fragments/mainHeader :: loginModalScript}"></div>
+    <!-- 메인 헤더 -->
+    <div th:replace="~{fragments/mainHeader :: mainHeader}"></div>
+    <!--  챕터 내용 모달  -->
+    <div th:insert="~{fragments/fiction-modal :: fiction-modal}"></div>
+
+
+    <!-- 소설 상세 페이지 메인 콘텐츠 -->
+    <main class="container main-content">
+
+        <!-- 소설 정보 섹션 -->
+        <section class="novel-detail-header">
+            <div class="novel-cover-wrapper">
+                <img src="https://placehold.co/400x550/e2e8f0/64748b?text=소설+표지" alt="소설 표지" class="novel-detail-cover">
+            </div>
+            <div class="novel-info-area">
+                <h1 class="novel-title"></h1>
+                <div class="novel-meta-info">
+                    <span class="author-info"><i class="fas fa-user-circle"></i></span>
+                    <span class="genre-info"></span>
+                    <span class="copyright-info"></span>
+                </div>
+                <div class="synopsis">
+                    <p>
+
+                    </p>
+                </div>
+                <div class="hashtag-list">
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 소설 회차 리스트 섹션 -->
+        <section class="chapter-list-section">
+            <div class="chapter-list-header">
+                <h3>이야기 목록</h3>
+                <div class="sort-options">
+                    <span class="sort-active">최신 회차부터</span>
+                    <span>첫 회차부터</span>
+                </div>
+            </div>
+
+            <!-- 이어쓰기 버튼. -->
+            <div class="btn-continue-writing-wrapper">
+                <button class="btn-continue-writing">현재 진행 중인 이어쓰기</button>
+            </div>
+
+            <ul class="chapter-list">
+
+                <!-- 동적으로 소설 회차 리스트 아이템 추가 -->
+
+
+            </ul>
+        </section>
+    </main>
+
+    <!-- 메인 푸터 -->
+    <div th:replace="~{fragments/mainFooter :: mainFooter}"></div>
+
+    <script type="module" src="/js/app.js"></script>
+</body>
+</html>

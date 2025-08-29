@@ -1,6 +1,7 @@
 
 .gradle
-.yml
+# 민감정보 파일은 제외
+application.yml
 logs
 *.log
 .DS_Store
@@ -40,3 +41,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### API 키 유출 금지
+/src/main/resources/application-template.yml

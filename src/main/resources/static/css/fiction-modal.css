@@ -1,0 +1,170 @@
+/* fiction-modal.css */
+
+/* ----- 챕터 상세 모달 스타일 추가 ----- */
+.fiction-modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none; /* 기본적으로 숨김 */
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
+
+.fiction-modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.fiction-modal {
+    position: relative;
+    background-color: var(--bg-card);
+    border-radius: 1rem;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 800px;
+    max-height: 80vh; /* 모달의 최대 높이를 80vh로 늘려 가시성을 향상시켰습니다. */
+    padding: 2rem;
+    z-index: 101;
+    display: flex;
+    flex-direction: column;
+}
+
+.fiction-modal-close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    font-size: 2rem;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    line-height: 1;
+}
+
+/* 텍스트가 모달을 벗어나지 않도록 flex-grow를 추가하고 높이를 100%로 설정합니다. */
+.fiction-modal-content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* 남은 공간을 모두 차지하도록 설정 */
+    min-height: 0; /* flex 아이템의 최소 높이 문제 해결 */
+    height: 100%; /* 부모 높이를 기준으로 100% 설정 */
+}
+
+.fiction-modal-novel-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.fiction-modal-chapter-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1rem;
+}
+
+.fiction-modal-chapter-num {
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.fiction-modal-chapter-title {
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.fiction-modal-chapter-author {
+    font-size: 0.875rem;
+}
+
+.fiction-modal-story-content {
+    flex-grow: 1;
+    overflow-y: auto; /* 스크롤 가능 */
+    line-height: 1.8;
+    padding-right: 1rem;
+    height: 100%; /* 부모의 남은 높이를 채우고 스크롤 가능하게 함 */
+    /* 텍스트 줄바꿈 관련 속성 추가 */
+    word-wrap: break-word; /* 긴 단어 강제 줄바꿈 */
+    white-space: pre-wrap; /* 공백 및 줄바꿈 유지 */
+}
+
+.fiction-modal-story-content p {
+    margin-bottom: 1rem;
+}
+
+.fiction-modal-story-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.fiction-modal-story-content::-webkit-scrollbar-thumb {
+    background-color: var(--text-secondary);
+    border-radius: 10px;
+}
+
+.fiction-modal-nav-buttons {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    max-width: 1200px; /* 메인 콘텐츠의 너비와 맞춥니다 */
+    padding: 0 1rem;
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none; /* 버튼이 오버레이 위에 있어도 클릭 가능하도록 */
+    z-index: 102;
+}
+
+/* 수정된 버튼 스타일 (소설 챕터 이동) */
+.fiction-nav-btn {
+    background: rgba(79, 40, 15, 0.2);  /* 메인 브라운 색상 투명도 */
+    border: none;
+    color: #fff;
+    font-size: 2rem;
+    padding: 1rem;
+    border-radius: 50%; /* 원형 버튼 */
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    pointer-events: auto;
+}
+
+.fiction-nav-btn:hover {
+    background: rgba(79, 40, 15, 0.7);  /* hover 시 진한 브라운 */
+    transform: scale(1.1);
+}
+
+.fiction-nav-btn.prev-btn {
+    left: 2rem;
+}
+
+.fiction-nav-btn.next-btn {
+    right: 2rem;
+}
+
+@media (max-width: 768px) {
+    .fiction-modal {
+        width: 95%;
+        padding: 1rem;
+    }
+
+    .fiction-modal-novel-title {
+        font-size: 1.2rem;
+    }
+
+    .fiction-modal-chapter-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+}

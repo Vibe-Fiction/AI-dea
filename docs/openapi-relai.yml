@@ -1,0 +1,183 @@
+openapi: 3.0.3
+info:
+  title: Relai (Vibe Fiction) API
+  version: 1.0.0
+  description: Relai 플랫폼의 회원가입 → 로그인 → 소설 생성 → 이어쓰기 → 투표 → 최다 득표작 업데이트 전체 흐름을 다루는 API 스펙
+servers:
+  - url: http://localhost:9009
+security:
+  - bearerAuth: [ ]
+tags:
+  - name: Auth
+  - name: Genres
+  - name: Novels
+  - name: Chapters
+  - name: Proposals
+  - name: Votes
+  - name: AI
+  - name: MyPage
+
+paths:
+  /api/auth/signup:
+    post:
+      tags: [ Auth ]
+      summary: 회원가입
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignUpRequest'
+      responses:
+        '201':
+          description: 사용자 생성됨
+
+  /api/auth/login:
+    post:
+      tags: [ Auth ]
+      summary: 로그인 (JWT 발급)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: JWT 반환
+
+  /api/genres:
+    get:
+      tags: [ Genres ]
+      summary: 장르 목록 조회
+      security: [ ]
+      responses:
+        '200':
+          description: 장르 배열
+
+  /api/novels:
+    post:
+      tags: [ Novels ]
+      summary: 새 소설 생성
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NovelCreateRequest'
+      responses:
+        '201':
+          description: novelId, firstChapterId 반환
+
+  /api/chapters/{novelId}:
+    get:
+      tags: [ Chapters ]
+      summary: 소설의 챕터 목록 조회
+      parameters:
+        - in: path
+          name: novelId
+          required: true
+          schema:
+            type: integer
+
+  /api/chapters/{chapterId}/proposals:
+    post:
+      tags: [ Proposals ]
+      summary: 이어쓰기 제안 등록
+      parameters:
+        - in: path
+          name: chapterId
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProposalCreateRequest'
+
+  /api/vote/do:
+    post:
+      tags: [ Votes ]
+      summary: 제안 투표
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VoteDoRequest'
+
+  /api/vote/start:
+    post:
+      tags: [ Votes ]
+      summary: 투표 세션 시작 (최신 챕터 기준)
+
+  /api/vote/novels/{novelId}/proposals:
+    get:
+      tags: [ Votes ]
+      summary: 투표 화면 데이터 조회
+      parameters:
+        - in: path
+          name: novelId
+          required: true
+          schema:
+            type: integer
+
+  /api/ai/novels/recommend:
+    post:
+      tags: [ AI ]
+      summary: AI로 새 소설 초안 추천
+
+  /api/ai/chapters/{chapterId}/continue:
+    post:
+      tags: [ AI ]
+      summary: AI 이어쓰기 제안 추천
+      parameters:
+        - in: path
+          name: chapterId
+          required: true
+          schema:
+            type: integer
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    SignUpRequest:
+      type: object
+      properties:
+        loginId: { type: string }
+        email: { type: string }
+        nickname: { type: string }
+        password: { type: string }
+        birthDate: { type: string }
+    LoginRequest:
+      type: object
+      properties:
+        loginIdOrEmail: { type: string }
+        password: { type: string }
+    NovelCreateRequest:
+      type: object
+      properties:
+        title: { type: string }
+        synopsis: { type: string }
+        firstChapterTitle: { type: string }
+        firstChapterContent: { type: string }
+        genres:
+          type: array
+          items: { type: string }
+    ProposalCreateRequest:
+      type: object
+      properties:
+        title: { type: string }
+        content: { type: string }
+        aiLogId: { type: integer, nullable: true }
+    VoteDoRequest:
+      type: object
+      properties:
+        proposalId: { type: integer }

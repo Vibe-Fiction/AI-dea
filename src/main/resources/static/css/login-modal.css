@@ -1,0 +1,158 @@
+/* login-modal.css */
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+}
+
+.modal-overlay.open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background-color: var(--bg-card);
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 90%;
+    position: relative;
+    transform: translateY(-20px);
+    transition: transform 0.3s;
+}
+
+.modal-overlay.open .modal-content {
+    transform: translateY(0);
+}
+
+.modal-close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-secondary);
+}
+
+.modal-close-btn:hover {
+    color: var(--text-primary);
+}
+
+.modal-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+/* 추가된 입력 필드 디자인 */
+.form-group input[type="text"],
+.form-group input[type="password"] {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    color: var(--text-primary);
+    transition: border-color 0.3s, box-shadow 0.3s;
+    box-sizing: border-box; /* 삐져나오는 문제 해결을 위해 추가 */
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(79, 40, 15, 0.2);
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.5rem;
+    gap: 1rem;
+}
+
+.btn-login-submit {
+    flex: 1;
+    padding: 0.75rem 1.5rem;
+    background-color: var(--primary-color);
+    color: #fff;
+    border: 1px solid transparent;
+    border-radius: 9999px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-align: center;
+    box-sizing: border-box;
+    font-size: 1rem; /* 👇 [핵심] 폰트 크기 통일 */
+}
+
+.btn-login-submit:hover {
+    background-color: var(--primary-hover);
+}
+
+.btn-signup {
+    flex: 1;
+    padding: 0.75rem 1.5rem;
+    background-color: transparent;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    border-radius: 9999px;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.3s;
+    box-sizing: border-box;
+    font-size: 1rem; /* 👇 [핵심] 폰트 크기 통일 */
+}
+
+.btn-signup:hover {
+    background-color: var(--primary-color); /* 배경을 메인 색상으로 */
+    color: #fff; /* 글자색을 흰색으로 */
+}
+
+/* 모바일 반응형 */
+@media (max-width: 480px) {
+    .modal-content {
+        padding: 1rem;
+    }
+    .modal-actions {
+        flex-direction: column;
+    }
+}
+.feedback-message {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #8b1a1a; /* 기본 색상을 에러 색상(빨간색)으로 설정 */
+    text-align: center;
+    margin-top: -0.5rem; /* 버튼과의 간격을 살짝 줄임 */
+    margin-bottom: 1rem;
+    height: 1rem; /* 레이아웃 떨림 방지 */
+}

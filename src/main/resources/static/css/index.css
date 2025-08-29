@@ -1,0 +1,289 @@
+/* index.css */
+
+/* 웰컴메세지 및 소설쓰러가기 버튼 */
+
+/* Main Section Container */
+.main-section {
+    width: 100%;
+    max-width: 64rem; /* max-w-4xl */
+    padding: 2rem; /* p-8 */
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 2rem;
+}
+
+/* Content Wrapper */
+.content-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem; /* gap-6 */
+}
+
+/* --- [수정 완료] Welcome Message 관련 스타일 (부드러운 버전) --- */
+.welcome-message {
+    /* 1. 폰트 크기를 약간 줄였습니다. */
+    font-size: 1.875rem; /* 기존: 2.25rem */
+
+    /* 2. 폰트 굵기를 'extra-bold'에서 'bold'로 낮춰 덜 딱딱하게 만듭니다. */
+    font-weight: 700; /* 기존: 800 */
+
+    /* 3. 자간과 줄 간격을 조절하여 여유롭고 부드러운 느낌을 줍니다. */
+    letter-spacing: normal; /* 기존: -0.025em */
+    line-height: 1.4; /* 기존: 1.2 */
+
+    margin: 0;
+
+    /* 그라데이션 및 애니메이션은 그대로 유지합니다. */
+    color: transparent;
+    background: linear-gradient(45deg, var(--primary-color), var(--primary-hover), #e67e22);
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: fadeInText 1s ease-out 0.2s forwards;
+    opacity: 0;
+}
+
+@keyframes fadeInText {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 큰 화면에서도 폰트 크기를 적절하게 조정합니다. */
+@media (min-width: 768px) {
+    .welcome-message {
+        font-size: 3rem; /* 기존: 3.5rem */
+    }
+}
+/* --- [수정 완료] 여기까지 --- */
+
+
+/* Create Novel Button */
+.create-novel-btn {
+    display: inline-block;
+    padding: 1rem 2rem;
+    background-color: var(--primary-color);
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.125rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+    text-decoration: none;
+    transition: transform 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.create-novel-btn:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-2px) scale(1.04);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+}
+
+.create-novel-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(105, 69, 48, 0.3);
+}
+
+/* ... 이하 다른 CSS 코드는 동일하게 유지됩니다 ... */
+
+/* 소설 목록 헤더 및 검색/필터 영역 */
+.novel-list-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    background-color: var(--bg-card);
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.novel-list-header h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.filter-sort {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.filter-sort select,
+.filter-sort input {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 9999px;
+    font-size: 0.875rem;
+}
+
+.filter-sort button {
+    padding: 0.5rem 1.5rem;
+    background-color: var(--primary-color);
+    color: #fff;
+    border-radius: 9999px;
+    font-weight: 500;
+    transition: background-color 0.3s;
+}
+
+.filter-sort button:hover {
+    background-color: var(--primary-hover);
+}
+
+/* 소설 그리드 */
+.novel-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+}
+
+/* 소설 카드 */
+.novel-card {
+    background-color: var(--bg-card);
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+}
+
+.novel-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.novel-cover {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+}
+
+.card-content {
+    padding: 1rem;
+}
+
+.novel-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 0.25rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.novel-author {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+.novel-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.novel-meta .meta-item {
+    display: flex;
+    align-items: center;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.novel-meta .meta-item i {
+    margin-right: 0.25rem;
+}
+
+.novel-meta .fa-heart {
+    color: #ef4444;
+}
+
+.novel-meta .fa-pen-nib {
+    color: var(--primary-color);
+}
+
+/* 페이지네이션 */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 3rem;
+}
+
+.btn-page {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 9999px;
+    background-color: var(--bg-card);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-page:hover {
+    background-color: var(--border-color);
+}
+
+.pagination .page-num {
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    background-color: var(--bg-card);
+    color: var(--text-secondary);
+}
+
+.pagination .page-num.active {
+    background-color: var(--primary-color);
+    color: #fff;
+    border: 1px solid var(--primary-color);
+}
+
+@media (max-width: 768px) {
+    .novel-list-header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .novel-list-header h2 {
+        font-size: 1.5rem;
+    }
+
+    .filter-sort {
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    .filter-sort input {
+        width: 100%;
+        margin-top: 0.5rem;
+    }
+
+    .novel-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.errortext {
+    grid-column: 1 / -1;
+    background-color: var(--bg-card);
+    border: 2px dashed var(--border-color);
+    border-radius: 1rem;
+    padding: 4rem 2rem;
+    margin-top: 2rem;
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 1.8;
+    width: auto;
+}

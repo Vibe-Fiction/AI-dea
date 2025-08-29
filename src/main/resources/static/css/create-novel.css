@@ -1,0 +1,258 @@
+/* ========================== */
+/*        기본 컨테이너        */
+/* ========================== */
+
+.create-novel-container {
+    width: 100%;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    display: flex;
+    justify-content: center;
+}
+
+.create-novel-section {
+    width: 70%;
+    max-width: 960px;
+    padding: 2rem;
+    background-color: var(--bg-card);
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.create-novel-section h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--text-primary);
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+/* ========================== */
+/*        Form Group           */
+/* ========================== */
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.form-group input[type="text"],
+.form-group input[type="file"],
+.form-group input[type="password"],
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    color: var(--text-primary);
+    transition: border-color 0.3s, box-shadow 0.3s;
+    box-sizing: border-box;
+}
+
+.form-group input[type="file"] {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(79, 40, 15, 0.2);
+}
+
+.form-group textarea {
+    resize: vertical;
+}
+
+/* ========================== */
+/*       장르 선택 UI          */
+/* ========================== */
+
+.genre-select-wrapper {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.genre-select-wrapper select {
+    flex-grow: 1;
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    padding: 0.65rem 1rem;
+    font-size: 1rem;
+}
+
+/* '추가' 버튼 - 메인 컬러 적용 */
+.btn-add-genre {
+    flex-shrink: 0;
+    padding: 0.65rem 1.25rem;
+    background-color: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.btn-add-genre:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.selected-genres-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    min-height: 40px;
+}
+
+.genre-tag {
+    display: flex;
+    align-items: center;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    gap: 0.25rem;
+}
+
+.genre-tag .remove-tag-btn {
+    cursor: pointer;
+    font-size: 0.75rem;
+    opacity: 0.8;
+}
+
+.genre-tag .remove-tag-btn:hover {
+    opacity: 1;
+}
+
+/* ========================== */
+/*    첫 번째 회차 블록        */
+/* ========================== */
+
+.chapter-block {
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.75rem;
+    background-color: #fff; /* 밝은 배경 */
+}
+
+.chapter-block h3 {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.chapter-block label {
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 0.3rem;
+    display: block;
+}
+
+.chapter-block input[type="text"],
+.chapter-block textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    color: var(--text-primary);
+    box-sizing: border-box;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.chapter-block input[type="text"]:focus,
+.chapter-block textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(79, 40, 15, 0.2);
+}
+
+.chapter-block textarea {
+    resize: vertical;
+    min-height: 200px;
+}
+
+/* ========================== */
+/*    소설 생성 버튼 / AI 도움 */
+/* ========================== */
+
+.btn-submit {
+    display: block;
+    width: 100%;
+    padding: 1rem;
+    background-color: var(--primary-color);
+    color: #fff;
+    font-size: 1.125rem;
+    font-weight: bold;
+    border-radius: 0.5rem;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.btn-submit:hover {
+    background-color: var(--primary-hover);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.novel-content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.btn-ai-help {
+    padding: 0.5rem 1rem;
+    background-color: #e07a5f;
+    color: #fff;
+    border: none;
+    border-radius: 9999px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.btn-ai-help:hover {
+    background-color: #c8563c;
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+/* ========================== */
+/*         반응형 대응          */
+/* ========================== */
+
+@media (max-width: 768px) {
+    .create-novel-section {
+        padding: 1rem;
+        max-width: 100%;
+        width: 100%;
+    }
+}

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relai | 마이페이지</title>
+    <link rel="icon" href="/img/Relai-logo-favicon-no-bg.png" type="image/png"/>
+    <!-- 외부 스타일시트 링크 -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/my-page.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <!-- 메인 헤더 -->
+    <div th:replace="~{fragments/mainHeader :: mainHeader}"></div>
+
+    <!-- 메인 콘텐츠 영역 -->
+    <main class="container main-content">
+        <!-- 유저 프로필 섹션 -->
+        <section class="user-profile-section">
+            <div class="profile-card">
+
+
+
+                <img src="https://placehold.co/100x100/e2e8f0/64748b?text=유저" alt="유저 프로필 사진" class="profile-image">
+                <div class="profile-info">
+                    <p class="user-nickname"></p>
+                    <div class="user-stats">
+                        <span class="stat-item">
+                            <i class="fas fa-pen-nib"></i>
+                            <span></span>
+                        </span>
+                        <span class="stat-item">
+                            <i class="fas fa-heart"></i>
+                            <span></span>
+                        </span>
+                    </div>
+                    <!-- 정보 수정하기 버튼 -->
+                    <button class="edit-profile-btn">
+                        <i class="fas fa-edit"></i>
+                        정보 수정하기
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 소설 탐색 버튼 그룹 -->
+        <section class="novel-navigation-section">
+            <div class="btn-group">
+                <button class="btn-nav active" data-type="my-novels">내 소설</button>
+                <button class="btn-nav" data-type="participated-novels">참여한 소설</button>
+            </div>
+        </section>
+
+        <!-- 소설 라이브러리 섹션 -->
+        <section class="novel-library-section">
+            <div id="novel-grid" class="novel-grid">
+                <!-- 소설 카드들이 여기에 동적으로 삽입됩니다. 예시 -->
+                <!-- const article = document.createElement('article');
+                article.className = 'novel-card';
+                article.innerHTML = `
+                <img src="${novel.cover}" alt="소설 표지" class="novel-cover">
+                <div class="card-content">
+                    <h3 class="novel-title">${novel.title}</h3>
+                </div>
+                `;-->
+            </div>
+        </section>
+
+
+    </main>
+    <!-- 회원정보 수정 모달 -->
+    <div id="edit-profile-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>회원정보 수정</h2>
+                <button class="modal-close" id="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="edit-profile-form">
+                    <div class="form-group">
+                        <label for="edit-nickname">닉네임</label>
+                        <input type="text" id="edit-nickname" name="nickname">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-email">이메일</label>
+                        <input type="email" id="edit-email" name="email">
+                    </div>
+
+                    <!-- 현재 비밀번호 입력 필드 추가 -->
+                    <div class="form-group">
+                        <label for="edit-current-password">현재 비밀번호</label>
+                        <input type="password" id="edit-current-password" name="currentPassword" placeholder="비밀번호 변경 시에만 입력">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="edit-password">새 비밀번호</label>
+                        <input type="password" id="edit-password" name="password" placeholder="변경하지 않으려면 비워두세요">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-password-confirm">새 비밀번호 확인</label>
+                        <input type="password" id="edit-password-confirm" name="passwordConfirm" placeholder="변경하지 않으려면 비워두세요">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-profile-image">프로필 이미지</label>
+                        <div class="current-image-preview">
+                            <img id="current-profile-preview" src="" alt="현재 프로필 이미지" >
+                            <p><small>현재 프로필 이미지</small></p>
+                        </div>
+                        <input type="file" id="edit-profile-image" name="profileImage" accept="image/*">
+                        <div class="file-info">
+                            <small>JPG, PNG, GIF 파일만 업로드 가능 (최대 5MB)</small>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-cancel" id="cancel-btn">취소</button>
+                        <button type="submit" class="btn-save">저장</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- 메인 푸터 -->
+    <div th:replace="~{fragments/mainFooter :: mainFooter}"></div>
+    <script type="module" src="/js/app.js"></script>
+</body>
+</html>

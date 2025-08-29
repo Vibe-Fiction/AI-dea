@@ -1,0 +1,146 @@
+/* signup.css */
+
+.signup-section {
+    /* 기존 1200px에서 1.5배 확장하여 1800px로 변경 */
+    width: 50%;
+    margin: 4rem auto;
+    padding: 2rem;
+    background-color: var(--bg-card);
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.signup-title {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    color: var(--text-primary);
+    margin-bottom: 2rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.form-group input[type="text"],
+.form-group input[type="password"],
+.form-group input[type="email"],
+.form-group input[type="date"] {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    color: var(--text-primary);
+    box-sizing: border-box;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+/* 파일 입력 필드 숨기기 */
+.file-upload-wrapper input[type="file"] {
+    display: none;
+}
+
+/* 커스텀 파일 선택 버튼 스타일 */
+.file-upload-wrapper .custom-file-upload {
+    display: inline-block;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    background-color: var(--primary-color);
+    color: #fff;
+    border-radius: 0.5rem;
+    transition: background-color 0.3s;
+}
+
+.file-upload-wrapper .custom-file-upload:hover {
+    background-color: var(--primary-hover);
+}
+
+.file-upload-wrapper .file-name {
+    margin-left: 1rem;
+    color: var(--text-secondary);
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(79, 40, 15, 0.2);
+}
+
+.btn-signup-submit {
+    display: block;
+    width: 100%;
+    padding: 1rem;
+    margin-top: 2rem;
+    background-color: var(--primary-color);
+    color: #fff;
+    font-size: 1.125rem;
+    font-weight: bold;
+    border-radius: 0.5rem;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.btn-signup-submit:hover {
+    background-color: var(--primary-hover);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+    .signup-section {
+        margin: 2rem 1rem;
+        padding: 1.5rem;
+    }
+}
+
+.form-group .feedback-message {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    height: 1rem;
+    text-align: left; /* 텍스트 왼쪽 정렬 */
+}
+
+.feedback-message.success {
+    color: var(--secondary-color); /* 초록색 (성공) */
+}
+
+.feedback-message.error {
+    color: #b91c1c; /* 빨간색 (에러) */
+}
+
+.form-group .password-rules {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0 0 0.25rem;
+    font-size: 0.875rem;
+    text-align: left; /* 텍스트 왼쪽 정렬 */
+}
+
+.password-rules li {
+    display: none;
+    margin-bottom: 0.25rem;
+    color: #b91c1c;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.password-rules li.fail {
+    display: list-item;
+}
+
+.password-rules li.fail::before {
+    content: '✗ ';
+    font-weight: bold;
+    margin-right: 0.25rem;
+}

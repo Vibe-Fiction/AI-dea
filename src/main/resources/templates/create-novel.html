@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relai | 새 소설 쓰기</title>
+    <link rel="icon" href="/img/Relai-logo-favicon-no-bg.png" type="image/png"/>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/create-novel.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+
+    <!-- 메인 헤더 -->
+    <div th:replace="~{fragments/mainHeader :: mainHeader}"></div>
+
+    <!-- 메인 콘텐츠 영역 -->
+    <main class="container create-novel-container">
+        <section class="create-novel-section">
+            <h2>새 소설 쓰기</h2>
+            <form id="createNovelForm">
+                <!-- 소설 제목 -->
+                <div class="form-group">
+                    <label for="novel-title">소설 제목</label>
+                    <input type="text" id="novel-title" name="title" required>
+                </div>
+
+                <!-- 시놉시스 -->
+                <div class="form-group">
+                    <label for="novel-synopsis">시놉시스 (줄거리)</label>
+                    <textarea id="novel-synopsis" name="synopsis" rows="6" placeholder="소설의 간략한 줄거리를 입력해주세요."
+                              required></textarea>
+                </div>
+
+                <!-- 장르 선택 및 추가 -->
+                <div class="form-group">
+                    <label for="genre-select">장르 선택 (최대 3개)</label>
+                    <div class="genre-select-wrapper">
+                        <select id="genre-select">
+                            <option value="">-- 장르를 선택해주세요 --</option>
+                            <!-- 장르 목록은 JS로 동적으로 채워집니다. -->
+                        </select>
+                        <button type="button" id="add-genre-btn" class="btn-add-genre">추가</button>
+                    </div>
+                    <div id="selected-genres" class="selected-genres-list">
+                        <!-- 선택된 장르 태그들이 여기에 추가됩니다. -->
+                    </div>
+                </div>
+
+                <!-- 소설 표지 이미지 (기능은 추후 구현) -->
+                <div class="form-group">
+                    <label for="cover-image">소설 표지 이미지</label>
+                    <input type="file" id="cover-image" name="coverImage">
+                </div>
+
+                <!-- 첫 번째 회차 -->
+                <div class="chapter-block">
+                    <h3>1화 작성하기</h3>
+                    <div class="novel-content-header">
+                        <label for="novel-content">내용 작성</label>
+                        <button type="button" class="btn-ai-help">
+                            <i class="fas fa-magic"></i> AI와 함께 소설 쓰기
+                        </button>
+                    </div>
+                    <div class="form-group">
+                        <label for="chapter-title">1화 제목</label>
+                        <input type="text" id="chapter-title" name="firstChapterTitle"
+                               placeholder="예: 꼴찌가 최강이 되는 법" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="novel-content">1화 내용</label>
+                        <textarea id="novel-content" name="content" rows="15"
+                                  placeholder="첫 화의 내용을 자유롭게 작성해보세요. (최대 5000자)" required></textarea>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-submit">소설 생성하기</button>
+            </form>
+        </section>
+    </main>
+
+    <!-- 메인 푸터 -->
+    <div th:replace="~{fragments/mainFooter :: mainFooter}"></div>
+
+    <script type="module" src="/js/app.js"></script>
+
+</body>
+</html>
